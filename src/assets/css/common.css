@@ -1,0 +1,59 @@
+body { margin: 0px; }
+li { list-style: none; }
+
+
+/* Header Css [Start] */
+/* main header */
+.header {
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    max-width: 1920px;
+    min-width: 769px;
+    height: 80px;
+}
+
+/* logo */
+.header > div.logo {
+    background-color: red;
+    display: flex;
+    justify-content: start;
+    width: 30%;
+}
+/* menu list */
+.header > div.menu-list {
+    background-color: blue;
+    display: flex;
+    justify-content: end;
+    width: 70%;
+}
+.header > div.menu-list img {
+    
+}
+
+.header ul {
+    display: flex;
+    flex-direction: row;
+}
+
+.header ul li {
+    margin: 0px 10px 0px 10px;
+    cursor: pointer;
+}
+
+.header span {
+    color: #fff;
+    font-size: 17px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Header Css [End] */

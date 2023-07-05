@@ -1,4 +1,4 @@
-import common from '../common';
+import commonAPI from '../common';
 import { useEffect, useState } from 'react';
 
 export default function Context() {
@@ -11,14 +11,13 @@ export default function Context() {
     }, [name]);
 
     async function getName() {
-        const user = await common.getUser(userId);
+        const user = await commonAPI.getUser(userId);
         if (user) { 
             setName(user.username);
         } else {
             setName("호출된 번호에 맞는 사용자가 없습니다.");
         }
     }
-
     
     return (
         <>

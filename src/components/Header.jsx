@@ -2,31 +2,21 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export default function MainPage() {
-    
-    let [name, setName] = useState("ChamgMin");
-
-    async function getName() {
-        let PATH = "/users/";
-        let QueryString = "1";
-
-        const res = await axios.get(PATH + QueryString);
-        if (res.data) {
-            setName(res.data.username);
-        }
-    }
-
-    async function getData() {
-        const res = await axios.get("/users/1");
-        if (res.data) {
-            console.log(res.data);
-        }
-    }
+    const [username, setUsername] = useState("홍길동");    
 
     return (
-        <>
-            <div onClick={getName}>{name}</div>
-            <button onClick={getData}>Button</button>
-        </>
+        <nav className='header'>
+            <div className='logo'>
+                <img src="" alt="" />
+            </div>
+            <div className='menu-list'>
+                <ul>
+                    <li onClick={()=>{}}><span>{username}님</span></li>
+                    <li><span>sign in</span></li>
+                    <li><span>menu icon</span></li>
+                </ul>
+            </div>
+        </nav>
     );
 };
 
