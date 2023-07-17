@@ -4,7 +4,7 @@ li { list-style: none; }
 
 /* Header Css [Start] */
 /* main header */
-.header {
+.app-header {
     background-color: black;
     display: flex;
     flex-direction: row;
@@ -14,46 +14,69 @@ li { list-style: none; }
 }
 
 /* logo */
-.header > div.logo {
+.app-header > div.logo {
     background-color: red;
     display: flex;
     justify-content: start;
+    align-items: center;
     width: 30%;
 }
+.app-header > div.logo > img {
+    background-color: aquamarine;
+    width: 200px;
+    height: 60px;
+    margin: 0px 0px 0px 50px;
+}
+
 /* menu list */
-.header > div.menu-list {
+.app-header > div.menu-list {
     background-color: blue;
     display: flex;
     justify-content: end;
     width: 70%;
 }
-.header > div.menu-list img {
+.app-header > div.menu-list img {
     
 }
 
-.header ul {
+.app-header ul {
     display: flex;
     flex-direction: row;
 }
 
-.header ul li {
+.app-header ul li {
+    display: flex;
+    align-items: center;
     margin: 0px 10px 0px 10px;
     cursor: pointer;
 }
 
-.header span {
+.app-header span {
     color: #fff;
     font-size: 17px;
+}
+/* Header Css [End] */
+
+
+
+/*
+    ==================================================
+    ==================================================
+    ==================================================
+*/
+
+
+.app-wrap {
+    width: 1920px;
+    height: 1080px;
 }
 
 
 
-
-
-
-
-
-
-
-
-/* Header Css [End] */
+/* Sidebar Css [Start] */
+.sidebar {
+    background-color: blueviolet;
+    width: 30%;
+    height: 100%;
+}
+/* Sidebar Css [End] */

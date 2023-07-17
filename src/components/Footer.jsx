@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-export default function MainPage() {
+export default function AppFooter() {
     
     let [name, setName] = useState("ChamgMin");
 

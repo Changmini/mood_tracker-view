@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-export default function MainPage() {
+export default function AppHeader() {
     const [username, setUsername] = useState("홍길동");    
 
     return (
-        <nav className='header'>
+        <nav className='app-header'>
             <div className='logo'>
                 <img src="" alt="" />
             </div>

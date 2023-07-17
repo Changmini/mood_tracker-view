@@ -1,4 +1,4 @@
-import commonAPI from '../common';
+import commonAPI from '../../common';
 import { useEffect, useState } from 'react';
 
 export default function Context() {
