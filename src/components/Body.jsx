@@ -7,7 +7,7 @@ export default function AppBody() {
     const [username, setUsername] = useState("홍길동");    
 
     return (
-        <div className='app-wrap'>
+        <div className='app-main'>
             <Sidebar />
             <Content />
         </div>
