@@ -1,4 +1,5 @@
 body { margin: 0px; }
+ul { padding: 0; margin: 0; }
 li { list-style: none; }
 .App { 
     max-width: 1920px;
@@ -22,38 +23,41 @@ li { list-style: none; }
 }
 
 /* logo */
-.app-header > div.logo {
+.app-header > div.header-left {
     display: flex;
     justify-content: start;
     align-items: center;
-    width: 15%;
+    min-width: 300px;
+    padding: 0rem 0rem 0rem 1rem;
 }
-.app-header > div.logo > img {
+.app-header > div.header-left img {
     width: 200px;
     height: 60px;
-    margin: 0rem 0rem 0rem 2.2rem;
+    /* margin: 0rem 0rem 0rem 2.2rem; */
 }
 
 /* menu list */
-.app-header > div.menu-list {
+.app-header > div.header-right {
     display: flex;
     justify-content: end;
+    align-items: center;
     flex-grow: 1;
+    padding: 0rem 1rem 0rem 0rem;
 }
-.app-header > div.menu-list img {
+.app-header > div.header-right img {
     
 }
 
 .app-header ul {
     display: flex;
     flex-direction: row;
-    margin: 0px 30px 0px 0px;
+    align-items: center;
 }
 
 .app-header ul li {
     display: flex;
     align-items: center;
-    margin: 0px 30px 0px 0px;
+    margin: 0px 15px 0px 15px;
     cursor: pointer;
 }
 
@@ -63,6 +67,11 @@ li { list-style: none; }
 }
 
 /* .app-header */
+.sandwicth-div-line {
+    border-right: 1px solid #fff;
+    height: 35px;
+}
+
 .sandwich-menu {
     width: 24px;
     border: 2px solid #fff;
@@ -103,7 +112,9 @@ li { list-style: none; }
     flex-direction: column;
 }
 
-.sidebar > p {
+.sidebar > section { margin: 0px 0px 20px 0px; }
+
+.sidebar > section > p {
     font-size: 1.2rem;
     font-weight: 900;
     padding: 0rem 0rem 1rem 0rem;

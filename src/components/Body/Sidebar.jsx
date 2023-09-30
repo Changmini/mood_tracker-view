@@ -18,7 +18,10 @@ export default function MainPage() {
 
     return (
         <div className='sidebar'>
-            <p>목 록</p>
+            <section>
+                <span>&#9204;</span>
+                <p>목 록</p>
+            </section>
             <section>
                 <div id='text-underbar'></div>
                 <ul>

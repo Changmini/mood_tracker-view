@@ -12,15 +12,18 @@ function AppHeader() {
 
     return (
         <nav className='app-header'>
-            <div className='logo'>
-                <img src="" alt="" />
+            <div className='header-left'>
+                <ul>
+                    {/* <li><a href="#" className="sandwich-menu"></a></li>
+                    <li><div className='sandwicth-div-line'></div></li> */}
+                    <li><img src="" alt="" /></li>
+                </ul>
             </div>
-            <div className='menu-list'>
+            <div className='header-right'>
                 <ul>
                     <MemberInfo />
                     <li><span>Sign in</span></li>
-                    <li><a href="#" className="sandwich-menu">
-                    </a></li>
+                    <li><span>Sign up</span></li>
                 </ul>
             </div>
         </nav>
