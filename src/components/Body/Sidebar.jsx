@@ -19,7 +19,7 @@ export default function MainPage() {
     return (
         <div className='sidebar'>
             <section>
-                <span>&#9204;</span>
+                {/* <span>&#9204;</span> */}
                 <p>목 록</p>
             </section>
             <section>
