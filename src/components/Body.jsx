@@ -4,12 +4,18 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export default function AppBody() {
-    const [username, setUsername] = useState("홍길동");    
+    const [username, setUsername] = useState("홍길동");
+    const [varMenuNumber, setVarMenuNumber] = useState(0);
+
+    function menuNumber(num) {
+        console.log("Change Menu: ", num);
+        setVarMenuNumber(num);
+    }
 
     return (
         <div className='app-main'>
-            <Sidebar />
-            <Content />
+            <Sidebar onChange={menuNumber}/>
+            <Content menu={varMenuNumber}/>
         </div>
     );
 };
