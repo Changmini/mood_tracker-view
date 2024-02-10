@@ -1,17 +1,9 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import React from 'react';
+import { useEffect } from 'react';
 
-export default function Sidebar({onChange}) {
+export default React.memo(function Sidebar({sideMenu, onChange}) {
 
-    const sideMenu = ["달력", "연대표", "분석표"] /* API 사용하여 데이터 세팅 */;
-    const selectMenuNumber = 1;
-
-    /*
-        형제 컴포넌트로 데이터를 전송하는 방법
-        https://velog.io/@dev_seongjoo/React%EC%97%90%EC%84%9C-%ED%98%95%EC%A0%9C-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EA%B0%84%EC%97%90-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%84%EB%8B%AC%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94
-    */
-
-    function testAction(e, index) {
+    function selectMenu(e, index) {
         let p  = e.target || e;
         let textUnderbar = document.querySelector("#text-underbar");
         if (!textUnderbar) return ;
@@ -24,13 +16,17 @@ export default function Sidebar({onChange}) {
         s.top = (p.offsetTop + p.offsetHeight) + "px";
         s.left = p.offsetLeft + "px";
 
+        if (index === null) return;
         onChange(index);
     }
 
     useEffect(() => {
-        const menu = document.querySelector(".sidebar ul li:nth-child("+selectMenuNumber+")");
-        testAction(menu, selectMenuNumber);
+        /* 초기 화면지정 */
+        const li = document.querySelector(".sidebar ul li:nth-child(1)");
+        selectMenu(li, null);
     }, []);
+    
+console.log("re-render");
 
     return (
         <div className='sidebar'>
@@ -42,17 +38,19 @@ export default function Sidebar({onChange}) {
                 <div id='text-underbar'></div>
                 <ul>
                 {
-                    sideMenu.map((name, i) => (
-                        <li onClick={(e)=>testAction(e, (i+1))} key={"menu"+i}>
+                    sideMenu.map((menu, i) => (
+                        <li onClick={(e)=>selectMenu(e, i)} key={"menu"+i}>
                             <i className="fa-solid fa-calendar-days"></i>
-                            <span>{name}</span>
-                        </li>    
+                            <span>{menu.name}</span>
+                        </li>
                     ))
                 }
                 </ul> 
             </section>
         </div>
     );
-};
+}, (prev, next) => {
+    return prev.length === next.length
+});
 
 
