@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 export default React.memo(function Sidebar({sideMenu, onChange}) {
 
-    function selectMenu(e, index) {
+    const selectMenu = (e, index) => {
         let p  = e.target || e;
         let textUnderbar = document.querySelector("#text-underbar");
         if (!textUnderbar) return ;
@@ -25,8 +25,6 @@ export default React.memo(function Sidebar({sideMenu, onChange}) {
         const li = document.querySelector(".sidebar ul li:nth-child(1)");
         selectMenu(li, null);
     }, []);
-    
-console.log("re-render");
 
     return (
         <div className='sidebar'>

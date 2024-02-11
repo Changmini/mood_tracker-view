@@ -27,18 +27,10 @@ export default function AppBody() {
         setMenuNumber(num);
     };
 
-    
-
     return (
         <div className='app-main'>
             <Sidebar sideMenu={sideMenu} onChange={changeMenuNumber} />
-            <Content menuNumber={menuNumber}>
-                {
-                    sideMenu.map((menu) => {
-                        menu.component(menuNumber);
-                    })
-                }
-            </Content>
+            <Content sideMenu={sideMenu} menuNumber={menuNumber} />
         </div>
     );
 };
