@@ -162,6 +162,20 @@ li { list-style: none; }
 .content-main {
     flex-grow: 1;
 }
+
+#calendar {
+    display: flex;
+    flex-direction: row;
+    margin: 30px;
+}
+
+.daily {
+    width: 100px;
+    margin: 5px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 /* Content Css [End] */
 
 

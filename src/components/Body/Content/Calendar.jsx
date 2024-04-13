@@ -1,35 +1,41 @@
+import DailyBox from './Calendar/DailyBox'
 export default function Calendar(activeMenu) {
 
-    console.log(activeMenu);
-
-    /*
-        array [
-            {
-                date: 20240201
-                , year: 2024
-                , month: 2
-                , day: 1
-                , id: number
-                , title: varchar
-                , content: text
-                , picture: [
-                    {
-                        url: "https://domain/picture/{id}"
-                        , title: varchar
-                        , detail: varchar(300)
-                    }
-                    
-                ]
-                , mood: number (%)
-                , activity: {
-                    seq: number
-                    detail: 친구
+    let array = [
+        {
+            date: "20240201" //(string)
+            , year: 2024 //(int)
+            , month: 2 //(int)
+            , day: 1 //(int)
+            , title: "스터디" // (string)
+            , content: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
+            , picture: [
+                {
+                    url: "https://domain/picture/{id}"
+                    , detail: "스터디 1일차 사진" // (string)
                 }
-            }
-
-            ...
-        ]
-    */
+                
+            ]
+            , mood: 30 //(int) % 
+        }
+        ,{
+            date: "20240202" //(string)
+            , year: 2024 //(int)
+            , month: 2 //(int)
+            , day: 2 //(int)
+            , title: "스터디" // (string)
+            , content: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
+            , picture: [
+                {
+                    url: "https://domain/picture/{id}"
+                    , detail: "스터디 1일차 사진" // (string)
+                }
+                
+            ]
+            , mood: 30 //(int) % 
+        }
+    ]
+    
 
     return (
         <div id="calendar">
@@ -37,6 +43,7 @@ export default function Calendar(activeMenu) {
         {/* 
             달력의 박스를 하나의 컴포넌트로 제작하는 방식이 좋겠다. 
         */}
+        {array.map(e => (<DailyBox daily={e} key={e.date}></DailyBox>))}
         </div>
     )
 }
