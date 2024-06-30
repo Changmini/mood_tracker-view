@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import DailyBox from './Calendar/DailyBox'
 import $common from '../../../common'
 export default function Calendar(activeMenu) {
@@ -37,8 +38,13 @@ export default function Calendar(activeMenu) {
     //     }
     // ]
 
-    let array = $common.getCalendar();
     
+    const [dailybox, setDailybox] = useState([]);
+
+    useEffect(() => {
+        const res = $common.getCalendar();
+        console.log(res);
+    }, []);
 
     return (
         <div id="calendar">
@@ -46,7 +52,7 @@ export default function Calendar(activeMenu) {
         {/* 
             달력의 박스를 하나의 컴포넌트로 제작하는 방식이 좋겠다. 
         */}
-        {array.map(e => (<DailyBox daily={e} key={e.date}></DailyBox>))}
+        {dailybox.map(e => (<DailyBox daily={e} key={e.date}></DailyBox>))}
         </div>
     )
 }
