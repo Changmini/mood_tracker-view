@@ -1,40 +1,43 @@
 import DailyBox from './Calendar/DailyBox'
+import $common from '../../../common'
 export default function Calendar(activeMenu) {
 
-    let array = [
-        {
-            date: "20240201" //(string)
-            , year: 2024 //(int)
-            , month: 2 //(int)
-            , day: 1 //(int)
-            , title: "스터디" // (string)
-            , content: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
-            , picture: [
-                {
-                    url: "https://domain/picture/{id}"
-                    , detail: "스터디 1일차 사진" // (string)
-                }
+    // [
+    //     {
+    //         date: "20240201" //(string)
+    //         , year: 2024 //(int)
+    //         , month: 2 //(int)
+    //         , day: 1 //(int)
+    //         , title: "스터디" // (string)
+    //         , content: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
+    //         , picture: [
+    //             {
+    //                 url: "https://domain/picture/{id}"
+    //                 , detail: "스터디 1일차 사진" // (string)
+    //             }
                 
-            ]
-            , mood: 30 //(int) % 
-        }
-        ,{
-            date: "20240202" //(string)
-            , year: 2024 //(int)
-            , month: 2 //(int)
-            , day: 2 //(int)
-            , title: "스터디" // (string)
-            , content: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
-            , picture: [
-                {
-                    url: "https://domain/picture/{id}"
-                    , detail: "스터디 1일차 사진" // (string)
-                }
+    //         ]
+    //         , mood: 30 //(int) % 
+    //     }
+    //     ,{
+    //         date: "20240202" //(string)
+    //         , year: 2024 //(int)
+    //         , month: 2 //(int)
+    //         , day: 2 //(int)
+    //         , title: "스터디" // (string)
+    //         , content: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
+    //         , picture: [
+    //             {
+    //                 url: "https://domain/picture/{id}"
+    //                 , detail: "스터디 1일차 사진" // (string)
+    //             }
                 
-            ]
-            , mood: 30 //(int) % 
-        }
-    ]
+    //         ]
+    //         , mood: 30 //(int) % 
+    //     }
+    // ]
+
+    let array = $common.getCalendar();
     
 
     return (
