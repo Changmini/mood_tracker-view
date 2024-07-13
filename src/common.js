@@ -41,7 +41,7 @@ const methods = {
 
     ,getCalendar: async function(formData) {
         const data = await this.httpRequest("/calendar", "POST", formData);
-        return data;
+        return data.dailyboxList;
     }
 }
 export default methods;

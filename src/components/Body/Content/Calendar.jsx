@@ -42,8 +42,11 @@ export default function Calendar(activeMenu) {
     const [dailybox, setDailybox] = useState([]);
 
     useEffect(() => {
-        const res = $common.getCalendar();
-        console.log(res);
+        async function fetchData() {
+            const dailyboxList = await $common.getCalendar();
+            setDailybox(dailyboxList);
+        }; 
+        fetchData(); 
     }, []);
 
     return (
