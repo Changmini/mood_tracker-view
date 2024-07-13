@@ -21,7 +21,7 @@ const methods = {
             ... input
         });
 
-        if (!res || res.status != 200 || !res.data) {
+        if (!res || res.status !== 200 || !res.data) {
             alert("잘못된 요청입니다. 관리자에게 문의하세요");
             return false;
         }
@@ -41,7 +41,12 @@ const methods = {
 
     ,getCalendar: async function(formData) {
         const data = await this.httpRequest("/calendar", "POST", formData);
-        return data.dailyboxList;
+        return data.dailyEntryList;
+    }
+
+    ,getDailyEntry: async function(formData) {
+        const data = await this.httpRequest("/daily", "POST", formData);
+        return data;
     }
 }
 export default methods;

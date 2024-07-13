@@ -40,22 +40,66 @@ export default function Calendar(activeMenu) {
 
     
     const [dailybox, setDailybox] = useState([]);
+    const [modalData, setModalData] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    const handleModalData = (dailyEntry) => {
+        console.log("Daily", dailyEntry);
+        setModalData(dailyEntry);
+        setModalIsOpen(true);
+    }
+
+    const modalOnOff = (flag) => {
+        setModalIsOpen(flag);
+    }
 
     useEffect(() => {
         async function fetchData() {
-            const dailyboxList = await $common.getCalendar();
-            setDailybox(dailyboxList);
+            const dailyEntryList = await $common.getCalendar();
+            if (!dailyEntryList)
+                return ;
+            setDailybox(dailyEntryList);
         }; 
         fetchData(); 
     }, []);
 
     return (
         <div id="calendar">
+            {/* 
+                달력의 박스를 하나의 컴포넌트로 제작하는 방식이 좋겠다. 
+            */}
+            {dailybox.map(e => (
+                <DailyBox daily={e} sendDataToParent={handleModalData} key={e.date}></DailyBox>
+            ))}
 
-        {/* 
-            달력의 박스를 하나의 컴포넌트로 제작하는 방식이 좋겠다. 
-        */}
-        {dailybox.map(e => (<DailyBox daily={e} key={e.date}></DailyBox>))}
+            {modalIsOpen && (
+                <div className="modal-overlay">
+                <div className="modal-content">
+                    <h2>Add Your Mood</h2>
+                    <div>
+                    <label>
+                        Mood:
+                        <select value={modalData.mood}>
+                        <option value="">Select your mood</option>
+                        <option value="happy">Happy</option>
+                        <option value="sad">Sad</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="anxious">Anxious</option>
+                        <option value="excited">Excited</option>
+                        </select>
+                    </label>
+                    </div>
+                    <div>
+                    <label>
+                        Note:
+                        <textarea value={modalData.notes} />
+                    </label>
+                    </div>
+                    <button onClick={()=>modalOnOff(false)}>Save</button>
+                    <button onClick={()=>modalOnOff(false)}>Cancel</button>
+                </div>
+                </div>
+            )}
         </div>
     )
 }

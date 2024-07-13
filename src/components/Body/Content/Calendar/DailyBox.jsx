@@ -1,10 +1,12 @@
-export default function dailybox({daily}) {
-    console.log(daily);
+export default function dailybox({daily, sendDataToParent}) {
+    const clickbox = () => {
+        sendDataToParent(daily);
+    }
     return (
-        <div className="daily">
+        <div className="daily" onClick={clickbox}>
             {daily.date} <br/>
             {daily.title} <br/>
-            {daily.content} <br/>
+            {daily.notes} <br/>
         </div>
     )
 }
