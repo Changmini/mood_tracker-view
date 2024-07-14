@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import DailyBox from './Calendar/DailyBox'
 import $common from '../../../common'
 export default function Calendar(activeMenu) {
 
@@ -10,7 +9,7 @@ export default function Calendar(activeMenu) {
     //         , month: 2 //(int)
     //         , day: 1 //(int)
     //         , title: "스터디" // (string)
-    //         , content: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
+    //         , notes: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
     //         , picture: [
     //             {
     //                 url: "https://domain/picture/{id}"
@@ -26,7 +25,7 @@ export default function Calendar(activeMenu) {
     //         , month: 2 //(int)
     //         , day: 2 //(int)
     //         , title: "스터디" // (string)
-    //         , content: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
+    //         , notes: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
     //         , picture: [
     //             {
     //                 url: "https://domain/picture/{id}"
@@ -43,7 +42,7 @@ export default function Calendar(activeMenu) {
     const [modalData, setModalData] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-    const handleModalData = (dailyEntry) => {
+    const clickbox = (dailyEntry) => {
         console.log("Daily", dailyEntry);
         setModalData(dailyEntry);
         setModalIsOpen(true);
@@ -64,14 +63,33 @@ export default function Calendar(activeMenu) {
     }, []);
 
     return (
-        <div id="calendar">
-            {/* 
-                달력의 박스를 하나의 컴포넌트로 제작하는 방식이 좋겠다. 
-            */}
-            {dailybox.map(e => (
-                <DailyBox daily={e} sendDataToParent={handleModalData} key={e.date}></DailyBox>
-            ))}
+        <div className="calendar">
+            {/* ===================================== 달력 ===================================== */}
+            <div className="calendar-header">
+                <a href='#'><i class="fa-solid fa-caret-left"></i></a>
+                {/* <a href='#'><i class="fa-regular fa-square-caret-left"></i></a> */}
+                <a href='#'>7월</a>
+                <a href='#'><i class="fa-solid fa-caret-right"></i></a>
+                {/* <a href='#'><i class="fa-solid fa-square-caret-right"></i></a> */}
+            </div>
+            <div className="calendar-content">
+                <div>일</div>
+                <div>월</div>
+                <div>화</div>
+                <div>수</div>
+                <div>목</div>
+                <div>금</div>
+                <div>토</div>
+                {dailybox.map(e => (
+                    <div className="daily" onClick={clickbox}>
+                        {e.date} <br/>
+                        {e.title} <br/>
+                        {e.notes} <br/>
+                    </div>
+                ))}
+            </div>
 
+            {/* =============================== 선택 날짜 상세보기 =============================== */}
             {modalIsOpen && (
                 <div className="modal-overlay">
                 <div className="modal-content">
