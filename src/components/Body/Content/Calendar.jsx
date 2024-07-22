@@ -37,17 +37,33 @@ export default function Calendar(activeMenu) {
     //     }
     // ]
 
-    
+    const [date, setDate] = useState((new Date()).toISOString().split('T')[0]);
     const [dailybox, setDailybox] = useState([]);
     const [modalData, setModalData] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
+    const changeDate = (e) => {
+        const selectDate = e.target.value;
+        if (!selectDate) 
+            return ;
+        setDate(selectDate);
+    }
+    const move = (type) => {
+        switch(type) {
+            case "<":
+                // date
+                break;
+            case ">":
+                break;
+            default :
+        }
+
+    }
     const clickbox = (dailyEntry) => {
         console.log("Daily", dailyEntry);
         setModalData(dailyEntry);
         setModalIsOpen(true);
     }
-
     const modalOnOff = (flag) => {
         setModalIsOpen(flag);
     }
@@ -66,11 +82,11 @@ export default function Calendar(activeMenu) {
         <div className="calendar">
             {/* ===================================== 달력 ===================================== */}
             <div className="calendar-header">
-                <a href='#'><i class="fa-solid fa-caret-left"></i></a>
-                {/* <a href='#'><i class="fa-regular fa-square-caret-left"></i></a> */}
-                <a href='#'>7월</a>
-                <a href='#'><i class="fa-solid fa-caret-right"></i></a>
-                {/* <a href='#'><i class="fa-solid fa-square-caret-right"></i></a> */}
+                <a href='#'><i className="fa-solid fa-caret-left"></i></a>
+                {/* <a href='#'><i className="fa-regular fa-square-caret-left"></i></a> */}
+                <a href='#'><input id="inputDate" type="date" value={date} onChange={changeDate}/></a>
+                <a href='#'><i className="fa-solid fa-caret-right"></i></a>
+                {/* <a href='#'><i className="fa-solid fa-square-caret-right"></i></a> */}
             </div>
             <div className="calendar-content">
                 <div>일</div>
@@ -81,7 +97,7 @@ export default function Calendar(activeMenu) {
                 <div>금</div>
                 <div>토</div>
                 {dailybox.map(e => (
-                    <div className="daily" onClick={clickbox}>
+                    <div className="daily" onClick={clickbox} key={e.date}>
                         {e.date} <br/>
                         {e.title} <br/>
                         {e.notes} <br/>

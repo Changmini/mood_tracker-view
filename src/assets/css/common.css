@@ -180,7 +180,16 @@ li { list-style: none; }
     margin: 10px 10px;
 }
 .calendar-header a {
+    display: flex;
+    justify-content: center;
+    min-width: 20px;
     margin: 0 10px;
+}
+.calendar-header input[type="date"] {
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #b8b4c5;
 }
 .calendar-content {
     width: 100%;
