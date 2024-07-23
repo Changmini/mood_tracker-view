@@ -48,5 +48,33 @@ const methods = {
         const data = await this.httpRequest("/daily", "POST", formData);
         return data;
     }
+
+    ,changeDate: function(date, move, unit="D", recursive=true) {
+        if (unit === "Y") {
+            let y = date.getFullYear(); 
+            date.setFullYear(y + move);
+        } else if (unit === "M") {
+            if (recursive) {
+                let m = date.getMonth() + 1;
+                move = m + move;
+                move < 1 && this.changeDate(date, -1, "Y");
+                move < 1 && this.changeDate(date, 12, "M", false);
+                move < 1 && this.changeDate(date, move, "M");
+            }
+            move >= 1 && date.setMonth(move - 1);
+        } else if (unit === "D") {
+            if (recursive) {
+                let d = date.getDate();
+                move = d + move;
+                move < 1 && this.changeDate(date, -1, "M");
+                move < 1 && this.changeDate(date, (
+                        new Date(date.getFullYear(), date.getMonth()+1, 0)
+                    ).getDate(), "D", false);
+                move < 1 && this.changeDate(date, move, "D");
+            }
+            move >= 1 && date.setDate(move);
+        } else 
+            console.error("common.js: changeDate()에서 요청을 수행할 수 없습니다.");
+    }
 }
 export default methods;

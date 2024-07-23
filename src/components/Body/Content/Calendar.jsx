@@ -41,23 +41,26 @@ export default function Calendar(activeMenu) {
     const [dailybox, setDailybox] = useState([]);
     const [modalData, setModalData] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    const changeDate = (e) => {
+    
+    const selectDate = (e) => {
         const selectDate = e.target.value;
         if (!selectDate) 
             return ;
         setDate(selectDate);
     }
     const move = (type) => {
-        switch(type) {
-            case "<":
-                // date
-                break;
-            case ">":
-                break;
-            default :
-        }
-
+        const d = new Date(date);
+        // $common.changeDate(d, -1, "M");
+        $common.changeDate(d, -1);
+        console.log(d.getFullYear(), (d.getMonth()+1), d.getDate());
+        setDate(d.toISOString().split('T')[0]);
+        // switch(type) {
+        //     case "<":
+        //         break;
+        //     case ">":
+        //         break;
+        //     default :
+        // }
     }
     const clickbox = (dailyEntry) => {
         console.log("Daily", dailyEntry);
@@ -82,10 +85,10 @@ export default function Calendar(activeMenu) {
         <div className="calendar">
             {/* ===================================== 달력 ===================================== */}
             <div className="calendar-header">
-                <a href='#'><i className="fa-solid fa-caret-left"></i></a>
+                <a href='#' onClick={move}><i className="fa-solid fa-caret-left"></i></a>
                 {/* <a href='#'><i className="fa-regular fa-square-caret-left"></i></a> */}
-                <a href='#'><input id="inputDate" type="date" value={date} onChange={changeDate}/></a>
-                <a href='#'><i className="fa-solid fa-caret-right"></i></a>
+                <a href='#'><input id="inputDate" type="date" value={date} onChange={selectDate}/></a>
+                <a href='#' onClick={move}><i className="fa-solid fa-caret-right"></i></a>
                 {/* <a href='#'><i className="fa-solid fa-square-caret-right"></i></a> */}
             </div>
             <div className="calendar-content">
