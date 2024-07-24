@@ -49,7 +49,17 @@ const methods = {
         return data;
     }
 
-    ,changeDate: function(date, move, unit="D", recursive=true) {
+
+    
+    /**
+     * @description Date 객체의 년,월,일 변경을 도와주는 함수 
+     * @param {Date} date 날짜 오브젝트
+     * @param {string} move < or >
+     * @param {string} unit Y: 년, M: 월, D: 일
+     * @param {boolean} recursive 재귀적 반복여부
+     * @return 
+     */
+    ,changeDate: function(date, move, unit="M", recursive=true) {
         if (unit === "Y") {
             let y = date.getFullYear(); 
             date.setFullYear(y + move);
