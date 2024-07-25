@@ -12,7 +12,7 @@ export default function Calendar(activeMenu) {
     //         , notes: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
     //         , picture: [
     //             {
-    //                 url: "https://domain/picture/{id}"
+    //                 url: "https://domain/picture/{id}/{number}"
     //                 , detail: "스터디 1일차 사진" // (string)
     //             }
                 
@@ -28,7 +28,7 @@ export default function Calendar(activeMenu) {
     //         , notes: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
     //         , picture: [
     //             {
-    //                 url: "https://domain/picture/{id}"
+    //                 url: "https://domain/picture/{id}/{number}"
     //                 , detail: "스터디 1일차 사진" // (string)
     //             }
                 
@@ -61,13 +61,16 @@ export default function Calendar(activeMenu) {
         }
         setDate(d.toISOString().substring(0,7));
     }
-    const clickbox = (dailyEntry) => {
-        console.log("Daily", dailyEntry);
-        setModalData(dailyEntry);
+    const clickDailybox = (dailyEntry) => {
+        let copy = JSON.parse(JSON.stringify(dailyEntry));
+        setModalData(copy);
         setModalIsOpen(true);
     }
-    const modalOnOff = (flag) => {
-        setModalIsOpen(flag);
+    const saveDailyEntry = () => {
+        const dailyData = document.getElementById("FormDailyData");
+        const f = new FormData(dailyData);
+        // $common.insertDailyData();
+        setModalIsOpen(false);
     }
 
     useEffect(() => {
@@ -101,7 +104,7 @@ export default function Calendar(activeMenu) {
                 <div>금</div>
                 <div>토</div>
                 {dailybox.map(e => (
-                    <div className="daily" onClick={clickbox} key={e.date}>
+                    <div className="daily" onClick={()=>clickDailybox(e)} key={e.date}>
                         {e.date} <br/>
                         {e.title} <br/>
                         {e.notes} <br/>
@@ -111,32 +114,36 @@ export default function Calendar(activeMenu) {
 
             {/* =============================== 선택 날짜 상세보기 =============================== */}
             {modalIsOpen && (
+                <form id="FormDailyData">
                 <div className="modal-overlay">
                 <div className="modal-content">
-                    <h2>Add Your Mood</h2>
+                    <h2>나의 하루</h2> <h5>{modalData.date}</h5>
                     <div>
                     <label>
-                        Mood:
-                        <select value={modalData.mood}>
-                        <option value="">Select your mood</option>
-                        <option value="happy">Happy</option>
-                        <option value="sad">Sad</option>
-                        <option value="neutral">Neutral</option>
-                        <option value="anxious">Anxious</option>
-                        <option value="excited">Excited</option>
+                        기분:
+                        <select name="mood" defaultValue={modalData.mood}>
+                        <option value="">당신의 하루를 표현해주세요</option>
+                        <option value="100">환희</option>
+                        <option value="85">기쁨</option>
+                        <option value="70">만족</option>
+                        <option value="50">보통</option>
+                        <option value="30">우울</option>
+                        <option value="15">슬픔</option>
+                        <option value="0">절망</option>
                         </select>
                     </label>
                     </div>
                     <div>
                     <label>
-                        Note:
-                        <textarea value={modalData.notes} />
+                        줄거리:
+                        <textarea name="notes" defaultValue={modalData.notes} />
                     </label>
                     </div>
-                    <button onClick={()=>modalOnOff(false)}>Save</button>
-                    <button onClick={()=>modalOnOff(false)}>Cancel</button>
+                    <button onClick={()=>saveDailyEntry()}>Save</button>
+                    <button onClick={()=>setModalIsOpen(false)}>Cancel</button>
                 </div>
                 </div>
+                </form>
             )}
         </div>
     )
