@@ -69,7 +69,7 @@ export default function Calendar(activeMenu) {
     const saveDailyEntry = () => {
         const dailyData = document.getElementById("FormDailyData");
         const f = new FormData(dailyData);
-        // $common.insertDailyData();
+        // $common.postDailyEntry();
         setModalIsOpen(false);
     }
 
@@ -106,8 +106,8 @@ export default function Calendar(activeMenu) {
                 {dailybox.map(e => (
                     <div className="daily" onClick={()=>clickDailybox(e)} key={e.date}>
                         {e.date} <br/>
-                        {e.title} <br/>
-                        {e.notes} <br/>
+                        {e.noteTitle} <br/>
+                        {e.noteContent} <br/>
                     </div>
                 ))}
             </div>
@@ -121,7 +121,7 @@ export default function Calendar(activeMenu) {
                     <div>
                     <label>
                         기분:
-                        <select name="mood" defaultValue={modalData.mood}>
+                        <select name="mood" defaultValue={modalData.moodLevel}>
                         <option value="">당신의 하루를 표현해주세요</option>
                         <option value="100">환희</option>
                         <option value="85">기쁨</option>
@@ -136,7 +136,7 @@ export default function Calendar(activeMenu) {
                     <div>
                     <label>
                         줄거리:
-                        <textarea name="notes" defaultValue={modalData.notes} />
+                        <textarea name="notes" defaultValue={modalData.noteContent} />
                     </label>
                     </div>
                     <button onClick={()=>saveDailyEntry()}>Save</button>

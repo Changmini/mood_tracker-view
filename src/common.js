@@ -35,21 +35,23 @@ const methods = {
      * @returns {object} user
      */
     ,getUser : async function(id) {
-        const data = await this.httpRequest(`/users/${id}`, "POST");
+        const data = await this.httpRequest(`/users/${id}`, "GET");
         return data;
     }
 
     ,getCalendar: async function(formData) {
-        const data = await this.httpRequest("/calendar", "POST", formData);
+        const data = await this.httpRequest("/calendar", "GET", formData);
         return data.dailyEntryList;
     }
 
     ,getDailyEntry: async function(formData) {
-        const data = await this.httpRequest("/daily", "POST", formData);
+        const data = await this.httpRequest("/daily", "GET", formData);
         return data;
     }
 
-
+    ,postDailyEntry: async function(formData) {
+        const data = await this.httpRequest("/daily","POST", formData);
+    }
     
     /**
      * @description Date 객체의 년,월,일 변경을 도와주는 함수 

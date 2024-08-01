@@ -6,13 +6,16 @@ import axios from 'axios';
 // axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
 axios.defaults.withCredentials = false;
 const NetworkInterceptores = (action) => {
-    // if (action.baseURL) { /* response */ }
-    // else { /* response */ }
-    return action;
+  // if (action.baseURL) { /* response */ }
+  // else { /* response */ }
+  return action;
 }
 const NetWorkError = (error) => {
-    console.error(error);
-    return Promise.reject(error);
+  if (error.code === "ERR_NETWORK") {
+    console.error("Error Network");
+    return null;
+  }
+  return Promise.reject(error);
 }
 axios.interceptors.request.use(NetworkInterceptores, NetWorkError);
 axios.interceptors.response.use(NetworkInterceptores, NetWorkError);
