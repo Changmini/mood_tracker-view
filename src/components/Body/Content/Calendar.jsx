@@ -38,10 +38,16 @@ export default function Calendar(activeMenu) {
     // ]
 
     const [date, setDate] = useState((new Date()).toISOString().substring(0,7));
-    const [dailybox, setDailybox] = useState([]);
+    const [dailyInfo, setDailyInfo] = useState([]);
     const [modalData, setModalData] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    
+
+    async function localCalendar(formData) {
+        const dailyInfoList = await $common.getCalendar(formData);
+        if (!dailyInfoList)
+            return ;
+        setDailyInfo(dailyInfoList);
+    }; 
     const selectDate = (e) => {
         const selectDate = e.target.value;
         if (!selectDate) 
@@ -61,28 +67,26 @@ export default function Calendar(activeMenu) {
         }
         setDate(d.toISOString().substring(0,7));
     }
-    const clickDailybox = (dailyEntry) => {
-        let copy = JSON.parse(JSON.stringify(dailyEntry));
+    const clickDailyInfo = (dailyInfo) => {
+        let copy = JSON.parse(JSON.stringify(dailyInfo));
         setModalData(copy);
         setModalIsOpen(true);
     }
-    const saveDailyEntry = () => {
+    const saveDailyInfo = () => {
         const dailyData = document.getElementById("FormDailyData");
-        const f = new FormData(dailyData);
-        // $common.postDailyEntry();
+        let f = new FormData(dailyData);
+        $common.postDailyInfo(f);
         setModalIsOpen(false);
+
+        f = new FormData(dailyData);
+        f.append("date", date);
+        localCalendar(f);
     }
 
     useEffect(() => {
-        async function fetchData(formData) {
-            const dailyEntryList = await $common.getCalendar(formData);
-            if (!dailyEntryList)
-                return ;
-            setDailybox(dailyEntryList);
-        }; 
         const f = new FormData();
         f.append("date", date);
-        fetchData(f); 
+        localCalendar(f); 
     }, [date]);
 
     return (
@@ -103,8 +107,8 @@ export default function Calendar(activeMenu) {
                 <div>목</div>
                 <div>금</div>
                 <div>토</div>
-                {dailybox.map(e => (
-                    <div className="daily" onClick={()=>clickDailybox(e)} key={e.date}>
+                {dailyInfo.map(e => (
+                    <div className="daily" onClick={()=>clickDailyInfo(e)} key={e.date}>
                         {e.date} <br/>
                         {e.noteTitle} <br/>
                         {e.noteContent} <br/>
@@ -114,36 +118,44 @@ export default function Calendar(activeMenu) {
 
             {/* =============================== 선택 날짜 상세보기 =============================== */}
             {modalIsOpen && (
-                <form id="FormDailyData">
+            <form id="FormDailyData">
                 <div className="modal-overlay">
-                <div className="modal-content">
-                    <h2>나의 하루</h2> <h5>{modalData.date}</h5>
-                    <div>
-                    <label>
-                        기분:
-                        <select name="mood" defaultValue={modalData.moodLevel}>
-                        <option value="">당신의 하루를 표현해주세요</option>
-                        <option value="100">환희</option>
-                        <option value="85">기쁨</option>
-                        <option value="70">만족</option>
-                        <option value="50">보통</option>
-                        <option value="30">우울</option>
-                        <option value="15">슬픔</option>
-                        <option value="0">절망</option>
-                        </select>
-                    </label>
+                    <div className="modal-content">
+                        <h2>나의 하루</h2>
+                        <h5>{modalData.date}</h5>
+                        <input type="hidden" name="date" value={modalData.date} />
+                        <div>
+                            <label>
+                                기분:
+                                <select name="moodLevel" defaultValue={modalData.moodLevel}>
+                                <option value="">당신의 하루를 표현해주세요</option>
+                                <option value="100">환희</option>
+                                <option value="85">기쁨</option>
+                                <option value="70">만족</option>
+                                <option value="50">보통</option>
+                                <option value="30">우울</option>
+                                <option value="15">슬픔</option>
+                                <option value="0">절망</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                제목:
+                                <input type="text" name="noteTitle" defaultValue={modalData.noteTitle} />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                줄거리:
+                                <textarea name="noteContent" defaultValue={modalData.noteContent} />
+                            </label>
+                        </div>
+                        <button onClick={()=>saveDailyInfo()}>Save</button>
+                        <button onClick={()=>setModalIsOpen(false)}>Cancel</button>
                     </div>
-                    <div>
-                    <label>
-                        줄거리:
-                        <textarea name="notes" defaultValue={modalData.noteContent} />
-                    </label>
-                    </div>
-                    <button onClick={()=>saveDailyEntry()}>Save</button>
-                    <button onClick={()=>setModalIsOpen(false)}>Cancel</button>
                 </div>
-                </div>
-                </form>
+            </form>
             )}
         </div>
     )

@@ -41,15 +41,15 @@ const methods = {
 
     ,getCalendar: async function(formData) {
         const data = await this.httpRequest("/calendar", "GET", formData);
-        return data.dailyEntryList;
+        return data.dailyInfoList;
     }
 
-    ,getDailyEntry: async function(formData) {
+    ,getDailyInfo: async function(formData) {
         const data = await this.httpRequest("/daily", "GET", formData);
         return data;
     }
 
-    ,postDailyEntry: async function(formData) {
+    ,postDailyInfo: async function(formData) {
         const data = await this.httpRequest("/daily","POST", formData);
     }
     
