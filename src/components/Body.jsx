@@ -9,14 +9,17 @@ export default function AppBody() {
     const sideMenu = [
         {
             name: "달력",
+            icon: "fa-solid fa-calendar-days",
             component: Calendar
         }
         , {
             name: "연대표",
+            icon: "fa-solid fa-book",
             component: Timeline
         }
         , {
             name: "분석표",
+            icon: "fa-solid fa-magnifying-glass-chart",
             component: Analysis
         }
     ]; /* API 사용하여 데이터 세팅 */
@@ -58,7 +61,7 @@ export default function AppBody() {
                     {
                         sideMenu.map((menu, i) => (
                             <li onClick={(e)=>selectMenu(e, i)} key={"menu"+i}>
-                                <i className="fa-solid fa-calendar-days"></i>
+                                <i className={menu.icon}></i>
                                 <span>{menu.name}</span>
                             </li>
                         ))

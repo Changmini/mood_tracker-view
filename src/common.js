@@ -2,15 +2,15 @@ import axios from 'axios';
 
 const API_ROOT = "http://localhost/mood";
 const methods = {
-    _params: ["GET","PATCH","DELETE"],
-    _data: ["POST"],
+    _params: ["GET"],
+    _data: ["POST","PATCH","DELETE"],
     httpRequest: async function(url, method, formData) {
-        if (formData == null) 
-            formData = {};
+        if (!formData) 
+            formData = new FormData();
 
         let input = {};
         if (this._params.includes(method))
-            input.params = formData;
+            input.params = new URLSearchParams(formData);
         else if (this._data.includes(method))
             input.data = formData;
 
@@ -28,19 +28,38 @@ const methods = {
 
         return res.data;
     }
-
+    
     /**
-     * @description 
-     * @param {*} id 
-     * @returns {object} user
+     * @description 로그인 시도
+     * @param 
+     * @returns {boolean} success
      */
-    ,getUser : async function(id) {
-        const data = await this.httpRequest(`/users/${id}`, "GET");
-        return data;
+    ,login : async function(formData) {
+        const data = await this.httpRequest(`/login`, "POST", formData);
+        return data.success;
+    }
+    /**
+     * @description 로그인 상태 확인
+     * @param 
+     * @returns {boolean} success
+     */
+    ,loginStatus : async function() {
+        const data = await this.httpRequest(`/login/status`, "GET");
+        return data.success;
+    }
+    /**
+     * @description username 얻기
+     * @param 
+     * @returns {string} username
+     */
+    ,getUsername : async function() {
+        const data = await this.httpRequest(`/user`, "GET");
+        return data.username;
     }
 
     ,getCalendar: async function(formData) {
-        const data = await this.httpRequest("/calendar", "GET", formData);
+        const daily = formData.get("date");
+        const data = await this.httpRequest(`/calendar/${daily}`, "GET");
         return data.dailyInfoList;
     }
 
@@ -51,6 +70,12 @@ const methods = {
 
     ,postDailyInfo: async function(formData) {
         const data = await this.httpRequest("/daily","POST", formData);
+        return data.success;
+    }
+
+    ,patchDailyInfo: async function(formData) {
+        const data = await this.httpRequest("/daily","PATCH", formData);
+        return data.success;
     }
     
     /**

@@ -1,9 +1,12 @@
+import $common from '../../common';
+import { useNavigate } from "react-router-dom";
 export default function Context({sideMenu, menuNumber}) {
+    // const navigate = useNavigate();
 
-    /*
-        렌더링 전 데이터 세팅이 먼
-    */
-   
+    // if (!$common.loginStatus()) {
+    //     navigate("/login");
+    // }
+
     return (
         <div className='content-main'>
             {

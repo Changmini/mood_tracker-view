@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import axios from 'axios';
 
-// axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
-axios.defaults.withCredentials = false;
+axios.defaults.withCredentials = true;
 const NetworkInterceptores = (action) => {
   // if (action.baseURL) { /* response */ }
   // else { /* response */ }

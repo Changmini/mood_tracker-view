@@ -1,12 +1,20 @@
 import { useState } from 'react';
-
+import $common from '../common';
 function AppHeader() {
     const [username, setUsername] = useState("");    
 
     function MemberInfo () {
+        $common.getUsername();
         if (username !== undefined && username !== "") {
-            return (<li onClick={()=>{}}><span>{username}님</span></li>);    
+            return (<>
+                <li><span>Sign in</span></li>
+                <li><span>Sign up</span></li>
+            </>);
         } 
+        return (<>
+            <li onClick={()=>{}}><span>{username}님</span></li>
+            <li><span>logout</span></li>
+        </>);
     }
 
     return (
@@ -21,8 +29,6 @@ function AppHeader() {
             <div className='header-right'>
                 <ul>
                     <MemberInfo />
-                    <li><span>Sign in</span></li>
-                    <li><span>Sign up</span></li>
                 </ul>
             </div>
         </nav>

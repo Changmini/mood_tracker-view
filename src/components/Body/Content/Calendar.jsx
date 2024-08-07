@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import $common from '../../../common'
+import $common from '../../../common';
 export default function Calendar(activeMenu) {
 
     // [
@@ -39,14 +39,14 @@ export default function Calendar(activeMenu) {
 
     const [date, setDate] = useState((new Date()).toISOString().substring(0,7));
     const [dailyInfo, setDailyInfo] = useState([]);
-    const [modalData, setModalData] = useState([]);
+    const [dailyInfoList, setDailyInfoList] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-    async function localCalendar(formData) {
+    async function calendarRendering(formData) {
         const dailyInfoList = await $common.getCalendar(formData);
         if (!dailyInfoList)
             return ;
-        setDailyInfo(dailyInfoList);
+        setDailyInfoList(dailyInfoList);
     }; 
     const selectDate = (e) => {
         const selectDate = e.target.value;
@@ -67,26 +67,38 @@ export default function Calendar(activeMenu) {
         }
         setDate(d.toISOString().substring(0,7));
     }
-    const clickDailyInfo = (dailyInfo) => {
+    const clickDailyInfo = (dailyInfo, index) => {
         let copy = JSON.parse(JSON.stringify(dailyInfo));
-        setModalData(copy);
+        setDailyInfo(copy);
         setModalIsOpen(true);
     }
-    const saveDailyInfo = () => {
-        const dailyData = document.getElementById("FormDailyData");
-        let f = new FormData(dailyData);
-        $common.postDailyInfo(f);
+    const saveDailyInfo = async () => {
+        let f = new FormData(document.DailyDataForm);
+        await $common.postDailyInfo(f);
         setModalIsOpen(false);
 
-        f = new FormData(dailyData);
+        // 굳이 저장할 때, 전체를 리렌더링할 필요가 있을까? 
+        // 서버에 데이터를 보내주고 화면은 기존 데이터 사용해서 일부만 렌더링하도록 하자
+        f = new FormData();
         f.append("date", date);
-        localCalendar(f);
+        await calendarRendering(f);
+    }
+    const updateDailyInfo = async () => {
+        let f = new FormData(document.DailyDataForm);
+        await $common.patchDailyInfo(f);
+        setModalIsOpen(false);
+
+        // 굳이 저장할 때, 전체를 리렌더링할 필요가 있을까? 
+        // 서버에 데이터를 보내주고 화면은 기존 데이터 사용해서 일부만 렌더링하도록 하자
+        f = new FormData();
+        f.append("date", date);
+        await calendarRendering(f);
     }
 
     useEffect(() => {
         const f = new FormData();
         f.append("date", date);
-        localCalendar(f); 
+        calendarRendering(f); 
     }, [date]);
 
     return (
@@ -107,8 +119,8 @@ export default function Calendar(activeMenu) {
                 <div>목</div>
                 <div>금</div>
                 <div>토</div>
-                {dailyInfo.map(e => (
-                    <div className="daily" onClick={()=>clickDailyInfo(e)} key={e.date}>
+                {dailyInfoList.map((e,i) => (
+                    <div className="daily" onClick={()=>clickDailyInfo(e,i)} key={e.date}>
                         {e.date} <br/>
                         {e.noteTitle} <br/>
                         {e.noteContent} <br/>
@@ -118,16 +130,19 @@ export default function Calendar(activeMenu) {
 
             {/* =============================== 선택 날짜 상세보기 =============================== */}
             {modalIsOpen && (
-            <form id="FormDailyData">
+            <form name="DailyDataForm">
                 <div className="modal-overlay">
                     <div className="modal-content">
                         <h2>나의 하루</h2>
-                        <h5>{modalData.date}</h5>
-                        <input type="hidden" name="date" value={modalData.date} />
+                        <h5>{dailyInfo.date}</h5>
+                        <input type="hidden" name="date" value={dailyInfo.date} />
+                        <input type="hidden" name="noteId" value={dailyInfo.noteId} />
+                        <input type="hidden" name="moodId" value={dailyInfo.moodId} />
+                        <input type="hidden" name="dailyId" value={dailyInfo.dailyId} />
                         <div>
                             <label>
                                 기분:
-                                <select name="moodLevel" defaultValue={modalData.moodLevel}>
+                                <select name="moodLevel" defaultValue={dailyInfo.moodLevel}>
                                 <option value="">당신의 하루를 표현해주세요</option>
                                 <option value="100">환희</option>
                                 <option value="85">기쁨</option>
@@ -142,17 +157,21 @@ export default function Calendar(activeMenu) {
                         <div>
                             <label>
                                 제목:
-                                <input type="text" name="noteTitle" defaultValue={modalData.noteTitle} />
+                                <input type="text" name="noteTitle" defaultValue={dailyInfo.noteTitle} />
                             </label>
                         </div>
                         <div>
                             <label>
                                 줄거리:
-                                <textarea name="noteContent" defaultValue={modalData.noteContent} />
+                                <textarea name="noteContent" defaultValue={dailyInfo.noteContent} />
                             </label>
                         </div>
-                        <button onClick={()=>saveDailyInfo()}>Save</button>
-                        <button onClick={()=>setModalIsOpen(false)}>Cancel</button>
+                        {dailyInfo.dailyId == 0
+                            ? <button onClick={()=>saveDailyInfo()}>저장</button>
+                            : <button onClick={()=>updateDailyInfo()}>수정</button>
+                        }
+                        {/* 삭제는 다른 공간에서 할 수 있도록 하자!! */}
+                        <button onClick={()=>setModalIsOpen(false)}>취소</button>
                     </div>
                 </div>
             </form>
