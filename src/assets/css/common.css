@@ -246,17 +246,26 @@ li { list-style: none; }
 
 /* Timeline Css [Start] */
 .timeline {
-    background-color: red;
+    /* background-color: red; */
     width: 100%;
     
 }
 .timeline .picture {
-    background-color: aqua;
+    /* background-color: aqua; */
 
 }
 .timeline .note-title {
     background-color: #b8b4c5;
 
+}
+
+.show-new-log {
+    width: 100%;
+    height: 30px;
+    background-color: #68687d;
+    border: solid 2px black;
+    border-radius: 5px;
+    cursor: pointer;
 }
 /* Timeline Css [End] */
 

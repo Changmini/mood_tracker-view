@@ -1,7 +1,6 @@
-import Calendar from './Body/Content/Calendar';
-import Timeline from './Body/Content/Timeline';
-import Analysis from './Body/Content/Analysis';
-import Content from './Body/Content'
+import Calendar from './Body/Calendar';
+import Timeline from './Body/Timeline';
+import Analysis from './Body/Analysis';
 import { useState, useEffect } from 'react';
 
 export default function AppBody() {
@@ -9,18 +8,15 @@ export default function AppBody() {
     const sideMenu = [
         {
             name: "달력",
-            icon: "fa-solid fa-calendar-days",
-            component: Calendar
+            icon: "fa-solid fa-calendar-days"
         }
         , {
             name: "연대표",
-            icon: "fa-solid fa-book",
-            component: Timeline
+            icon: "fa-solid fa-book"
         }
         , {
             name: "분석표",
-            icon: "fa-solid fa-magnifying-glass-chart",
-            component: Analysis
+            icon: "fa-solid fa-magnifying-glass-chart"
         }
     ]; /* API 사용하여 데이터 세팅 */
     
@@ -69,7 +65,11 @@ export default function AppBody() {
                     </ul> 
                 </section>
             </div>
-            <Content sideMenu={sideMenu} menuNumber={menuNumber} />
+            <div className='content-main'>
+                {menuNumber==0 ? <Calendar/> : <div></div>}
+                {menuNumber==1 ? <Timeline/> : <div></div>}
+                {menuNumber==2 ? <Analysis/> : <div></div>}
+            </div>
         </div>
     );
 };

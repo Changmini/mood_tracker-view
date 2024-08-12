@@ -22,7 +22,7 @@ const methods = {
         });
 
         if (!res || res.status !== 200 || !res.data) {
-            alert("잘못된 요청입니다. 관리자에게 문의하세요");
+            // alert("잘못된 요청입니다. 관리자에게 문의하세요");
             return false;
         }
 
@@ -54,7 +54,7 @@ const methods = {
      */
     ,getUsername : async function() {
         const data = await this.httpRequest(`/user`, "GET");
-        return data.username;
+        return data.success ? data.username : null;
     }
 
     ,getCalendar: async function(formData) {
@@ -64,8 +64,8 @@ const methods = {
     }
 
     ,getDailyInfo: async function(formData) {
-        const data = await this.httpRequest("/daily", "GET", formData);
-        return data;
+        const data = await this.httpRequest("/daily","GET", formData);
+        return data.dailyInfoList;
     }
 
     ,postDailyInfo: async function(formData) {
@@ -75,6 +75,11 @@ const methods = {
 
     ,patchDailyInfo: async function(formData) {
         const data = await this.httpRequest("/daily","PATCH", formData);
+        return data.success;
+    }
+
+    ,deleteDailyInfo: async function(formData) {
+        const data = await this.httpRequest("/daily","DELETE", formData);
         return data.success;
     }
     

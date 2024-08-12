@@ -1,14 +1,13 @@
-import { useState } from 'react';
 import $common from '../common';
+import { Link } from 'react-router-dom';
 function AppHeader() {
-    const [username, setUsername] = useState("");    
 
     function MemberInfo () {
-        $common.getUsername();
+        const username = $common.getUsername();
         if (username !== undefined && username !== "") {
             return (<>
-                <li><span>Sign in</span></li>
-                <li><span>Sign up</span></li>
+                <Link to="/login"><li><span>Sign in</span></li></Link>
+                <Link><li><span>Sign up</span></li></Link>
             </>);
         } 
         return (<>

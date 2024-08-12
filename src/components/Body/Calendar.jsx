@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import $common from '../../../common';
+import $common from '../../common';
 export default function Calendar(activeMenu) {
 
     // [
