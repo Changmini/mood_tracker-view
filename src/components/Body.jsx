@@ -1,10 +1,13 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import $common from '../common';
 import Calendar from './Body/Calendar';
 import Timeline from './Body/Timeline';
 import Analysis from './Body/Analysis';
-import { useState, useEffect } from 'react';
 
 export default function AppBody() {
     const [menuNumber, setMenuNumber] = useState(0);
+    const navigate = useNavigate();
     const sideMenu = [
         {
             name: "달력",
@@ -38,8 +41,18 @@ export default function AppBody() {
         setMenuNumber(index);
     }
 
+    async function state() {
+        const is = await $common.loginStatus();
+        if (is || localStorage.getItem("LOGIN")) 
+            navigate("/");
+        else
+            navigate("/login"); 
+        localStorage.removeItem("LOGIN");// 로그인 때, 설정되는 값
+    }
+
     useEffect(() => {
         /* 초기 화면지정 */
+        state();
         const li = document.querySelector(".sidebar ul li:nth-child(1)");
         selectMenu(li, null);
     }, []);

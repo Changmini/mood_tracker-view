@@ -46,7 +46,7 @@ export default function Calendar(activeMenu) {
         const dailyInfoList = await $common.getCalendar(formData);
         if (!dailyInfoList)
             return ;
-        setDailyInfoList(dailyInfoList);
+        setDailyInfoList(dailyInfoList); console.log(dailyInfoList);
     }; 
     const selectDate = (e) => {
         const selectDate = e.target.value;
@@ -165,6 +165,14 @@ export default function Calendar(activeMenu) {
                                 줄거리:
                                 <textarea name="noteContent" defaultValue={dailyInfo.noteContent} />
                             </label>
+                        </div>
+                        <div>
+                            <input type="file" name='files'/>
+                            <input type="hidden" name='befImagePath'/>
+                            <input type="file" name='files'/>
+                            <input type="hidden" name='befImagePath'/>
+                            <input type="file" name='files'/>
+                            <input type="hidden" name='befImagePath'/>
                         </div>
                         {dailyInfo.dailyId == 0
                             ? <button onClick={()=>saveDailyInfo()}>저장</button>

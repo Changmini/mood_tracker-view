@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 export default function () {
     const navigate = useNavigate();
 
-    const loginSubmit = () => {
+    const loginSubmit = async () => {
         const f = new FormData(document.LoginForm);
-        const check = $common.login(f);
-        check && console.log("Login");
+        if (!await $common.login(f))
+            return ;
+        localStorage.setItem("LOGIN", "ON");
         navigate("/");
     }
 
