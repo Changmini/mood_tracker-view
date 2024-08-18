@@ -67,13 +67,15 @@ export default function Calendar(activeMenu) {
         }
         setDate(d.toISOString().substring(0,7));
     }
-    const clickDailyInfo = (dailyInfo, index) => {
+    const openModal = (dailyInfo, index) => {
         let copy = JSON.parse(JSON.stringify(dailyInfo));
         setDailyInfo(copy);
         setModalIsOpen(true);
     }
     const saveDailyInfo = async () => {
         let f = new FormData(document.DailyDataForm);
+        const files = document.querySelectorAll(".modal-files input");
+        $common.setInputFilesInFormData(files, f);
         await $common.postDailyInfo(f);
         setModalIsOpen(false);
 
@@ -85,6 +87,8 @@ export default function Calendar(activeMenu) {
     }
     const updateDailyInfo = async () => {
         let f = new FormData(document.DailyDataForm);
+        const files = document.querySelectorAll(".modal-files input");
+        $common.setInputFilesInFormData(files, f);
         await $common.patchDailyInfo(f);
         setModalIsOpen(false);
 
@@ -120,7 +124,7 @@ export default function Calendar(activeMenu) {
                 <div>금</div>
                 <div>토</div>
                 {dailyInfoList.map((e,i) => (
-                    <div className="daily" onClick={()=>clickDailyInfo(e,i)} key={e.date}>
+                    <div className="daily" onClick={()=>openModal(e,i)} key={e.date}>
                         {e.date} <br/>
                         {e.noteTitle} <br/>
                         {e.noteContent} <br/>
@@ -130,49 +134,53 @@ export default function Calendar(activeMenu) {
 
             {/* =============================== 선택 날짜 상세보기 =============================== */}
             {modalIsOpen && (
-            <form name="DailyDataForm">
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        <h2>나의 하루</h2>
-                        <h5>{dailyInfo.date}</h5>
-                        <input type="hidden" name="date" value={dailyInfo.date} />
-                        <input type="hidden" name="noteId" value={dailyInfo.noteId} />
-                        <input type="hidden" name="moodId" value={dailyInfo.moodId} />
-                        <input type="hidden" name="dailyId" value={dailyInfo.dailyId} />
-                        <div>
-                            <label>
-                                기분:
-                                <select name="moodLevel" defaultValue={dailyInfo.moodLevel}>
-                                <option value="">당신의 하루를 표현해주세요</option>
-                                <option value="100">환희</option>
-                                <option value="85">기쁨</option>
-                                <option value="70">만족</option>
-                                <option value="50">보통</option>
-                                <option value="30">우울</option>
-                                <option value="15">슬픔</option>
-                                <option value="0">절망</option>
-                                </select>
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                제목:
-                                <input type="text" name="noteTitle" defaultValue={dailyInfo.noteTitle} />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                줄거리:
-                                <textarea name="noteContent" defaultValue={dailyInfo.noteContent} />
-                            </label>
-                        </div>
-                        <div>
+                        <form name="DailyDataForm">
+                            <h2>나의 하루</h2>
+                            <h5>{dailyInfo.date}</h5>
+                            <input type="hidden" name="date" value={dailyInfo.date} />
+                            <input type="hidden" name="noteId" value={dailyInfo.noteId} />
+                            <input type="hidden" name="moodId" value={dailyInfo.moodId} />
+                            <input type="hidden" name="dailyId" value={dailyInfo.dailyId} />
+                            <div>
+                                <label>
+                                    기분:
+                                    <select name="moodLevel" defaultValue={dailyInfo.moodLevel}>
+                                    <option value="">당신의 하루를 표현해주세요</option>
+                                    <option value="100">환희</option>
+                                    <option value="85">기쁨</option>
+                                    <option value="70">만족</option>
+                                    <option value="50">보통</option>
+                                    <option value="30">우울</option>
+                                    <option value="15">슬픔</option>
+                                    <option value="0">절망</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    제목:
+                                    <input type="text" name="noteTitle" defaultValue={dailyInfo.noteTitle} />
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    줄거리:
+                                    <textarea name="noteContent" defaultValue={dailyInfo.noteContent} />
+                                </label>
+                            </div>
+                        </form>
+                        <div className='modal-files'>
                             <input type="file" name='files'/>
-                            <input type="hidden" name='befImagePath'/>
+                            <input type="hidden" name='preImageId' defaultValue={dailyInfo.imageList && dailyInfo.imageList[0].imageId}/>
+                            <img src={`${$common.href()}/image?path=${dailyInfo.imageList && dailyInfo.imageList[0].imagePath}`} alt="Nothing"/>
                             <input type="file" name='files'/>
-                            <input type="hidden" name='befImagePath'/>
+                            <input type="hidden" name='preImageId' defaultValue={dailyInfo.imageList && dailyInfo.imageList[1].imageId}/>
+                            <img src={`${$common.href()}/image?path=${dailyInfo.imageList && dailyInfo.imageList[1].imagePath}`} alt="Nothing"/>
                             <input type="file" name='files'/>
-                            <input type="hidden" name='befImagePath'/>
+                            <input type="hidden" name='preImageId' defaultValue={dailyInfo.imageList && dailyInfo.imageList[2].imageId}/>
+                            <img src={`${$common.href()}/image?path=${dailyInfo.imageList && dailyInfo.imageList[2].imagePath}`} alt="Nothing"/>
                         </div>
                         {dailyInfo.dailyId == 0
                             ? <button onClick={()=>saveDailyInfo()}>저장</button>
@@ -182,7 +190,6 @@ export default function Calendar(activeMenu) {
                         <button onClick={()=>setModalIsOpen(false)}>취소</button>
                     </div>
                 </div>
-            </form>
             )}
         </div>
     )

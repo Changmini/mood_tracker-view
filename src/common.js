@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const API_ROOT = "http://localhost/mood";
 const methods = {
+    href: function() { return API_ROOT },
     _params: ["GET"],
     _data: ["POST","PATCH","DELETE"],
     httpRequest: async function(url, method, formData) {
@@ -117,6 +118,16 @@ const methods = {
             move >= 1 && date.setDate(move);
         } else 
             console.error("common.js: changeDate()에서 요청을 수행할 수 없습니다.");
+    }
+
+    ,setInputFilesInFormData: function(tag, formData) {
+        tag && tag.forEach(e => {
+            if (e.type === "file") {
+                formData.append(e.name, e.files && e.files.length==1 ? e.files[0] : new File([],''));
+            } else if (e.type !== "file") {
+                formData.append(e.name, e.value);
+            }
+        });
     }
 }
 export default methods;
