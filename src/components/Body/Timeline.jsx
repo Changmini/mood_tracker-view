@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import $common from '../../common';
+
 export default function Timeline() {
     const LIMIT = 10;
     const [myLogList, setMyLogList] = useState([]);

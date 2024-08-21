@@ -53,8 +53,8 @@ export default function AppBody() {
     useEffect(() => {
         /* 초기 화면지정 */
         state();
-        const li = document.querySelector(".sidebar ul li:nth-child(1)");
-        selectMenu(li, null);
+        // const li = document.querySelector(".sidebar ul li:nth-child(1)");
+        // selectMenu(li, null);
     }, []);
     
     return (

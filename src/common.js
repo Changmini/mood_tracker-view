@@ -83,6 +83,11 @@ const methods = {
         const data = await this.httpRequest("/daily","DELETE", formData);
         return data.success;
     }
+
+    ,deleteImage: async function(formData) {
+        const data = await this.httpRequest("/image","DELETE", formData);
+        return data.success;
+    }
     
     /**
      * @description Date 객체의 년,월,일 변경을 도와주는 함수 

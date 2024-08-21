@@ -7,7 +7,13 @@ li { list-style: none; }
     height: 100vh;
     display: grid;
     grid-template-rows: 1fr 10fr;
- }
+}
+.flex { display: flex; width: 100%; height: 100%; padding: 35px 50px; }
+.half { width: 50%; }
+
+ /* Login Css [Start] */
+
+ /* Login Css [End] */
 
  /* ==================================================
     
@@ -238,6 +244,11 @@ li { list-style: none; }
 }  
 .modal-content button {
     margin-right: 10px;
+}
+.modal-files img {
+    width: 200px;
+    height: 100px;
+    object-fit: contain;
 }
 /* Content Css [End] */
 
