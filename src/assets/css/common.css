@@ -1,21 +1,8 @@
-body { margin: 0px; }
-ul { padding: 0; margin: 0; }
-li { list-style: none; }
-.App { 
-    max-width: 1920px;
-    min-width: 769px;
-    height: 100vh;
-    display: grid;
-    grid-template-rows: 1fr 10fr;
+.lgn-img {
+    content: url("../images/img-01.png")
 }
-.flex { display: flex; width: 100%; height: 100%; padding: 35px 50px; }
-.half { width: 50%; }
 
- /* Login Css [Start] */
-
- /* Login Css [End] */
-
- /* ==================================================
+/* ==================================================
     
     app-header
     

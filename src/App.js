@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 /* Etc */
+import './assets/css/main.css';
+import './assets/css/util.css';
 import './assets/css/common.css';
 /* Login */
 import Login from './components/Login';
