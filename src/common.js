@@ -31,12 +31,21 @@ const methods = {
     }
     
     /**
-     * @description 로그인 시도
+     * @description 로그인
      * @param 
      * @returns {boolean} success
      */
     ,login : async function(formData) {
         const data = await this.httpRequest(`/login`, "POST", formData);
+        return data.success;
+    }
+    /**
+     * @description 로그아웃
+     * @param 
+     * @returns {boolean} success
+     */
+    ,logout : async function() {
+        const data = await this.httpRequest(`/logout`, "POST");
         return data.success;
     }
     /**

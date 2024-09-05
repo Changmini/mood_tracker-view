@@ -1,5 +1,6 @@
-import $common from '../common';
+import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import $common from '../common';
 
 export default function () {
     const navigate = useNavigate();
@@ -10,23 +11,32 @@ export default function () {
             return ;
         localStorage.setItem("LOGIN", "ON");
         navigate("/");
+    } 
+
+    async function state() {
+        const login = await $common.loginStatus();
+        if (login) navigate("/");
     }
+
+    useEffect(() => {
+        state();
+    }, []);
 
     return (
         <div className="limiter">
             <div className="container-login100">
                 <div className="wrap-login100">
-                    <div className="login100-pic js-tilt" data-tilt>
+                    <div className="login100-pic" data-tilt>
                         <img className='lgn-img' alt="IMG"/>
                     </div>
 
-                    <form className="login100-form validate-form">
+                    <form name='LoginForm' className="login100-form validate-form">
                         <span className="login100-form-title">
                             Member Login
                         </span>
 
                         <div className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                            <input className="input100" type="text" name="email" placeholder="Email"/>
+                            <input className="input100" type="text" name="username" placeholder="Username"/>
                             <span className="focus-input100"></span>
                             <span className="symbol-input100">
                                 <i className="fa fa-envelope" aria-hidden="true"></i>
@@ -34,7 +44,7 @@ export default function () {
                         </div>
 
                         <div className="wrap-input100 validate-input" data-validate = "Password is required">
-                            <input className="input100" type="password" name="pass" placeholder="Password"/>
+                            <input className="input100" type="password" name="password" placeholder="Password"/>
                             <span className="focus-input100"></span>
                             <span className="symbol-input100">
                                 <i className="fa fa-lock" aria-hidden="true"></i>
@@ -42,7 +52,7 @@ export default function () {
                         </div>
                         
                         <div className="container-login100-form-btn">
-                            <button className="login100-form-btn">
+                            <button className="login100-form-btn" onClick={loginSubmit}>
                                 Login
                             </button>
                         </div>
@@ -51,6 +61,7 @@ export default function () {
                             <span className="txt1">
                                 Forgot
                             </span>
+                            <span className='m-r-10'></span>
                             <a className="txt2" href="#">
                                 Username / Password?
                             </a>

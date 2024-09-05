@@ -1,20 +1,27 @@
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import $common from '../common';
-import { Link } from 'react-router-dom';
 function AppHeader() {
+    const navigate = useNavigate();
 
-    function MemberInfo () {
-        const username = $common.getUsername();
-        if (username !== undefined && username !== "") {
-            return (<>
-                <Link to="/login"><li><span>Sign in</span></li></Link>
-                <Link><li><span>Sign up</span></li></Link>
-            </>);
-        } 
-        return (<>
-            <li onClick={()=>{}}><span>{username}님</span></li>
-            <li><span>logout</span></li>
-        </>);
+    const [username, setUsername] = useState("Nothing");
+
+    async function logout() {
+        $common.logout();
     }
+        
+    async function checkUsername() {
+        const name = await $common.getUsername();
+        if (!name || name == "") {
+            // logout을 시키고...
+            navigate("/login");
+        }
+        setUsername(name);
+    }
+
+    useEffect(() => {
+        checkUsername();
+    }, []);
 
     return (
         <nav className='app-header'>
@@ -27,7 +34,8 @@ function AppHeader() {
             </div>
             <div className='header-right'>
                 <ul>
-                    <MemberInfo />
+                    <li onClick={()=>{}}><span>{username}님</span></li>
+                    <Link to="/login"><li onClick={logout}><span>logout</span></li></Link>
                 </ul>
             </div>
         </nav>

@@ -41,6 +41,11 @@ export default function AppBody() {
         setMenuNumber(index);
     }
 
+    /* [localStrage 사용 이유]
+     * 서버에서 로그인 성공 후, Session을 세팅하기 전에 
+     * state를 먼저 호출하기 때문에
+     * 초기 로그인 상태 확인을 localStrage를 사용해서 처리한다.
+     */
     async function state() {
         const is = await $common.loginStatus();
         if (is || localStorage.getItem("LOGIN")) 
@@ -53,8 +58,6 @@ export default function AppBody() {
     useEffect(() => {
         /* 초기 화면지정 */
         state();
-        // const li = document.querySelector(".sidebar ul li:nth-child(1)");
-        // selectMenu(li, null);
     }, []);
     
     return (
