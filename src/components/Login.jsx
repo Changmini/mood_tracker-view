@@ -39,7 +39,7 @@ export default function () {
                             <input className="input100" type="text" name="username" placeholder="Username"/>
                             <span className="focus-input100"></span>
                             <span className="symbol-input100">
-                                <i className="fa fa-envelope" aria-hidden="true"></i>
+                                <i className='bx bxs-graduation' aria-hidden="true"></i>
                             </span>
                         </div>
 
@@ -47,7 +47,7 @@ export default function () {
                             <input className="input100" type="password" name="password" placeholder="Password"/>
                             <span className="focus-input100"></span>
                             <span className="symbol-input100">
-                                <i className="fa fa-lock" aria-hidden="true"></i>
+                                <i class='bx bxs-lock' aria-hidden="true"></i>
                             </span>
                         </div>
                         

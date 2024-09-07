@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 /* Etc */
-import './assets/css/login.css';
-import './assets/css/util.css';
 import './assets/css/common.css';
+import './assets/css/util.css';
+import './assets/css/login.css';
+import './assets/css/sidebar.css';
 /* Login */
 import Login from './components/Login';
 /* Main */
-import Header from './components/Header';
 import Body from './components/Body'
 import Footer from './components/Footer';
 
@@ -17,7 +17,6 @@ function App() {
         <Routes>
           <Route path="/" element={
             <>
-            <Header />
             <Body />
             <Footer />
             </>

@@ -1,44 +1,47 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import $common from '../common';
 import Calendar from './Body/Calendar';
 import Timeline from './Body/Timeline';
 import Analysis from './Body/Analysis';
 
 export default function AppBody() {
-    const [menuNumber, setMenuNumber] = useState(0);
     const navigate = useNavigate();
+    const [menuNumber, setMenuNumber] = useState(0);
+    const [username, setUsername] = useState("Nothing");
     const sideMenu = [
         {
             name: "달력",
-            icon: "fa-solid fa-calendar-days"
+            icon: "bx bxs-calendar"
         }
         , {
             name: "연대표",
-            icon: "fa-solid fa-book"
+            icon: "bx bx-time-five"
         }
         , {
             name: "분석표",
-            icon: "fa-solid fa-magnifying-glass-chart"
+            icon: "bx bx-bar-chart-alt-2"
         }
     ]; /* API 사용하여 데이터 세팅 */
-    
-    const selectMenu = (e, index) => {
-        let p  = e.target || e;
-        let textUnderbar = document.querySelector("#text-underbar");
-        if (!textUnderbar) return ;
 
-        const s = textUnderbar.style;
-        if (s.display !== "block") {
-            s.display = "block";
+    function menuBtnChange() {
+        const sidebar = document.querySelector(".sidebar");
+        const sbBtn = document.querySelector("#sbBtn");
+        if (sidebar.classList.contains("open")) {
+            sbBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+        } else {
+            sbBtn.classList.replace("bx-menu-alt-right", "bx-menu");
         }
-        s.width = 6 + "rem";
-        s.top = (p.offsetTop + p.offsetHeight) + "px";
-        s.left = p.offsetLeft + "px";
-        
-        if (index==undefined || index==null) 
-            return ;
-        setMenuNumber(index);
+    }
+    const closeBtn = () => {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.classList.toggle("open");
+        menuBtnChange();
+    }
+    const searchBtn = () => {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.classList.toggle("open");
+        menuBtnChange();
     }
 
     /* [localStrage 사용 이유]
@@ -54,40 +57,65 @@ export default function AppBody() {
             navigate("/login"); 
         localStorage.removeItem("LOGIN");// 로그인 때, 설정되는 값
     }
-
+    async function checkUsername() {
+        const name = await $common.getUsername();
+        if (!name || name == "") {
+            // logout을 시키고...
+            navigate("/login");
+        }
+        setUsername(name);
+    }
+    async function logout() {
+        $common.logout();
+    }
     useEffect(() => {
         /* 초기 화면지정 */
         state();
+        checkUsername();
     }, []);
     
     return (
         <div className='app-main'>
-            <div className='sidebar'>
-                <section>
-                    {/* <span>&#9204;</span> */}
-                    <p>목 록</p>
-                </section>
-                <section>
-                    <div id='text-underbar'></div>
-                    <ul>
-                    {
-                        sideMenu.map((menu, i) => (
-                            <li onClick={(e)=>selectMenu(e, i)} key={"menu"+i}>
+            <div className="sidebar">
+                <div className="logo-details">
+                    <i className="bx bxl-c-plus-plus icon"></i>
+                    <div className="logo_name">Moodtracker</div>
+                    <i className="bx bx-menu" id="sbBtn" onClick={closeBtn}></i>
+                </div>
+                <ul className="nav-list">
+                    <li>
+                        <i className="bx bx-search" onClick={searchBtn}></i>
+                        <input type="text" placeholder="Search..." />
+                        <span className="tooltip">Search</span>
+                    </li>
+                    {sideMenu.map((menu, i) => (
+                        <li key={"menu"+i}>
+                            <a href='#' onClick={()=>setMenuNumber(i)}>
                                 <i className={menu.icon}></i>
-                                <span>{menu.name}</span>
-                            </li>
-                        ))
-                    }
-                    </ul> 
-                </section>
+                                <span className='links_name'>{menu.name}</span>
+                            </a>
+                            <span className="tooltip">{menu.name}</span>
+                        </li>
+                    ))}
+                    <li className="profile">
+                        <div className="profile-details">
+                            <img src="profile.png" alt="profileImg" />
+                            <div className="name_job">
+                            <div className="name">{username}</div>
+                            <div className="job">환영합니다.</div>
+                            </div>
+                        </div>
+                        <Link to="/login">
+                            <i className="bx bx-log-out" id="log_out" onClick={logout}></i>
+                        </Link>
+                    </li>
+                </ul>
             </div>
-            <div className='content-main'>
+            <section className='home-section'>
                 {menuNumber==0 ? <Calendar/> : <div></div>}
                 {menuNumber==1 ? <Timeline/> : <div></div>}
                 {menuNumber==2 ? <Analysis/> : <div></div>}
-            </div>
+            </section>
         </div>
     );
 };
-
-

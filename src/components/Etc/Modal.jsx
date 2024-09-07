@@ -47,64 +47,66 @@ export default function ({open, setOpen, data, reRender}) {
 
     return (
         <> {open && <div className="modal-overlay">
-            <div className="modal-content">
-                <form name="DailyDataForm">
-                    <h2>나의 하루</h2>
-                    <h5>{data.date}</h5>
-                    <input type="hidden" name="date" value={data.date} />
-                    <input type="hidden" name="noteId" value={data.noteId} />
-                    <input type="hidden" name="moodId" value={data.moodId} />
-                    <input type="hidden" name="dailyId" value={data.dailyId} />
-                    <div>
-                        <label>
-                            기분:
-                            <select name="moodLevel" defaultValue={data.moodLevel}>
-                            <option value="">당신의 하루를 표현해주세요</option>
-                            <option value="100">환희</option>
-                            <option value="85">기쁨</option>
-                            <option value="70">만족</option>
-                            <option value="50">보통</option>
-                            <option value="30">우울</option>
-                            <option value="15">슬픔</option>
-                            <option value="0">절망</option>
-                            </select>
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            제목:
-                            <input type="text" name="noteTitle" defaultValue={data.noteTitle} />
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            줄거리:
-                            <textarea name="noteContent" defaultValue={data.noteContent} />
-                        </label>
-                    </div>
-                </form>
-                <div className='modal-files'>
-                    <input type="file" name='files'/>
-                    <input type="hidden" name='preImageId' defaultValue={imgId[0]}/>
-                    <input type="button" data-image-id={imgId[0]} onClick={deleteImage} value="삭제"/>
-                    <img className={`img-id-${imgId[0]}`} src={`${$common.href()}/image?path=${imgPath[0]}`} alt="Nothing"/>
+            <div className="modal">
+                <div className='modal-header'>
+                    <button onClick={()=>setOpen(false)}>X</button>
+                </div> {/* modal-header [End] */}
+                
+                <div className='modal-body'>
+                    <div className='modal-pic'>
+                        {/* image */}
+                    </div> {/* modal-pic [End] */}
 
-                    <input type="file" name='files'/>
-                    <input type="hidden" name='preImageId' defaultValue={imgId[1]}/>
-                    <input type="button" data-image-id={imgId[1]} onClick={deleteImage} value="삭제"/>
-                    <img className={`img-id-${imgId[1]}`} src={`${$common.href()}/image?path=${imgPath[1]}`} alt="Nothing"/>
-
-                    <input type="file" name='files'/>
-                    <input type="hidden" name='preImageId' defaultValue={imgId[2]}/>
-                    <input type="button" data-image-id={imgId[2]} onClick={deleteImage} value="삭제"/>
-                    <img className={`img-id-${imgId[2]}`} src={`${$common.href()}/image?path=${imgPath[2]}`} alt="Nothing"/>
+                    <div className='modal-info'>
+                        <form name="DailyDataForm">
+                            <h2 className='sel-date'>{data.date}</h2>
+                            <input type="hidden" name="date" value={data.date} />
+                            <input type="hidden" name="noteId" value={data.noteId} />
+                            <input type="hidden" name="moodId" value={data.moodId} />
+                            <input type="hidden" name="dailyId" value={data.dailyId} />
+                            <div className='modal-part'>
+                                <label>
+                                    <h5>기분:</h5>
+                                    <select name="moodLevel" defaultValue={data.moodLevel}>
+                                    <option value="">당신의 하루를 표현해주세요</option>
+                                    <option value="100">환희</option>
+                                    <option value="85">기쁨</option>
+                                    <option value="70">만족</option>
+                                    <option value="50">보통</option>
+                                    <option value="30">우울</option>
+                                    <option value="15">슬픔</option>
+                                    <option value="0">절망</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div className='modal-part'>
+                                <label>
+                                    <h5>제목:</h5>
+                                    <input type="text" name="noteTitle" defaultValue={data.noteTitle} />
+                                    <i className='line'></i>
+                                </label>
+                            </div>
+                            <div className='modal-part'>
+                                <label>
+                                    <h5>줄거리:</h5>
+                                    <textarea name="noteContent" defaultValue={data.noteContent} />
+                                </label>
+                            </div>
+                        </form>
+                    </div> {/* modal-info [End] */}
+                </div> {/* modal-body [End] */}
+                <div className='modal-footer'>
+                    <div className='modal-footer-right'>
+                        <button onClick={()=>setOpen(false)}>
+                            <i class='bx bxs-message-square-x'></i></button>
+                        {data.dailyId == 0
+                            ? <button onClick={()=>saveData()}>
+                                <i class='bx bxs-message-square-check'></i></button>
+                            : <button onClick={()=>updateData()}>
+                                <i class='bx bxs-message-square-edit' ></i></button>
+                        }
+                    </div>
                 </div>
-                {data.dailyId == 0
-                    ? <button onClick={()=>saveData()}>저장</button>
-                    : <button onClick={()=>updateData()}>수정</button>
-                }
-                {/* 삭제는 다른 공간에서 할 수 있도록 하자!! */}
-                <button onClick={()=>setOpen(false)}>취소</button>
             </div>
         </div>} </>
     )
