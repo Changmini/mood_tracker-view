@@ -85,7 +85,7 @@ ul, li {
 }
   
   
-  /*---------------------------------------------*/
+/*---------------------------------------------*/
 input {
     outline: none;
     border: none;
@@ -142,9 +142,11 @@ select {
     color: black;
     border: 0;
     border-bottom: 1px solid black;
-    /* background-color: rgba(0, 0, 0, 0); */
 }
-  
+
+input[type="file"] {
+    display: none;
+}
   
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
@@ -160,6 +162,14 @@ select {
     font-size: 13px;
     line-height: 1.5;
     color: #666666;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.fade {
+    display: none;
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -253,21 +263,20 @@ select {
 .modal {
     width: calc(80% - 78px);
     min-width: 750px;
-    height: 50%;
+    height: 65%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    background: white;
+    background-color: rgba(51, 51, 51, 1);
 }
 .modal-part {padding: 0 10px;}
-.modal-part:not(:last-child) {margin-bottom: 25px;}
+.modal-part {margin-bottom: 20px;}
 .modal input {width: 100%; height: 30px;}
-.modal textarea {width: 100%; height: 250px;}
-/* .modal input, .modal textarea {border: 1px solid black;} */
+.modal textarea {width: 100%; height: calc(100% - 20px);}
 .modal-header, .modal-footer {
     width: 100%;
     display: flex;
-    justify-content: flex-end;
     position: relative;
 }
+.modal-header {justify-content: flex-end;}
 .modal-header button {
     position: absolute;
     top: -30px;
@@ -277,9 +286,12 @@ select {
     font-size: large;
     font-weight: 600;
 }
-.modal-footer-right button {
-    margin-top: 5px;
-    margin-left: 5px;
+.modal-footer-left {display: flex; justify-content: center;}
+.modal-footer-right {display: flex; justify-content: flex-end;}
+.modal-footer-left, .modal-footer-right {width: 50%;}
+.modal-footer-left button, .modal-footer-right button {margin-top: 5px; margin-left: 5px;}
+.bx-circle, .bxs-circle {
+    color: white;
 }
 .bxs-message-square-check:before {
     /* 최초 저장 버튼 */
@@ -306,35 +318,36 @@ select {
 
 
 .modal-pic {
-    background-color: #57b846;
     width: 50%;
+}
+.modal-pic .pic-group {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.modal-pic .pic-group label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 .modal-info {
     background-color: #98b6cd;
     width: 50%;
 }
+.modal-info form {
+    display: grid;
+    grid-template-rows: auto auto auto 1fr;
+    height: 100%;
+}
 .sel-date {
     padding: 5px;
 }
-/* .modal-content h2 {
-    margin-top: 0;
-}  
-.modal-content label {
-    display: block;
-    margin: 15px 0;
-}
-.modal-content textarea {
+.modal-pic img {
     width: 100%;
-    height: 80px;
-}  
-.modal-content button {
-    margin-right: 10px;
-}
-.modal-files img {
-    width: 200px;
-    height: 100px;
+    height: 100%;
     object-fit: contain;
-} */
+}
 
 
 /*//////////////////////////////////////////////////////////////////

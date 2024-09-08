@@ -47,7 +47,7 @@ export default function () {
                             <input className="input100" type="password" name="password" placeholder="Password"/>
                             <span className="focus-input100"></span>
                             <span className="symbol-input100">
-                                <i class='bx bxs-lock' aria-hidden="true"></i>
+                                <i className='bx bxs-lock' aria-hidden="true"></i>
                             </span>
                         </div>
                         
