@@ -40,7 +40,6 @@ export default function Calendar() {
     // ]
 
     const today = (new Date()).toISOString().substring(0,10);
-    const dayOfMonth = today.substring(8,10);
     const [date, setDate] = useState(today.substring(0,7));
     const [dailyInfo, setDailyInfo] = useState([]);
     const [dailyInfoList, setDailyInfoList] = useState([]);
@@ -81,11 +80,6 @@ export default function Calendar() {
         setDailyInfo(copy);
         setModalIsOpen(true);
     }
-
-    const me = (e) => {
-        console.log("enter");
-        document.querySelector("#inputDate").click();
-    }
     
     useEffect(() => {
         calendarRendering(); 
@@ -108,8 +102,9 @@ export default function Calendar() {
                 <div className='day txt4'>금</div>
                 <div className='day txt4'>토</div>
                 {dailyInfoList.map((e,i) => (
-                    <div className="daily txt3-b" onClick={()=>openModal(e,i)} key={e.date}>
-                        <span className={`${dayOfMonth==e.date.substring(8,10) ? "today" : ""}`}>
+                    <div className={`daily txt3-b ${e.date.substring(0,7)!=date?"opacity":""}`} 
+                        onClick={()=>openModal(e,i)} key={e.date}>
+                        <span className={`${today==e.date.substring(0,10) ? "today" : ""}`}>
                             {e.date.substring(8,10)}</span> <br/>
                         <h5>T:</h5><span className='txt3'>{e.noteTitle}</span> <br/>
                         <h5>C:</h5><span className='txt3'>{e.noteContent}</span> <br/>

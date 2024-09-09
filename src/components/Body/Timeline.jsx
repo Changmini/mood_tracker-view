@@ -32,20 +32,17 @@ export default function Timeline() {
 
     return (
         <div className="timeline">
-            {myLogList.map((e) => (
-                <div className="my-log" key={"tl"+e.date}>
-                    {/* mood level을 색깔로 표현해준다. */}
-                    <div className="picture">
-                        {/* 있으면 보여주고 없으면 안보여준다. */}
-                    </div>
-                    <div className="note-title">
-                        {e.noteTitle}
+            {myLogList.map((e, idx) => (
+                <div className={`container ${idx%2==0?"left":"right"}`} key={"tl"+e.date}>
+                    <div className="content">
+                        <h2>{e.date}</h2>
+                        <p>{e.noteTitle}</p>
                     </div>
                 </div>
             ))}
             <button className='show-new-log' onClick={
                 () => addNewLog()
-            }></button>
+            }><i className='bx bxs-down-arrow'></i></button>
         </div>
     );
 }
