@@ -39,7 +39,9 @@ export default function Calendar() {
     //     }
     // ]
 
-    const [date, setDate] = useState((new Date()).toISOString().substring(0,7));
+    const today = (new Date()).toISOString().substring(0,10);
+    const dayOfMonth = today.substring(8,10);
+    const [date, setDate] = useState(today.substring(0,7));
     const [dailyInfo, setDailyInfo] = useState([]);
     const [dailyInfoList, setDailyInfoList] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -79,40 +81,43 @@ export default function Calendar() {
         setDailyInfo(copy);
         setModalIsOpen(true);
     }
+
+    const me = (e) => {
+        console.log("enter");
+        document.querySelector("#inputDate").click();
+    }
     
     useEffect(() => {
         calendarRendering(); 
     }, [date]);
     
-    return (
+    return (<>
         <div className="calendar">
             {/* ===================================== 달력 ===================================== */}
             <div className="calendar-header">
-                <a href='#' onClick={()=>move("<")}><i className="fa-solid fa-caret-left"></i></a>
-                {/* <a href='#'><i className="fa-regular fa-square-caret-left"></i></a> */}
-                <a href='#'><input id="inputDate" type="month" value={date} onChange={selectDate}/></a>
-                <a href='#' onClick={()=>move(">")}><i className="fa-solid fa-caret-right"></i></a>
-                {/* <a href='#'><i className="fa-solid fa-square-caret-right"></i></a> */}
+                <span className='pointer txt-white' onClick={()=>move("<")}><i className='bx bxs-left-arrow'></i></span>
+                <input id="inputDate" type="month" value={date} onChange={selectDate}/>
+                <span className='pointer txt-white' onClick={()=>move(">")}><i className='bx bxs-right-arrow'></i></span>
             </div>
             <div className="calendar-content">
-                <div>일</div>
-                <div>월</div>
-                <div>화</div>
-                <div>수</div>
-                <div>목</div>
-                <div>금</div>
-                <div>토</div>
+                <div className='day txt4'>일</div>
+                <div className='day txt4'>월</div>
+                <div className='day txt4'>화</div>
+                <div className='day txt4'>수</div>
+                <div className='day txt4'>목</div>
+                <div className='day txt4'>금</div>
+                <div className='day txt4'>토</div>
                 {dailyInfoList.map((e,i) => (
-                    <div className="daily" onClick={()=>openModal(e,i)} key={e.date}>
-                        {e.date} <br/>
-                        {e.noteTitle} <br/>
-                        {e.noteContent} <br/>
+                    <div className="daily txt3-b" onClick={()=>openModal(e,i)} key={e.date}>
+                        <span className={`${dayOfMonth==e.date.substring(8,10) ? "today" : ""}`}>
+                            {e.date.substring(8,10)}</span> <br/>
+                        <h5>T:</h5><span className='txt3'>{e.noteTitle}</span> <br/>
+                        <h5>C:</h5><span className='txt3'>{e.noteContent}</span> <br/>
                     </div>
                 ))}
             </div>
-
-            {/* =============================== 선택 날짜 상세보기 =============================== */}
-            <Modal open={modalIsOpen} setOpen={setModalIsOpen} data={dailyInfo} reRender={calendarRendering} />
         </div>
-    )
+        {/* =============================== 선택 날짜 상세보기 =============================== */}
+        <Modal open={modalIsOpen} setOpen={setModalIsOpen} data={dailyInfo} reRender={calendarRendering} />
+    </>)
 }

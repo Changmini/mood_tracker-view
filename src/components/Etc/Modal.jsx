@@ -3,19 +3,37 @@ import $common from '../../common';
 
 export default function ({open, setOpen, data, reRender}) {
     const [imgNumber, setImgNumber] = useState(0);
-    const imgList = data && data.imageList
-    const imgId = [];
-    const imgPath = [];
-    if (imgList) {
-        for (let img of imgList) {
-            imgId.push(img.imageId);
-            imgPath.push(img.imagePath);
+    const imgs = {
+        cnt: 3
+        ,src: []
+        ,setList: function(_data) {
+            const exist = _data && _data.imageList;
+            if (exist) {
+                const list = _data.imageList;
+                for(let i=0; i<this.cnt; i++) {
+                    let tid = list[i].imageId;
+                    let tpath = list[i].imagePath;
+                    tpath = tpath=="" ? null : tpath;
+                    this.src.push({"id":tid, "path":tpath});
+                }
+            } else {
+                for(let i=0; i<this.cnt; i++) {
+                    this.src.push({"id":null, "path":null});
+                }
+            }
         }
     }
+    imgs.setList(data);
 
     const saveData = async () => {
+        if (!window.confirm("저장하시겠습니까?"))
+            return;
         const f = new FormData(document.DailyDataForm);
-        const files = document.querySelectorAll(".modal-files input");
+        if (!f.get("moodLevel") || f.get("moodLevel") == "") {
+            alert("당신의 기분 상태를 알려주세요.");
+            return;
+        }
+        const files = document.querySelectorAll(".modal-pic input");
         $common.setInputFilesInFormData(files, f);
         await $common.postDailyInfo(f);
         setOpen(false);
@@ -23,24 +41,37 @@ export default function ({open, setOpen, data, reRender}) {
     }
 
     const updateData = async () => {
+        if (!window.confirm("수정하시겠습니까?"))
+            return;
         const f = new FormData(document.DailyDataForm);
-        const files = document.querySelectorAll(".modal-files input");
+        if (!f.get("moodLevel") || f.get("moodLevel") == "") {
+            alert("당신의 기분 상태를 알려주세요.");
+            return;
+        }
+        const files = document.querySelectorAll(".modal-pic input");
         $common.setInputFilesInFormData(files, f);
         await $common.patchDailyInfo(f);
         setOpen(false);
         reRender();
     }
 
-    const deleteImage = async (event) => {
-        if (!window.confirm("이미지가 즉시 삭제됩니다.\n삭제하시겠습니까?"))
+    const deleteImage = async (index, imageId) => {
+        const imgTag = document.querySelector(`.img-idx-${index} > img`);
+        if (!imgTag || !imgTag.src || imgTag.src=="") 
             return ;
-        const imageId = event.target.dataset.imageId;
-        const f = new FormData();
-        f.append("imageId", imageId);
-        const success = await $common.deleteImage(f);
-        if (success) {
-            const tag = document.querySelector(`.img-id-${imageId}`);
-            tag && (tag.src = "")   
+        const lblTag = document.querySelector(`.img-idx-${index} > label`);
+        const iptTag = document.querySelector(`.img-idx-${index} > label > input`);
+        if (!window.confirm("이미지가 즉시 삭제됩니다.\n삭제하시겠습니까?") || !lblTag || !iptTag)
+            return ;
+        if (imageId) {
+            const f = new FormData();
+            f.append("imageId", imageId);
+            console.log(`서버에서 이미지 삭제 ${await $common.deleteImage(f)}`);
+        }
+        imgTag.removeAttribute("src");
+        lblTag.className = lblTag.className.replace("fade","");
+        if (iptTag.files && iptTag.files[0]) {
+            iptTag.value = "";
         }
     }
 
@@ -51,14 +82,13 @@ export default function ({open, setOpen, data, reRender}) {
         if (input.files && (file=input.files[0])) {
             let reader = new FileReader();
             reader.onload = function (e) {
-                console.log(e.target);
                 localImg.src = e.target.result;
             }
             reader.readAsDataURL(file);
-            label.style.display = "none";
+            !label.className.includes("fade") && (label.className += "fade");
         } else {
-            localImg.src = "";
-            label.style.display = "block";
+            localImg.removeAttribute("src");
+            label.className = label.className.replace("fade", "");
         }
     }
 
@@ -71,36 +101,18 @@ export default function ({open, setOpen, data, reRender}) {
                 
                 <div className='modal-body'>
                     <div className='modal-pic'>
-                        {/* img 0 */}
-                        <div className={`pic-group ${imgNumber==0 ? "" : "fade"}`}>
-                            <label>
-                                <span className='fs-50 pointer'>+</span>
-                                <input type="file" name='files' onChange={(e)=>changeImg(e.target)}/>
-                            </label>
-                            <img className={`img-id-${imgId[0]}`} 
-                                    src={imgPath[0] && `${$common.href()}/image?path=${imgPath[0]}`} />
-                            <input type="hidden" name='preImageId' defaultValue={imgId[0]}/>
-                        </div>
-                        {/* img 1 */}
-                        <div className={`pic-group ${imgNumber==1 ? "" : "fade"}`}>
-                            <label>
-                                <span className='fs-50 pointer'>+</span>
-                                <input type="file" name='files' onChange={(e)=>changeImg(e.target)}/>
-                            </label>
-                            <img className={`img-id-${imgId[1]}`} 
-                                    src={imgPath[1] && `${$common.href()}/image?path=${imgPath[1]}`} />
-                            <input type="hidden" name='preImageId' defaultValue={imgId[1]}/>
-                        </div>
-                        {/* img 2 */}
-                        <div className={`pic-group ${imgNumber==2 ? "" : "fade"}`}>
-                            <label>
-                                <span className='fs-50 pointer'>+</span>
-                                <input type="file" name='files' onChange={(e)=>changeImg(e.target)}/>
-                            </label>
-                            <img className={`img-id-${imgId[2]}`} 
-                                    src={imgPath[2] && `${$common.href()}/image?path=${imgPath[2]}`} />
-                            <input type="hidden" name='preImageId' defaultValue={imgId[2]}/>
-                        </div>
+                        {imgs.src.map((img, idx) => { return (
+                            <div className={`pic-group img-idx-${idx} ${imgNumber==idx ? "" : "fade"}`} key={`img-${idx}`}>
+                                <label className={`${!img.path ? "" : "fade"}`}>
+                                    <span className='fs-50 pointer'>+</span>
+                                    <input type="file" name='files' onChange={(e)=>changeImg(e.target)}/>
+                                </label>
+                                <img src={img.path && `${$common.href()}/image?path=${img.path}`}
+                                    onClick={()=>deleteImage(idx, img.id)} />
+                                <input type="hidden" name='preImageId' defaultValue={img.id}/>
+                            </div>
+                        )})}
+                        
                     </div> {/* modal-pic [End] */}
 
                     <div className='modal-info'>
@@ -124,14 +136,14 @@ export default function ({open, setOpen, data, reRender}) {
                             <div className='modal-part'>
                                 <label>
                                     <h5>제목:</h5>
-                                    <input type="text" name="noteTitle" defaultValue={data.noteTitle} />
+                                    <input className='txt3' type="text" name="noteTitle" defaultValue={data.noteTitle} />
                                     <i className='line'></i>
                                 </label>
                             </div>
                             <div className='modal-part'>
                                 <label>
                                     <h5>줄거리:</h5>
-                                    <textarea name="noteContent" defaultValue={data.noteContent} />
+                                    <textarea className='txt3' name="noteContent" defaultValue={data.noteContent} />
                                 </label>
                             </div>
                             <input type="hidden" name="date" value={data.date} />
