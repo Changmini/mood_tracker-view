@@ -97,6 +97,11 @@ const methods = {
         const data = await this.httpRequest("/image","DELETE", formData);
         return data.success;
     }
+
+    ,getGraphData: async function(formData) {
+        const data = await this.httpRequest("/graph/datasets","GET", formData);
+        return data.graphData;
+    }
     
     /**
      * @description Date 객체의 년,월,일 변경을 도와주는 함수 

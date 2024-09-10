@@ -78,7 +78,7 @@ export default function AppBody() {
         <div className='app-main'>
             <div className="sidebar">
                 <div className="logo-details">
-                    <i className="bx bxl-c-plus-plus icon"></i>
+                    <i className='bx bx-walk icon'></i>
                     <div className="logo_name">Moodtracker</div>
                     <i className="bx bx-menu" id="sbBtn" onClick={closeBtn}></i>
                 </div>

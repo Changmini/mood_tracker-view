@@ -1,0 +1,64 @@
+/*//////////////////////////////////////////////////////////////////
+[ calendar ]*/
+.calendar {
+  width: 100%;
+  max-width: 1000px;
+  height: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+.calendar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+  /*-----------------------*/
+  background-color: #1a363f;
+  border-radius: 10px 10px 0 0;
+}
+.calendar-header input[type="month"] {
+  min-width: 20px;
+  margin: 0 20px;
+  border: none;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: Poppins-Regular;
+  background-color: rgba(0, 0, 0, 0);
+}
+.calendar-content {
+  width: 100%;
+  height: calc(100% - 52px);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  /* gap: 10px; */
+  background-color: #fff;
+  border-radius: 0 0 10px 10px;
+}
+.calendar-content .day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  background-color: #fe623e;
+}
+.calendar-content .daily {
+  width: 100%;
+  padding: 5px 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.calendar-content .daily h5 {
+  display: inline-block;
+  color: #c4c1cd;
+}
+.calendar-content .daily .today {
+  border-radius: 35%;
+  border: 3px solid red;
+}
