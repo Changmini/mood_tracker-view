@@ -54,7 +54,7 @@ export default function Calendar() {
         if (!dailyInfoList)
             return ;
         /* setting */
-        setDailyInfoList(dailyInfoList); console.log(dailyInfoList);
+        setDailyInfoList(dailyInfoList);
     }; 
     const selectDate = (e) => {
         const selectDate = e.target.value;
@@ -113,6 +113,9 @@ export default function Calendar() {
             </div>
         </div>
         {/* =============================== 선택 날짜 상세보기 =============================== */}
-        <Modal open={modalIsOpen} setOpen={setModalIsOpen} data={dailyInfo} reRender={calendarRendering} />
+        <Modal open={modalIsOpen} 
+            setOpen={setModalIsOpen} 
+            data={dailyInfo} 
+            reRender={calendarRendering} />
     </>)
 }

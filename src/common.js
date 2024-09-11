@@ -99,8 +99,8 @@ const methods = {
     }
 
     ,getGraphData: async function(formData) {
-        const data = await this.httpRequest("/graph/datasets","GET", formData);
-        return data.graphData;
+        const data = await this.httpRequest("/graph/mood-level-data","GET", formData);
+        return data.graph;
     }
     
     /**
@@ -147,6 +147,13 @@ const methods = {
                 formData.append(e.name, e.value);
             }
         });
+    }
+
+    ,getRandomColor: function() {
+        let red = Math.floor(Math.random() * 256);
+        let green = Math.floor(Math.random() * 256);
+        let blue = Math.floor(Math.random() * 256);
+        return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.5)`];
     }
 }
 export default methods;

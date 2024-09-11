@@ -2,7 +2,7 @@
 [ calendar ]*/
 .calendar {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   height: 80%;
   position: absolute;
   top: 50%;
@@ -59,6 +59,6 @@
   color: #c4c1cd;
 }
 .calendar-content .daily .today {
-  border-radius: 35%;
+  border-radius: 50%;
   border: 3px solid red;
 }

@@ -6,22 +6,11 @@ import { Bar,Line, } from 'react-chartjs-2';
 ChartJS.register(CategoryScale,LinearScale,PointElement,Title,Tooltip,Legend
     ,BarElement,LineElement);
 export default function Analysis() {
+    const [startDate, setStartDate] = useState("2024-09-01");
+    const [endDate, setEndDate] = useState("2024-09-30");
     const [data, setData] = useState({
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-            {
-                label: '분류 1', //그래프 분류되는 항목
-                data: [1, 2, 3, 4, 5, 6, 7], //실제 그려지는 데이터(Y축 숫자)
-                borderColor: 'rgb(255, 99, 132)', //그래프 선 color
-                backgroundColor: 'rgba(255, 99, 132, 0.5)', //마우스 호버시 나타나는 분류네모 표시 bg
-            },
-            {
-                label: '분류 2',
-                data: [2, 3, 4, 5, 4, 7, 8],
-                borderColor: 'rgb(53, 162, 235)', //실제 그려지는 데이터(Y축 숫자)
-                backgroundColor: 'rgba(53, 162, 235, 0.5)',
-            },
-        ],
+        labels: [],
+        datasets: [],
     });
     const options = {
         responsive: true,
@@ -31,7 +20,7 @@ export default function Analysis() {
             },
             title: {
                 display: true,
-                text: 'Chart.js Line Chart',
+                text: '월별 나의 기분',
             },
         },
     };
@@ -39,9 +28,15 @@ export default function Analysis() {
     useEffect(() => {
         async function setGraph() {
             const f = new FormData();
-            // f.append("",);
-            const res = await $common.getGraphData(f);
+            f.append("startDate",startDate);
+            f.append("endDate",endDate);
+            const res = await $common.getGraphData(f); console.log(res);
             if (!res) return ;
+            res.datasets.forEach(e => {
+                const [rgb, rgba] = $common.getRandomColor();// 색 중복이 있을 수 있다. 수정해야 한다.
+                e.borderColor = rgb;
+                e.backgroundColor = rgba;
+            });
             setData(res);
         }
         setGraph();
