@@ -7,7 +7,7 @@ import Analysis from './Body/Analysis';
 
 export default function AppBody() {
     const navigate = useNavigate();
-    const [menuNumber, setMenuNumber] = useState(0);
+    const [menuNumber, setMenuNumber] = useState(2);
     const [username, setUsername] = useState("Nothing");
     const sideMenu = [
         {
@@ -38,11 +38,11 @@ export default function AppBody() {
         sidebar.classList.toggle("open");
         menuBtnChange();
     }
-    const searchBtn = () => {
-        const sidebar = document.querySelector(".sidebar");
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-    }
+    // const searchBtn = () => {
+    //     const sidebar = document.querySelector(".sidebar");
+    //     sidebar.classList.toggle("open");
+    //     menuBtnChange();
+    // }
 
     /* [localStrage 사용 이유]
      * 서버에서 로그인 성공 후, Session을 세팅하기 전에 
@@ -83,11 +83,11 @@ export default function AppBody() {
                     <i className="bx bx-menu" id="sbBtn" onClick={closeBtn}></i>
                 </div>
                 <ul className="nav-list">
-                    <li>
+                    {/* <li>
                         <i className="bx bx-search" onClick={searchBtn}></i>
                         <input type="text" placeholder="Search..." />
                         <span className="tooltip">Search</span>
-                    </li>
+                    </li> */}
                     {sideMenu.map((menu, i) => (
                         <li key={"menu"+i}>
                             <a href='#' onClick={()=>setMenuNumber(i)}>

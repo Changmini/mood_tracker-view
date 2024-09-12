@@ -1,7 +1,7 @@
 /*//////////////////////////////////////////////////////////////////
 [ calendar ]*/
 .calendar {
-  width: 100%;
+  width: calc(100% - 78px);
   max-width: 1200px;
   height: 80%;
   position: absolute;
@@ -19,16 +19,6 @@
   /*-----------------------*/
   background-color: #1a363f;
   border-radius: 10px 10px 0 0;
-}
-.calendar-header input[type="month"] {
-  min-width: 20px;
-  margin: 0 20px;
-  border: none;
-  color: white;
-  font-size: 20px;
-  font-weight: 700;
-  font-family: Poppins-Regular;
-  background-color: rgba(0, 0, 0, 0);
 }
 .calendar-content {
   width: 100%;
