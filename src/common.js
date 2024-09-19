@@ -102,6 +102,17 @@ const methods = {
         const data = await this.httpRequest("/graph/mood-level-data","GET", formData);
         return data.graph;
     }
+    ,chartDefaultOption: {
+        maintainAspectRatio: false,
+        responsive: true,
+        plugins: {
+            legend: {position: 'top'},
+            title: {
+                display: true,
+                text: '제목 설정',
+            },
+        },
+    }
     
     /**
      * @description Date 객체의 년,월,일 변경을 도와주는 함수 
