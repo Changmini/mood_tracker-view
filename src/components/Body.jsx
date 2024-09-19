@@ -7,12 +7,12 @@ import Analysis from './Body/Analysis';
 
 export default function AppBody() {
     const navigate = useNavigate();
-    const [menuNumber, setMenuNumber] = useState(2);
+    const [menuNumber, setMenuNumber] = useState(0);
     const [username, setUsername] = useState("Nothing");
     const sideMenu = [
         {
             name: "달력",
-            icon: "bx bxs-calendar"
+            icon: "bx bx-calendar"
         }
         , {
             name: "연대표",
@@ -38,11 +38,6 @@ export default function AppBody() {
         sidebar.classList.toggle("open");
         menuBtnChange();
     }
-    // const searchBtn = () => {
-    //     const sidebar = document.querySelector(".sidebar");
-    //     sidebar.classList.toggle("open");
-    //     menuBtnChange();
-    // }
 
     /* [localStrage 사용 이유]
      * 서버에서 로그인 성공 후, Session을 세팅하기 전에 
@@ -67,6 +62,7 @@ export default function AppBody() {
     }
     async function logout() {
         $common.logout();
+        window.location.href = `${window.location.origin}/login`;
     }
     useEffect(() => {
         /* 초기 화면지정 */
@@ -83,11 +79,6 @@ export default function AppBody() {
                     <i className="bx bx-menu" id="sbBtn" onClick={closeBtn}></i>
                 </div>
                 <ul className="nav-list">
-                    {/* <li>
-                        <i className="bx bx-search" onClick={searchBtn}></i>
-                        <input type="text" placeholder="Search..." />
-                        <span className="tooltip">Search</span>
-                    </li> */}
                     {sideMenu.map((menu, i) => (
                         <li key={"menu"+i}>
                             <a href='#' onClick={()=>setMenuNumber(i)}>
@@ -105,9 +96,7 @@ export default function AppBody() {
                             <div className="job">환영합니다.</div>
                             </div>
                         </div>
-                        <Link to="/login">
-                            <i className="bx bx-log-out" id="log_out" onClick={logout}></i>
-                        </Link>
+                        <i className="bx bx-log-out" id="log_out" onClick={logout}></i>
                     </li>
                 </ul>
             </div>

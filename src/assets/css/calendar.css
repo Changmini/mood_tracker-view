@@ -44,6 +44,9 @@
   white-space: nowrap;
   cursor: pointer;
 }
+.calendar-content .daily .compl {
+  background-color: rgb(231 255 231);
+}
 .calendar-content .daily h5 {
   display: inline-block;
   color: #c4c1cd;
