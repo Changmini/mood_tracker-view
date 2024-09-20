@@ -57,6 +57,10 @@ const methods = {
         const data = await this.httpRequest(`/login/status`, "GET");
         return data.success;
     }
+    ,postUser : async function (formData) {
+        const data = await this.httpRequest(`/user`, "POST", formData);
+        return data.success;
+    }
     /**
      * @description username 얻기
      * @param 
@@ -72,32 +76,26 @@ const methods = {
         const data = await this.httpRequest(`/calendar/${daily}`, "GET");
         return data.dailyInfoList;
     }
-
     ,getDailyInfo: async function(formData) {
         const data = await this.httpRequest("/daily","GET", formData);
         return data.dailyInfoList;
     }
-
     ,postDailyInfo: async function(formData) {
         const data = await this.httpRequest("/daily","POST", formData);
         return data.success;
     }
-
     ,patchDailyInfo: async function(formData) {
         const data = await this.httpRequest("/daily","PATCH", formData);
         return data.success;
     }
-
     ,deleteDailyInfo: async function(formData) {
         const data = await this.httpRequest("/daily","DELETE", formData);
         return data.success;
     }
-
     ,deleteImage: async function(formData) {
         const data = await this.httpRequest("/image","DELETE", formData);
         return data.success;
     }
-
     ,getGraphData: async function(formData) {
         const data = await this.httpRequest("/graph/mood-level-data","GET", formData);
         return data.graph;
@@ -165,6 +163,21 @@ const methods = {
         let green = Math.floor(Math.random() * 256);
         let blue = Math.floor(Math.random() * 256);
         return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.5)`];
+    }
+
+    ,checkEmail: function(email) {
+        const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+        if (EMAIL_REGEX.test(email)) {
+            return {
+                msg: "유효한 이메일 주소입니다.",
+                success: true
+            }
+        } else {
+            return {
+                msg: "유효하지 않은 이메일 주소입니다.",
+                success: false
+            };
+        }
     }
 
     /**

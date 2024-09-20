@@ -18,9 +18,26 @@ export default function () {
     const createAccount = async () => {
         const f = new FormData(document.CreateAccountForm);
         const p = f.get("password");
-        const cp = f.get("chkPassword");
+        const pc = f.get("passwordConfirm");
         const e = f.get("email");
-        
+        if (!p || !pc || !e || p=="" || pc=="" || e=="") {
+            alert(`각 항목에 올바른 값을 입력해주세요.`);
+            return ;
+        }
+        if (p != pc)  {
+            alert(`비밀번호가 일치하지 않습니다.`);
+            return ;
+        }
+        const ec = $common.checkEmail(e);
+        if (!ec.success) {
+            alert(`${ec.msg}`);
+            return ;
+        }
+        const success = await $common.postUser(f);
+        alert(`계정생성 여부: ${success}`);
+        if (success) {
+            setLoginView(true);
+        }
     }
 
     async function state() {
@@ -58,7 +75,7 @@ export default function () {
                         </div>
 
                         <div className="wrap-input100 validate-input" data-validate = "Checking Password is required">
-                            <input className="input100" type="password" name="chkPassword" placeholder="Check password"/>
+                            <input className="input100" type="password" name="passwordConfirm" placeholder="Check password"/>
                             <span className="focus-input100"></span>
                             <span className="symbol-input100">
                                 <i className='bx bxs-lock' aria-hidden="true"></i>
@@ -69,12 +86,13 @@ export default function () {
                             <input className="input100" type="text" name="email" placeholder="Email"/>
                             <span className="focus-input100"></span>
                             <span className="symbol-input100">
-                                <i class='bx bxs-envelope'></i>
+                                <i className='bx bxs-envelope'></i>
                             </span>
                         </div>
                         
                         <div className="container-login100-form-btn">
-                            <button className="acct100-form-btn" onClick={loginSubmit}>
+                            {/* type에 button을 준 이유는 form에 submit을 막기 위해서 이다. */}
+                            <button type="button" className="acct100-form-btn" onClick={createAccount}>
                                 Create Account
                             </button>
                         </div>
