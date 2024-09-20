@@ -40,6 +40,7 @@ export default function Analysis() {
         }
         formData.append("startDate",startDate);
         formData.append("endDate",endDate);
+        await $common.loading(true);// 로딩 중
         const line_bar = await $common.getGraphData(formData);
         if (!line_bar) return ;
         
@@ -80,7 +81,7 @@ export default function Analysis() {
             e.backgroundColor = rgba;
         });
         setBarData(barChart);
-        console.log(barChart);
+        await $common.loading(false);// 로딩 중
     }
 
     const search = async function(e) {

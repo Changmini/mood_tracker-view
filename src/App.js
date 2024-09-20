@@ -30,6 +30,9 @@ function App() {
           }></Route>
         </Routes>
       </BrowserRouter>
+      <div className='loading-wrap fade'>
+        <i className='bx bx-loader-alt bx-spin' ></i>
+      </div>
     </div>
   );
 }

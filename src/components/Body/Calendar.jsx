@@ -102,7 +102,7 @@ export default function Calendar() {
                 <div className='day txt4'>금</div>
                 <div className='day txt4'>토</div>
                 {dailyInfoList.map((e,i) => (
-                    <div className={`daily txt3-b ${e.date.substring(0,7)!=date?"opacity":""}`} 
+                    <div className={`daily txt3-b ${e.date.substring(0,7)!=date?"opacity05":""}`} 
                         onClick={()=>openModal(e,i)} key={e.date}>
                         <p className={e.dailyId ? "compl" : ""}>
                             <span className={`${today==e.date.substring(0,10) ? "today" : ""}`}>

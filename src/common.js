@@ -166,5 +166,19 @@ const methods = {
         let blue = Math.floor(Math.random() * 256);
         return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.5)`];
     }
+
+    /**
+     * @description 로딩 아이콘을 띄우거나 숨긴다.
+     * @param show
+     */
+    ,loading: function(show) {
+        if (!document) 
+            return ;
+        const loading = document.querySelector(".loading-wrap");
+        if (show)
+            loading.className = loading.className.replace("fade", "show-f");
+        else 
+            loading.className = loading.className.replace("show-f", "fade");
+    }
 }
 export default methods;
