@@ -16,7 +16,11 @@ export default function () {
     }
 
     const createAccount = async () => {
-        const f = new FormData();
+        const f = new FormData(document.CreateAccountForm);
+        const p = f.get("password");
+        const cp = f.get("chkPassword");
+        const e = f.get("email");
+        
     }
 
     async function state() {
