@@ -13,11 +13,11 @@ export default function Analysis() {
     const [PieData, setPieData] = useState({labels: [],datasets: []});
     const [BarData, setBarData] = useState({labels: [],datasets: []});
     /*  차트 기본 옵션 */
-    const options_line = $common.chartDefaultOption;
+    const options_line = JSON.parse(JSON.stringify($common.chartDefaultOption));
     options_line.plugins.title.text = "월별 요일 기분";
-    const options_arc = $common.chartDefaultOption;
+    const options_arc = JSON.parse(JSON.stringify($common.chartDefaultOption));
     options_line.plugins.title.text = "월별 기분";
-    const options_bar = $common.chartDefaultOption;
+    const options_bar = JSON.parse(JSON.stringify($common.chartDefaultOption));
     options_bar.plugins.title.text = "월별 당일 기분";
 
     const selectDate = (e, type) => {

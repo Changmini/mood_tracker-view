@@ -1,15 +1,25 @@
 import { useState, useEffect } from 'react';
 import $common from '../../common';
+import Modal from '../Etc/Modal'
 
 export default function Timeline() {
     const LIMIT = 10;
-    const [myLogList, setMyLogList] = useState([]);
     const [offset, setOffset] = useState(0);
+    const [dailyInfo, setDailyInfo] = useState([]);
+    const [dailyInfoList, setDailyInfoList] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     async function timelineRendering(formData) {
         const list = await $common.getDailyInfo(formData);
-        setMyLogList([...myLogList, ...list]);
-        console.log(list);
+        setDailyInfoList([...dailyInfoList, ...list]);
+    }
+
+    async function reRendering() {
+        const f = new FormData();
+        f.append("limit", LIMIT);
+        f.append("offset", offset);
+        const list = await $common.getDailyInfo(f);
+        setDailyInfoList(list);
     }
 
     const addNewLog = () => {
@@ -22,7 +32,20 @@ export default function Timeline() {
         setOffset(next);
         timelineRendering(f);
     }
-    
+
+    const openModal = (dailyInfo, event) => {
+        const prevElement = document.querySelector(".timeline .sel");
+        if (prevElement) {
+            prevElement.className = prevElement.className.replace(" sel", "");
+        }
+        if (event) {
+            event.currentTarget.className += ' sel';
+        } 
+        let copy = JSON.parse(JSON.stringify(dailyInfo));
+        setDailyInfo(copy);
+        setModalIsOpen(true);
+    }
+
     useEffect(() => {
         const f = new FormData();
         f.append("limit", LIMIT);
@@ -30,11 +53,26 @@ export default function Timeline() {
         timelineRendering(f);
     }, []);
 
-    return (
+    const displayNone = (e) => { 
+        console.log(`작동이 안됨.. 해결 좀`);
+        e.currentTarget.style.display='none';
+    }
+
+    return (<>
         <div className="timeline">
-            {myLogList.map((e, idx) => (
-                <div className={`container ${idx%2==0?"left":"right"}`} key={"tl"+e.date}>
-                    <div className="content">
+            {dailyInfoList.map((e, idx) => (
+                <div className={`container right`} key={"tl"+e.date}>
+                    <div className="photo-album">
+                        {e.imageList.map((img) => (
+                            <div className='img-wrap' key={"tli"+img.imageId}>
+                                <img src={img.imagePath && img.imagePath!="" 
+                                        && `${$common.href()}/image?path=${img.imagePath}`}
+                                    onError={displayNone}
+                                    />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="content" onClick={(event)=>openModal(e, event)}>
                         <h2>{e.date}</h2>
                         <p>{e.noteTitle}</p>
                     </div>
@@ -44,5 +82,10 @@ export default function Timeline() {
                 () => addNewLog()
             }><i className='bx bxs-down-arrow'></i></button>
         </div>
-    );
+        {/* =============================== 선택 날짜 상세보기 =============================== */}
+        <Modal open={modalIsOpen} 
+            setOpen={setModalIsOpen} 
+            data={dailyInfo} 
+            reRender={reRendering} />
+    </>);
 }

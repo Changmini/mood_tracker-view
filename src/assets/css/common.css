@@ -200,14 +200,12 @@ input[type="month"]::-webkit-calendar-picker-indicator {
     line-height: 1.5;
     color: #999999;
 }
-
 .txt2 {
     font-family: Poppins-Regular;
     font-size: 13px;
     line-height: 1.5;
     color: #666666;
 }
-
 .txt3 {
     font-family: Poppins-Bold;
     font-size: 13px;
@@ -216,7 +214,6 @@ input[type="month"]::-webkit-calendar-picker-indicator {
     color: #666666;
     padding: 5px;
 }
-
 .txt3-b {
     font-family: Poppins-Bold;
     font-size: 15px;
@@ -225,7 +222,6 @@ input[type="month"]::-webkit-calendar-picker-indicator {
     color: #666666;
     padding: 5px;
 }
-
 .txt4 {
     font-family: Poppins-Regular;
     font-size: 17px;
@@ -233,30 +229,13 @@ input[type="month"]::-webkit-calendar-picker-indicator {
     line-height: 1.5;
     color: #ffffff;
 }
-
-.txt-white {
-    color: white;
-}
-
-.pointer {
-    cursor: pointer;
-}
-
-.fade {
-    display: none;
-}
-.show-f {
-    display: flex;
-}
-
-.opacity05 {
-    opacity: 0.5;
-    background-color: rgba(0, 0, 0, 0.09);
-}
-
-.opacity0 {
-    opacity: 0;
-}
+.txt-white { color: white; }
+.sel { border: solid 2px red; }
+.pointer { cursor: pointer; }
+.fade { display: none; }
+.show-f { display: flex; }
+.opacity05 { opacity: 0.5; background-color: rgba(0, 0, 0, 0.09); }
+.opacity0 { opacity: 0; }
 
 .fadein {
     /* animation : 효과(@keyframes 이름) 동작시간 */
