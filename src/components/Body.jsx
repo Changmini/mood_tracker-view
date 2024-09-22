@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import $common from '../common';
 import Calendar from './Body/Calendar';
 import Timeline from './Body/Timeline';
 import Analysis from './Body/Analysis';
+import Neighbour from './Body/Neighbour';
 
 export default function AppBody() {
     const navigate = useNavigate();
@@ -21,6 +22,10 @@ export default function AppBody() {
         , {
             name: "분석표",
             icon: "bx bx-bar-chart-alt-2"
+        }
+        , {
+            name: "이웃찾기",
+            icon: "bx bx-male"
         }
     ]; /* API 사용하여 데이터 세팅 */
 
@@ -104,6 +109,7 @@ export default function AppBody() {
                 {menuNumber==0 ? <Calendar/> : <div></div>}
                 {menuNumber==1 ? <Timeline/> : <div></div>}
                 {menuNumber==2 ? <Analysis/> : <div></div>}
+                {menuNumber==3 ? <Neighbour/> : <div></div>}
             </section>
         </div>
     );

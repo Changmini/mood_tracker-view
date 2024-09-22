@@ -8,6 +8,7 @@ import './assets/css/calendar.css';
 import './assets/css/modal.css';
 import './assets/css/timeline.css';
 import './assets/css/analysis.css';
+import './assets/css/neighbour.css';
 /* Login */
 import Login from './components/Login';
 /* Main */

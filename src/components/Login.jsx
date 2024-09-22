@@ -33,9 +33,9 @@ export default function () {
             alert(`${ec.msg}`);
             return ;
         }
-        const success = await $common.postUser(f);
-        alert(`계정생성 여부: ${success}`);
-        if (success) {
+        const res = await $common.postUser(f);
+        alert(res.msg);
+        if (res.success) {
             setLoginView(true);
         }
     }
@@ -55,7 +55,7 @@ export default function () {
                 <div className="wrap-login100">
                     {/* Create Account View */}
                     {!loginView ? <form name='CreateAccountForm' className='acct100-form'>
-                        <span className="login100-form-title">
+                        <span className="acc100-form-title">
                             SIGN UP
                         </span>
                         <div className="wrap-input100 validate-input" data-validate = "Username is required">
@@ -82,6 +82,14 @@ export default function () {
                             </span>
                         </div>
 
+                        <div className="wrap-input100 validate-input" data-validate = "Nickname is required">
+                            <input className="input100" type="text" name="nickname" placeholder="Nickname"/>
+                            <span className="focus-input100"></span>
+                            <span className="symbol-input100">
+                                <i className='bx bxs-envelope'></i>
+                            </span>
+                        </div>
+
                         <div className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
                             <input className="input100" type="text" name="email" placeholder="Email"/>
                             <span className="focus-input100"></span>
@@ -97,7 +105,7 @@ export default function () {
                             </button>
                         </div>
 
-                        <div className="text-center p-t-136">
+                        <div className="text-center p-t-80">
                             <a className="txt2" href="#" onClick={()=>setLoginView(true)}>
                                 Go Login
                                 <i className="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>

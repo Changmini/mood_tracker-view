@@ -59,7 +59,7 @@ const methods = {
     }
     ,postUser : async function (formData) {
         const data = await this.httpRequest(`/user`, "POST", formData);
-        return data.success;
+        return data;
     }
     /**
      * @description username 얻기
