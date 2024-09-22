@@ -22,7 +22,7 @@ const methods = {
             ... input
         });
 
-        if (!res || res.status !== 200 || !res.data) {
+        if (!res || res.status != 200 || !res.data) {
             // alert("잘못된 요청입니다. 관리자에게 문의하세요");
             return false;
         }
@@ -152,7 +152,7 @@ const methods = {
         tag && tag.forEach(e => {
             if (e.type === "file") {
                 formData.append(e.name, e.files && e.files.length==1 ? e.files[0] : new File([],''));
-            } else if (e.type !== "file") {
+            } else if (e.type != "file") {
                 formData.append(e.name, e.value);
             }
         });

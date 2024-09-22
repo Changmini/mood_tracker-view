@@ -8,21 +8,32 @@ export default function Timeline() {
     const [dailyInfo, setDailyInfo] = useState([]);
     const [dailyInfoList, setDailyInfoList] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [restriction, setRestriction] = useState(false);// offset 증가 방지
 
     async function timelineRendering(formData) {
         const list = await $common.getDailyInfo(formData);
+        if (list.length != LIMIT) {
+            // 더 이상 뽑아올 데이터가 없다.
+            setRestriction(true);
+        }
         setDailyInfoList([...dailyInfoList, ...list]);
+        console.log(dailyInfoList);
     }
 
     async function reRendering() {
         const f = new FormData();
         f.append("limit", LIMIT);
-        f.append("offset", offset);
+        f.append("offset", 0);// 처음부터 많은 데이터를 가져오는 것보다 0으로 리셋이 나은 것 같다.
         const list = await $common.getDailyInfo(f);
         setDailyInfoList(list);
+        setOffset(0);
+        setRestriction(false);
     }
 
     const addNewLog = () => {
+        if (restriction) {// 추가할 데이터 없음
+            return ;
+        }
         // 자연스럽게 추가된 로그를 이어붙이기
         // 렌더링을 최소화하는 방법은?
         const next = offset + LIMIT;
@@ -53,23 +64,15 @@ export default function Timeline() {
         timelineRendering(f);
     }, []);
 
-    const displayNone = (e) => { 
-        console.log(`작동이 안됨.. 해결 좀`);
-        e.currentTarget.style.display='none';
-    }
-
     return (<>
         <div className="timeline">
             {dailyInfoList.map((e, idx) => (
                 <div className={`container right`} key={"tl"+e.date}>
                     <div className="photo-album">
                         {e.imageList.map((img) => (
-                            <div className='img-wrap' key={"tli"+img.imageId}>
-                                <img src={img.imagePath && img.imagePath!="" 
-                                        && `${$common.href()}/image?path=${img.imagePath}`}
-                                    onError={displayNone}
-                                    />
-                            </div>
+                            <img src={img.imagePath && img.imagePath!="" 
+                                && `${$common.href()}/image?path=${img.imagePath}`}
+                            key={"tli"+img.imageId} />
                         ))}
                     </div>
                     <div className="content" onClick={(event)=>openModal(e, event)}>

@@ -77,7 +77,7 @@
     border-radius: 6px;
     cursor: pointer;
     z-index: 1;
-    margin-top: -70px;
+    margin-top: -76px;
 }
 
 /* Media queries - Responsive timeline on screens less than 600px wide */
@@ -135,13 +135,9 @@
     display: flex;
     gap: 10px; /* 이미지 간격 */
 }
-.photo-album .img-wrap {
+.photo-album img {
     width: 70px;
-    height: 70px;
+    height: 76px;
     border-radius: 10px; /* 모서리 둥글게 */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
-}
-.photo-album img {
-    width: 100%;
-    height: 100%;
 }
