@@ -9,7 +9,7 @@ export default function () {
                 <div><img /></div>
                 <div><h5>{nickname}</h5></div>
                 <div>
-                    <label for="description">소개글</label>
+                    <label htmlFor="description">소개글</label>
                     <textarea name="description" maxLength={255}></textarea>
                 </div>
             </section>
