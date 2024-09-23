@@ -1,0 +1,81 @@
+.setting-wrap{
+  display: flex;
+  position: fixed;
+  left: 78px;
+  top: 0;
+  width: calc(100% - 78px);
+  height: 100%;
+  background: #c1c1c1f2;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.setting {
+  height: 70%;
+  background: #ffffff;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+@media(min-width: 778px) {
+  .setting-div100 {
+    width: 700px;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+@media(max-width: 777px) {
+  .setting-div100 {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.setting-profile {
+  flex: 1;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.setting-profile > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+}
+.setting-profile > div:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.setting-profile img {
+  width: 200px;
+  height: 200px;
+}
+
+.setting-profile label,
+  .setting-profile textarea {
+  width: 100%;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+.setting-profile textarea {
+  padding: 10px;
+  max-width: 100%;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+}
+
+.setting-config {
+  flex: 1;
+  padding: 75px 20px;
+}
+.setting-config ul li {
+  
+}

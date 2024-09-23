@@ -5,6 +5,7 @@ import Calendar from './Body/Calendar';
 import Timeline from './Body/Timeline';
 import Analysis from './Body/Analysis';
 import Neighbour from './Body/Neighbour';
+import Setting from './Etc/Setting';
 
 export default function AppBody() {
     const navigate = useNavigate();
@@ -110,6 +111,7 @@ export default function AppBody() {
                 {menuNumber==1 ? <Timeline/> : <div></div>}
                 {menuNumber==2 ? <Analysis/> : <div></div>}
                 {menuNumber==3 ? <Neighbour/> : <div></div>}
+                <Setting />
             </section>
         </div>
     );

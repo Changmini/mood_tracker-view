@@ -86,7 +86,7 @@ export default function () {
                             <input className="input100" type="text" name="nickname" placeholder="Nickname"/>
                             <span className="focus-input100"></span>
                             <span className="symbol-input100">
-                                <i className='bx bxs-envelope'></i>
+                                <i className='bx bxs-face'></i>
                             </span>
                         </div>
 
