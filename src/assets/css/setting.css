@@ -34,9 +34,11 @@
   }
 }
 
+/*///////////////////////////////////////////////////
+[공개 프로필]*/
 .setting-profile {
   flex: 1;
-  padding: 10px 20px;
+  margin: 10px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,25 +59,64 @@
   height: 200px;
 }
 
-.setting-profile label,
-  .setting-profile textarea {
+/*///////////////////////////////////////////////////
+[설정]*/
+.setting-config {
+  flex: 1;
+  margin: 75px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.setting-config ul {
+  width: 100%;
+}
+.setting-config ul li {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.setting-config label.textarea,
+  .setting-config textarea {
   width: 100%;
   font-size: 0.8rem;
   letter-spacing: 1px;
 }
-.setting-profile textarea {
+.setting-config textarea {
+  resize: none;
   padding: 10px;
   max-width: 100%;
+  height: 120px;
   line-height: 1.5;
   border-radius: 5px;
   border: 1px solid #ccc;
-  box-shadow: 1px 1px 1px #999;
+  box-shadow: 2px 2px 5px #999;
 }
 
-.setting-config {
-  flex: 1;
-  padding: 75px 20px;
+/* The switch - the box around the slider */
+.switch {
+  display: flex;
+  align-items: center;
 }
-.setting-config ul li {
-  
+.switch span {
+  margin-right: 10px;
+}
+.switch input {
+  display: none;
+}
+.switch label {
+  width: 70px;
+  padding: 1px 3px;
+  display: flex;
+  justify-content: center;
+}
+
+.switch label:has(> input:checked) {
+  background-color: #00bb0073;
+}
+.switch label:has(> input) {
+  background-color: #73737373;
+  color: #6d6d6d;
+  font-weight: 900;
 }

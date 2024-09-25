@@ -107,7 +107,7 @@ export default function ({open, setOpen, data, reRender}) {
                                     <span className='fs-50 pointer'>+</span>
                                     <input type="file" name='files' onChange={(e)=>changeImg(e.target)}/>
                                 </label>
-                                <img src={img.path && `${$common.href()}/image?path=${img.path}`}
+                                <img src={$common.getImageUrl(img.path)}
                                     onClick={()=>deleteImage(idx, img.id)} />
                                 <input type="hidden" name='preImageId' defaultValue={img.id}/>
                             </div>

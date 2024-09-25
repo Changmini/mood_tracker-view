@@ -100,18 +100,37 @@ const methods = {
         const data = await this.httpRequest("/graph/mood-level-data","GET", formData);
         return data.graph;
     }
-    ,chartDefaultOption: {
-        maintainAspectRatio: false,
-        responsive: true,
-        plugins: {
-            legend: {position: 'top'},
-            title: {
-                display: true,
-                text: '제목 설정',
-            },
-        },
+    ,getProfile: async function() {
+        const data = await this.httpRequest("/user/profile","GET");
+        return data.profile;
     }
-    
+    ,patchProfile: async function(formData) {
+        const data = await this.httpRequest("/user/profile","PATCH", formData);
+        return data.success;
+    }
+    ,putProfileImage: async function(formData) {
+        const data = await this.httpRequest("/user/profile/image","PUT", formData);
+        return data.success;
+    }
+
+
+    /* ====================================================================== */
+    /* =============================== [Util] =============================== */
+    /* ====================================================================== */
+    /**
+     * @description 로딩 아이콘을 띄우거나 숨긴다.
+     * @param show
+     */
+    ,loading: function(show) {
+        if (!document) 
+            return ;
+        const loading = document.querySelector(".loading-wrap");
+        if (show)
+            loading.className = loading.className.replace("fade", "show-f");
+        else 
+            loading.className = loading.className.replace("show-f", "fade");
+    }
+
     /**
      * @description Date 객체의 년,월,일 변경을 도와주는 함수 
      * @param {Date} date 날짜 오브젝트
@@ -148,6 +167,12 @@ const methods = {
             console.error("common.js: changeDate()에서 요청을 수행할 수 없습니다.");
     }
 
+    ,getImageUrl(path) {
+        if (!path || path == "")
+            return ;
+        return `${API_ROOT}/image?path=${path}`;
+    }
+
     ,setInputFilesInFormData: function(tag, formData) {
         tag && tag.forEach(e => {
             if (e.type === "file") {
@@ -165,6 +190,18 @@ const methods = {
         return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.5)`];
     }
 
+    ,chartDefaultOption: {
+        maintainAspectRatio: false,
+        responsive: true,
+        plugins: {
+            legend: {position: 'top'},
+            title: {
+                display: true,
+                text: '제목 설정',
+            },
+        },
+    }
+
     ,checkEmail: function(email) {
         const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
         if (EMAIL_REGEX.test(email)) {
@@ -180,18 +217,6 @@ const methods = {
         }
     }
 
-    /**
-     * @description 로딩 아이콘을 띄우거나 숨긴다.
-     * @param show
-     */
-    ,loading: function(show) {
-        if (!document) 
-            return ;
-        const loading = document.querySelector(".loading-wrap");
-        if (show)
-            loading.className = loading.className.replace("fade", "show-f");
-        else 
-            loading.className = loading.className.replace("show-f", "fade");
-    }
+    
 }
 export default methods;
