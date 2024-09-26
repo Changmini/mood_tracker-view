@@ -24,8 +24,27 @@ export default function () {
         getProfile(f);
     }, []);
 
-    const test = () => {
-        console.log("동작 확인");
+    const checkAlert = (event) => {
+        if (window.confirm("새 이미지를 등록하시겠습니까?"))
+            return ;
+        event.preventDefault();
+    }
+    const changeImage = async (event) => {
+        const f = new FormData();
+        const ipt = event.currentTarget;
+        if (!ipt || !ipt.files || !ipt.files.length ) {
+            f.append("file", new File([],''));
+        } else {
+            f.append("file", ipt.files[0]);
+        }
+        const res = await $common.putProfileImage(f);
+        if (res.success) {
+            const path = $common.getImageUrl(res.imagePath);
+            const img = ipt.previousSibling;
+            img && (img.src = path)
+        } else {
+            alert(`프로필 이미지 변경에 실패했습니다. ${res.msg}`);
+        }
     }
 
     return (<div className='setting-wrap'>
@@ -34,12 +53,12 @@ export default function () {
                 <div>
                     <label>
                         <img />
-                        <input type='file' name='file' onClick={test}/>
+                        <input type='file' name='file' onClick={checkAlert} onChange={changeImage}/>
                     </label>
                 </div>
                 <div><h5>{nickname}</h5></div>
             </section>
-            <section className='setting-config'>
+            <section className='setting-config'> <form name='SettingForm'>
                 <ul>
                     <li>
                         <label className='textarea' htmlFor="description">소개글</label>
@@ -68,7 +87,7 @@ export default function () {
                         </div>
                     </li>
                 </ul>
-            </section>
+            </form> </section>
         </div>
     </div>);
 }

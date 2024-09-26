@@ -4,7 +4,7 @@ const API_ROOT = "http://localhost/mood";
 const methods = {
     href: function() { return API_ROOT },
     _params: ["GET"],
-    _data: ["POST","PATCH","DELETE"],
+    _data: ["POST","PATCH","PUT","DELETE"],
     httpRequest: async function(url, method, formData) {
         if (!formData) 
             formData = new FormData();
@@ -110,7 +110,7 @@ const methods = {
     }
     ,putProfileImage: async function(formData) {
         const data = await this.httpRequest("/user/profile/image","PUT", formData);
-        return data.success;
+        return data;
     }
 
 
