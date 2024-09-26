@@ -66,6 +66,11 @@ export default function AppBody() {
         }
         setUsername(name);
     }
+    const goSetting = () => {
+        const settingView = document.querySelector(".setting-wrap");
+        const className = settingView.className;
+        settingView.className = className.replace("dis-none", "dis-flex");
+    }
     async function logout() {
         $common.logout();
         window.location.href = `${window.location.origin}/login`;
@@ -98,7 +103,7 @@ export default function AppBody() {
                         <div className="profile-details">
                             <img src="profile.png" alt="profileImg" />
                             <div className="name_job">
-                            <div className="name">{username}</div>
+                            <div className="name pointer" onClick={goSetting}>{username}</div>
                             <div className="job">환영합니다.</div>
                             </div>
                         </div>

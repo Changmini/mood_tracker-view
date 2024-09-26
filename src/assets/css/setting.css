@@ -1,10 +1,12 @@
-.setting-wrap{
-  display: flex;
+.dis-flex { display: flex; }
+.dis-none { display: none; }
+.setting-wrap {
+  flex-direction: column;
   position: fixed;
   left: 78px;
   top: 0;
   width: calc(100% - 78px);
-  height: 100%;
+  height: 102vh;
   background: #c1c1c1f2;
   justify-content: center;
   align-items: center;
@@ -16,22 +18,6 @@
   background: #ffffff;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-}
-
-@media(min-width: 778px) {
-  .setting-div100 {
-    width: 700px;
-    display: flex;
-    flex-direction: row;
-  }
-}
-
-@media(max-width: 777px) {
-  .setting-div100 {
-    width: 350px;
-    display: flex;
-    flex-direction: column;
-  }
 }
 
 /*///////////////////////////////////////////////////
@@ -57,19 +43,20 @@
 .setting-profile img {
   width: 200px;
   height: 200px;
+  border: 2px solid black;
 }
 
 /*///////////////////////////////////////////////////
 [설정]*/
 .setting-config {
   flex: 1;
-  margin: 75px 30px;
+  margin: 10px 30px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
 }
-.setting-config ul {
+.setting-config form, .setting-config ul {
   width: 100%;
 }
 .setting-config ul li {
@@ -80,7 +67,8 @@
 .setting-config label.textarea,
   .setting-config textarea {
   width: 100%;
-  font-size: 0.8rem;
+  font-size: 1rem;
+  font-weight: 700;
   letter-spacing: 1px;
 }
 .setting-config textarea {
@@ -101,6 +89,8 @@
 }
 .switch span {
   margin-right: 10px;
+  font-size: 1rem;
+  font-weight: 700;
 }
 .switch input {
   display: none;
@@ -112,11 +102,48 @@
   justify-content: center;
 }
 
+/* .setting-sel { 
+  background-color: #00bb0073 !important;
+} */
 .switch label:has(> input:checked) {
-  background-color: #00bb0073;
+  background-color: #00bb0073 !important;
 }
 .switch label:has(> input) {
   background-color: #73737373;
   color: #6d6d6d;
   font-weight: 900;
+}
+
+.setting-wrap .btn-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.setting-wrap .btn-group button {
+  margin: 5px 5px 0 5px;
+  width: 30px;
+}
+
+@media(min-width: 778px) {
+  .setting-div100 {
+    width: 700px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .setting-wrap .btn-group {
+    width: 700px;
+  }
+}
+
+@media(max-width: 777px) {
+  .setting-div100 {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .setting-wrap .btn-group {
+    width: 350px;
+  }
 }

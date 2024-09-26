@@ -170,7 +170,7 @@ const methods = {
     ,getImageUrl(path) {
         if (!path || path == "")
             return ;
-        return `${API_ROOT}/image?path=${path}`;
+        return `${API_ROOT}/image?path=${encodeURIComponent(path)}`;
     }
 
     ,setInputFilesInFormData: function(tag, formData) {

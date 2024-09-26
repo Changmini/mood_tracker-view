@@ -230,7 +230,7 @@ input[type="month"]::-webkit-calendar-picker-indicator {
     color: #ffffff;
 }
 .txt-white { color: white; }
-.sel { border: solid 2px red; }
+.timeline-sel { border: solid 2px red; }
 .pointer { cursor: pointer; }
 .fade { display: none; }
 .show-f { display: flex; }

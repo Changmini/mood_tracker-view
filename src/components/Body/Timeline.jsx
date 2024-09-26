@@ -45,12 +45,12 @@ export default function Timeline() {
     }
 
     const openModal = (dailyInfo, event) => {
-        const prevElement = document.querySelector(".timeline .sel");
+        const prevElement = document.querySelector(".timeline .timeline-sel");
         if (prevElement) {
-            prevElement.className = prevElement.className.replace(" sel", "");
+            prevElement.className = prevElement.className.replace(" timeline-sel", "");
         }
         if (event) {
-            event.currentTarget.className += ' sel';
+            event.currentTarget.className += ' timeline-sel';
         } 
         let copy = JSON.parse(JSON.stringify(dailyInfo));
         setDailyInfo(copy);
