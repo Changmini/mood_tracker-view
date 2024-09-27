@@ -1,23 +1,22 @@
-.dis-flex { display: flex; }
-.dis-none { display: none; }
 .setting-wrap {
+  display: flex;
   flex-direction: column;
-  position: fixed;
-  left: 78px;
+  position: relative;
+  left: 0;
   top: 0;
-  width: calc(100% - 78px);
-  height: 102vh;
-  background: #c1c1c1f2;
+  width: 100%;
+  height: 100%;
   justify-content: center;
   align-items: center;
   z-index: 10;
 }
 
 .setting {
-  height: 70%;
+  height: auto;
   background: #ffffff;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
+  padding: 50px 0;
 }
 
 /*///////////////////////////////////////////////////
@@ -120,8 +119,20 @@
   justify-content: flex-end;
 }
 .setting-wrap .btn-group button {
-  margin: 5px 5px 0 5px;
-  width: 30px;
+  margin: 10px 10px 0 10px;
+  width: 45px;
+  border: 2px solid #757575;
+  border-radius: 8px;
+}
+.btn-group button:has( > .bx-refresh) {
+  background-color: orange;
+}
+.btn-group button:has( > .bx-check) {
+  background-color: #02c13a;
+}
+.bx-check::before, .bx-refresh::before {
+  color: #fff;
+  font-size: 35px;
 }
 
 @media(min-width: 778px) {

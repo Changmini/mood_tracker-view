@@ -4,12 +4,12 @@ import $common from '../common';
 import Calendar from './Body/Calendar';
 import Timeline from './Body/Timeline';
 import Analysis from './Body/Analysis';
-import Neighbour from './Body/Neighbour';
+import Neighbor from './Body/Neighbor';
 import Setting from './Etc/Setting';
 
 export default function AppBody() {
     const navigate = useNavigate();
-    const [menuNumber, setMenuNumber] = useState(0);
+    const [menuNumber, setMenuNumber] = useState(3);
     const [username, setUsername] = useState("Nothing");
     const sideMenu = [
         {
@@ -27,6 +27,9 @@ export default function AppBody() {
         , {
             name: "이웃찾기",
             icon: "bx bx-male"
+        }, {
+            name: "설정",
+            icon: "bx bx-cog"
         }
     ]; /* API 사용하여 데이터 세팅 */
 
@@ -66,11 +69,6 @@ export default function AppBody() {
         }
         setUsername(name);
     }
-    const goSetting = () => {
-        const settingView = document.querySelector(".setting-wrap");
-        const className = settingView.className;
-        settingView.className = className.replace("dis-none", "dis-flex");
-    }
     async function logout() {
         $common.logout();
         window.location.href = `${window.location.origin}/login`;
@@ -83,7 +81,7 @@ export default function AppBody() {
     
     return (
         <div className='app-main'>
-            <div className="sidebar">
+            <section className="sidebar">
                 <div className="logo-details">
                     <i className='bx bx-walk icon'></i>
                     <div className="logo_name">Moodtracker</div>
@@ -103,20 +101,20 @@ export default function AppBody() {
                         <div className="profile-details">
                             <img src="profile.png" alt="profileImg" />
                             <div className="name_job">
-                            <div className="name pointer" onClick={goSetting}>{username}</div>
+                            <div className="name pointer">{username}</div>
                             <div className="job">환영합니다.</div>
                             </div>
                         </div>
                         <i className="bx bx-log-out" id="log_out" onClick={logout}></i>
                     </li>
                 </ul>
-            </div>
+            </section>
             <section className='home-section'>
-                {menuNumber==0 ? <Calendar/> : <div></div>}
-                {menuNumber==1 ? <Timeline/> : <div></div>}
-                {menuNumber==2 ? <Analysis/> : <div></div>}
-                {menuNumber==3 ? <Neighbour/> : <div></div>}
-                <Setting />
+                {menuNumber==0 ? <Calendar/> : <></>}
+                {menuNumber==1 ? <Timeline/> : <></>}
+                {menuNumber==2 ? <Analysis/> : <></>}
+                {menuNumber==3 ? <Neighbor/> : <></>}
+                {menuNumber==4 ? <Setting /> : <></>}
             </section>
         </div>
     );

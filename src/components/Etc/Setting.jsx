@@ -6,6 +6,7 @@ export default function () {
     const [description, setDescription] = useState("");
     const [sessionStatus, setSessionStatus] = useState("N");
     const [sharingCalendar, setSharingCalendar] = useState("N");
+    const [htmlUpdated, setHtmlUpdated] = useState(0);
 
     async function getProfile(formData) {
         const res = await $common.getProfile(formData);
@@ -16,6 +17,10 @@ export default function () {
         setDescription(res.description);
         setSessionStatus(res.sessionStatus);
         setSharingCalendar(res.sharingCalendar);
+        if (htmlUpdated >= 1000) {
+            setHtmlUpdated(0);
+        }
+        setHtmlUpdated(htmlUpdated+1);
     }
 
     const applySettingValue = () => {
@@ -23,8 +28,10 @@ export default function () {
         const success = $common.patchProfile(f);
         if (success) 
             alert(`적용되었습니다.`);
-        else 
+        else {
             alert(`오류가 발생했습니다.`);
+            refresh();
+        }
     }
 
     const checkAlert = (event) => {
@@ -49,10 +56,8 @@ export default function () {
         }
     }
 
-    const cancel = () => {
-        const settingView = document.querySelector(".setting-wrap");
-        const className = settingView.className;
-        settingView.className = className.replace("dis-flex", "dis-none");
+    const refresh = () => {
+        getProfile(new FormData());
     }
 
     const notError = (event) => {
@@ -61,11 +66,10 @@ export default function () {
     }
 
     useEffect(() => {
-        const f = new FormData();
-        getProfile(f);
+        getProfile(new FormData());
     }, []);
 
-    return (<div className='setting-wrap dis-none'>
+    return (<section className='setting-wrap'>
         <div className='setting setting-div100'>
             <section className='setting-profile'>
                 <div>
@@ -80,18 +84,25 @@ export default function () {
                 <ul>
                     <li>
                         <label className='textarea' htmlFor="description">소개글</label>
-                        <textarea name="description" defaultValue={description} maxLength={100}></textarea>
+                        <textarea name="description" 
+                            maxLength={100}
+                            defaultValue={description} 
+                            key={htmlUpdated}></textarea>
                     </li>
                     <li>
                         <div className='switch'>
                             <span>나의 접속 상태 : </span>
                             <label>
                                 <input type="radio" value="Y" 
-                                    name='sessionStatus' defaultChecked={sessionStatus=='Y'} />
+                                    name='sessionStatus' 
+                                    defaultChecked={sessionStatus=='Y'} 
+                                    key={htmlUpdated}/>
                             온라인</label>
                             <label>
                                 <input type="radio" value="N" 
-                                    name='sessionStatus' defaultChecked={sessionStatus=='N'} />
+                                    name='sessionStatus' 
+                                    defaultChecked={sessionStatus=='N'} 
+                                    key={htmlUpdated}/>
                             오프라인</label>
                         </div>
                     </li>
@@ -100,11 +111,15 @@ export default function () {
                             <span>나의 달력 정보 : </span>
                             <label>
                                 <input type="radio" value="Y" 
-                                    name='sharingCalendar' defaultChecked={sharingCalendar=='Y'} />
+                                    name='sharingCalendar' 
+                                    defaultChecked={sharingCalendar=='Y'} 
+                                    key={htmlUpdated}/>
                             공개</label>
                             <label>
                                 <input type="radio" value="N" 
-                                    name='sharingCalendar' defaultChecked={sharingCalendar=='N'} />
+                                    name='sharingCalendar' 
+                                    defaultChecked={sharingCalendar=='N'} 
+                                    key={htmlUpdated}/>
                             비공개</label>
                         </div>
                     </li>
@@ -112,10 +127,10 @@ export default function () {
             </form> </section>
         </div>
         <div className='btn-group'>
-            <button type='button' onClick={cancel}>
-                <i className='bx bxs-message-square-x'></i></button>
+            <button type='button' onClick={refresh}>
+                <i className='bx bx-refresh'></i></button>
             <button type='button' onClick={applySettingValue}>
-                <i className='bx bxs-message-square-check'></i></button>
+                <i className='bx bx-check'></i></button>
         </div>
-    </div>);
+    </section>);
 }
