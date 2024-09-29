@@ -81,7 +81,7 @@ export default function AppBody() {
     
     return (
         <div className='app-main'>
-            <section className="sidebar">
+            <aside className="sidebar">
                 <div className="logo-details">
                     <i className='bx bx-walk icon'></i>
                     <div className="logo_name">Moodtracker</div>
@@ -108,14 +108,14 @@ export default function AppBody() {
                         <i className="bx bx-log-out" id="log_out" onClick={logout}></i>
                     </li>
                 </ul>
-            </section>
-            <section className='home-section'>
+            </aside>
+            <main className='home-section'>
                 {menuNumber==0 ? <Calendar/> : <></>}
                 {menuNumber==1 ? <Timeline/> : <></>}
                 {menuNumber==2 ? <Analysis/> : <></>}
                 {menuNumber==3 ? <Neighbor/> : <></>}
                 {menuNumber==4 ? <Setting /> : <></>}
-            </section>
+            </main>
         </div>
     );
 };

@@ -24,34 +24,6 @@
   background-color: #ca91ff;
 }
 
-@media(min-width: 766px) {
-  .neighbor-wrap {
-    flex-direction: row;
-  }
-  .neighbor-left {
-    flex: 1 1;
-    height: 100%;
-  }
-  .neighbor-right {
-    flex: 1 1;
-    height: 100%;
-  }
-}
-
-@media(max-width: 765px) {
-  .neighbor-wrap {
-    flex-direction: column;
-  }
-  .neighbor-left {
-    width: 100%;
-    height: 700px;
-  }
-  .neighbor-right {
-    width: 100%;
-    height: 700px;
-  }
-}
-
 /*//////////////////////////////////////////////////
 [사용자 검색]*/
 .search-nickname {
@@ -82,24 +54,87 @@
 /*//////////////////////////////////////////////////
 [이웃친구 목록]*/
 .neighbor-list {
+  display: flex;
+  flex-direction: column;
   width: 80%;
   flex: 1;
   background-color: cadetblue;
 }
-.neighbor-list > div {
+
+.neighbor-list > section {
   display: flex;
   justify-content: center;
   margin: 10px 10px;
 }
-input.search-list-follower {
+input.search-follower-list {
   width: 100%;
   font-size: 20px;
   padding: 5px 5px;
 }
 
+.neighbor-list > article {
+  margin: 10px 10px;
+  overflow-y: auto;
+}
 .neighbor-list ul {
-
+  width: 100%;
+  height: 100%;
 }
 .neighbor-list ul li {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0;
+  gap: 5px;
+}
+.neighbor-list ul li:not(:last-child) {
+  border-bottom: 1px solid gray;
+}
+.neighbor-list ul li div {
+  display: flex;
+  flex-direction: column;
+}
+.neighbor-list ul li div:nth-child(2) {
+  flex: 1;
+}
+.neighbor-list ul li img {
+  width: 50px;
+  height: 50px;
+  border-radius: 35%;
+}
 
+
+@media(min-width: 766px) {
+  .neighbor-wrap {
+    flex-direction: row;
+  }
+  .neighbor-left {
+    flex: 1 1;
+    height: 100%;
+  }
+  .neighbor-right {
+    flex: 1 1;
+    height: 100%;
+  }
+
+  .neighbor-list > article {
+    height: 566px;
+  }
+}
+
+@media(max-width: 765px) {
+  .neighbor-wrap {
+    flex-direction: column;
+  }
+  .neighbor-left {
+    width: 100%;
+    height: 700px;
+  }
+  .neighbor-right {
+    width: 100%;
+    height: 700px;
+  }
+
+  .neighbor-list > article {
+    height: 505px;
+  }
 }
