@@ -10,7 +10,7 @@
   z-index: 10;
 }
 
-.neighbor-left {
+.neighbor-left, .neighbor-right {
   padding: 30px 0;
   /*------------------------*/
   display: flex;
@@ -18,11 +18,7 @@
   justify-content: center;
   align-items: center;
 }
-.neighbor-right {
-  padding: 30px 0;
-  /*------------------------*/
-  background-color: #ca91ff;
-}
+
 
 /*//////////////////////////////////////////////////
 [사용자 검색]*/
@@ -50,6 +46,7 @@
   background: #b621fe;
   color: #fff;
 }
+
 
 /*//////////////////////////////////////////////////
 [이웃친구 목록]*/
@@ -103,16 +100,83 @@ input.search-follower-list {
 }
 
 
+/*//////////////////////////////////////////////////
+[채팅]*/
+.neighbor-right > div {
+  width: 80%;
+  height: 100%;
+  border-radius: 10px 10px;
+  border: 1px solid #afafaf;
+  background-color: #ffffff;
+}
+.chat-msg-box {
+  width: 100%;
+  height: 92%;
+  padding: 30px;
+  overflow-y: auto;
+}
+div.chat-input {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 8%;
+}
+div.chat-input input {
+  width: 90%;
+  height: 100%;
+  padding: 10px;
+  font-size: 25px;
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 0 0 0 10px;
+  border-top: 1px solid #afafaf;
+}
+div.chat-input input:focus {
+  outline: 1px solid #999999;
+}
+div.chat-input button {
+  width: 10%;
+  height: 100%;
+  background-color: #e1e13c;
+  font-size: 35px;
+  border-radius: 0 0 10px 0;
+  border: 1px solid #999999;
+}
+.chat-left {
+  display: flex;
+  justify-content: flex-start;
+
+}
+.chat-right {
+  display: flex;
+  justify-content: flex-end;
+}
+.chat-left > span, .chat-right > span {
+  max-width: calc(100% - 50px);
+  min-width: 200px;
+  white-space:normal;
+  word-break:normal;
+  word-wrap: break-word;
+  background-color: #f3f3f4;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+.chat-left > span { background-color: #f3f3f4; }
+.chat-right > span { background-color: #cce597; }
+
+
 @media(min-width: 766px) {
   .neighbor-wrap {
     flex-direction: row;
   }
   .neighbor-left {
-    flex: 1 1;
+    width: 50%;
     height: 100%;
   }
   .neighbor-right {
-    flex: 1 1;
+    width: 50%;
     height: 100%;
   }
 

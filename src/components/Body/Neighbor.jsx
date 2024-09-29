@@ -38,17 +38,30 @@ export default function Neighbor() {
             ,description: ""
         },
     ]
-
     const [copyList, setCopyList] = useState([]);
+    const [chatMsgList, setChatMsgList] = useState([]);
 
     const searchedList = (event) => {
         const word = event.target.value;
-        console.log(word);
         const buckut = oriList.filter((obj) => {
             return obj['nickname'].includes(word);
         });
-        console.log(buckut);
         setCopyList(buckut);
+    }
+
+    const sendChatMsg = () => {
+        const INPUT = document.getElementById("myMsg");
+        const _msg = INPUT.value;
+        if (!_msg || _msg.trim() == "") 
+            return ;
+        const UL = document.getElementById("chatMsgGroup");
+        const LI = document.createElement("li");
+        const SPAN = document.createElement("SPAN");
+        SPAN.className = "chat-msg";
+        SPAN.innerText = _msg;
+        LI.append(SPAN);
+        LI.className = "chat-right";
+        UL.append(LI);
     }
 
     useEffect(() => {
@@ -92,7 +105,24 @@ export default function Neighbor() {
             </div>
         </div>
         <div className="neighbor-right">
-            채팅해요~~
+            <div>
+                <div className='chat-msg-box'>
+                    <ul id='chatMsgGroup'>
+                        <li className='chat-left'>
+                            <span className='chat-msg'>무슨무슨 글을 작성했어요~aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+                        </li>
+                        <li className='chat-right'>
+                            <span className='chat-msg'>무슨무슨 글을 작성했어요2222~</span>
+                        </li>
+                    </ul>
+                </div>
+                <div className='chat-input'>
+                    <input type="text" id='myMsg' />
+                    <button type='button' onClick={sendChatMsg}>
+                        <i className='bx bx-send'></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>)
 }
