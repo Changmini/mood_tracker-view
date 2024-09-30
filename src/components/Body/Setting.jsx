@@ -85,7 +85,7 @@ export default function () {
                     <li>
                         <label className='textarea' htmlFor="description">소개글</label>
                         <textarea name="description" 
-                            maxLength={100}
+                            maxLength={30}
                             defaultValue={description} 
                             key={htmlUpdated}></textarea>
                     </li>

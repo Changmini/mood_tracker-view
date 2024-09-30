@@ -112,6 +112,10 @@ const methods = {
         const data = await this.httpRequest("/user/profile/image","PUT", formData);
         return data;
     }
+    ,getNeighbors: async function(formData) {
+        const data = await this.httpRequest("/neighbors/","GET", formData);
+        return data;
+    }
 
 
     /* ====================================================================== */

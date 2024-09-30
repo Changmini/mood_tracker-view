@@ -5,7 +5,7 @@ import Calendar from './Body/Calendar';
 import Timeline from './Body/Timeline';
 import Analysis from './Body/Analysis';
 import Neighbor from './Body/Neighbor';
-import Setting from './Etc/Setting';
+import Setting from './Body/Setting';
 
 export default function AppBody() {
     const navigate = useNavigate();

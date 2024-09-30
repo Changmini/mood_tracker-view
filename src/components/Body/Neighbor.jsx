@@ -54,6 +54,7 @@ export default function Neighbor() {
         const _msg = INPUT.value;
         if (!_msg || _msg.trim() == "") 
             return ;
+        INPUT.value = "";
         const UL = document.getElementById("chatMsgGroup");
         const LI = document.createElement("li");
         const SPAN = document.createElement("SPAN");
@@ -62,10 +63,15 @@ export default function Neighbor() {
         LI.append(SPAN);
         LI.className = "chat-right";
         UL.append(LI);
+        /* 스크롤 내리기 */
+        SPAN.scrollIntoView({ // span 태크로 화면 이동시키기
+            behavior: 'smooth' // 부드럽게 스크롤
+        });
     }
 
     useEffect(() => {
         const f = new FormData();
+
         setCopyList(oriList);
     }, []);
 
@@ -75,9 +81,9 @@ export default function Neighbor() {
                 <input type="text" 
                     name='nickname' 
                     className='search-nick-ipt' 
-                    placeholder='대상을 별칭으로 검색'/>
+                    placeholder='별칭으로 이웃 맺기'/>
                 <button type='button' 
-                    className='search-nick-btn'>검색</button>
+                    className='search-nick-btn'>요청</button>
             </div>
             <div className='neighbor-list'>
                 <section>
@@ -117,7 +123,7 @@ export default function Neighbor() {
                     </ul>
                 </div>
                 <div className='chat-input'>
-                    <input type="text" id='myMsg' />
+                    <textarea type="text" id='myMsg' />
                     <button type='button' onClick={sendChatMsg}>
                         <i className='bx bx-send'></i>
                     </button>
