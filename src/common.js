@@ -121,11 +121,17 @@ const methods = {
         const data = await this.httpRequest(`/neighbor/${nickname}`,"POST", formData);
         return data.success;
     }
+    ,syncRequest: async function(formData) {
+        const data = await this.httpRequest(`/neighbor/synchronize`,"PATCH", formData);
+        return data.success;
+    }
     ,editNeighbor: async function(formData) {
         const data = await this.httpRequest(`/neighbor`,"PATCH", formData);
+        return data.success;
     }
     ,deleteNeighbor: async function(formData) {
         const data = await this.httpRequest(`/neighbor`,"DELETE", formData);
+        return data.success;
     }
 
 

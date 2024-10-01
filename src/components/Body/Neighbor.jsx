@@ -20,7 +20,8 @@ export default function Neighbor() {
             return ;
         const f = new FormData();
         f.append("nickname", ipt.value);
-        if (await $common.addNeighbor(f)) {
+        const success = await $common.addNeighbor(f);
+        if (success) {
             ipt.value = "";
             getNeighborList();
         }
@@ -45,13 +46,27 @@ export default function Neighbor() {
         setCopyList(buckut);
     }
 
-    const disconn = async () => {
+    const disconn = async (obj) => {
+        if (!window.confirm("해당 사용자를 이웃 목록에서 제거하시겠습니까?"))
+            return ;
         const f = new FormData();
-        await $common.delete
+        f.append("neighborId", obj.neighborId);
+        const success = await $common.deleteNeighbor(f);
+        if (success) {
+            getNeighborList();
+        }
     }
 
-    const accept = async () => {
+    const accept = async (obj) => {
+        if (!window.confirm("해당 사용자를 이웃 목록에 추가하시겠습니까?"))
+            return ;
         const f = new FormData();
+        f.append("neighborId", obj.neighborId);
+        f.append("synchronize", "Y");
+        const success = await $common.syncRequest(f);
+        if (success) {
+            getNeighborList();
+        }
     }
 
     const sendChatMsg = () => {
@@ -121,9 +136,9 @@ export default function Neighbor() {
                             </div>
                             <footer className='neighbor-list-footer fade'>
                                 <button className={`${element.synchronize=='N'? 'opacity01':''}`}
-                                    onClick={disconn}>지우기</button>
+                                    onClick={()=>disconn(element)}>지우기</button>
                                 <button className={`${element.requester=='Y' || element.synchronize=='Y'? 'opacity01':''}`}
-                                    onClick={accept}>친구 맺기</button>
+                                    onClick={()=>accept(element)}>친구 맺기</button>
                                 <button>달력 공개</button>
                                 <button>채팅 허용</button>
                                 <button>채팅 요청</button>
