@@ -110,6 +110,7 @@ export default function Neighbor() {
                         className='search-follower-list' 
                         placeholder='목록 검색'
                         onChange={searchedList}/>
+                    <button onClick={getNeighborList}><i className='bx bx-refresh'></i></button>
                 </section>
                 
                 <article>
