@@ -25,7 +25,7 @@ export default function () {
 
     const applySettingValue = () => {
         const f = new FormData(document.SettingForm);
-        const success = $common.patchProfile(f);
+        const success = $common.editProfile(f);
         if (success) 
             alert(`적용되었습니다.`);
         else {

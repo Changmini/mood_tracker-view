@@ -80,11 +80,11 @@ const methods = {
         const data = await this.httpRequest("/daily","GET", formData);
         return data.dailyInfoList;
     }
-    ,postDailyInfo: async function(formData) {
+    ,addDailyInfo: async function(formData) {
         const data = await this.httpRequest("/daily","POST", formData);
         return data.success;
     }
-    ,patchDailyInfo: async function(formData) {
+    ,editDailyInfo: async function(formData) {
         const data = await this.httpRequest("/daily","PATCH", formData);
         return data.success;
     }
@@ -104,7 +104,7 @@ const methods = {
         const data = await this.httpRequest("/user/profile","GET");
         return data.profile;
     }
-    ,patchProfile: async function(formData) {
+    ,editProfile: async function(formData) {
         const data = await this.httpRequest("/user/profile","PATCH", formData);
         return data.success;
     }
@@ -113,8 +113,19 @@ const methods = {
         return data;
     }
     ,getNeighbors: async function(formData) {
-        const data = await this.httpRequest("/neighbors/","GET", formData);
-        return data;
+        const data = await this.httpRequest("/neighbors","GET", formData);
+        return data.neighbors;
+    }
+    ,addNeighbor: async function(formData) {
+        const nickname = formData.get("nickname");
+        const data = await this.httpRequest(`/neighbor/${nickname}`,"POST", formData);
+        return data.success;
+    }
+    ,editNeighbor: async function(formData) {
+        const data = await this.httpRequest(`/neighbor`,"PATCH", formData);
+    }
+    ,deleteNeighbor: async function(formData) {
+        const data = await this.httpRequest(`/neighbor`,"DELETE", formData);
     }
 
 
@@ -175,6 +186,11 @@ const methods = {
         if (!path || path == "")
             return ;
         return `${API_ROOT}/image?path=${encodeURIComponent(path)}`;
+    }
+    ,getProfileImageUrl(path) {
+        if (!path || path == "")
+            return ;
+        return `${API_ROOT}/profile-image?path=${encodeURIComponent(path)}`;
     }
 
     ,setInputFilesInFormData: function(tag, formData) {

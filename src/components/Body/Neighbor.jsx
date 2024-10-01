@@ -2,51 +2,56 @@ import { useState, useEffect } from 'react'
 import $common from '../../common';
 export default function Neighbor() {
 
-    const oriList = [
-        {
-            nickname: "맹구리"
-            ,description: "몬스터입니다."
-        },{
-            nickname: "클론구리"
-            ,description: "저는 맹꽁2입니다."
-        },{
-            nickname: "해삼구리"
-            ,description: "말미잘~~~~~"
-        },{
-            nickname: "구리구리"
-            ,description: "아~ 우리 맹꽁이 변신상태"
-        },{
-            nickname: "힘듦"
-            ,description: "이게 내 본심이다."
-        },{
-            nickname: "졸려핑"
-            ,description: ""
-        },{
-            nickname: "가시핑"
-            ,description: "가시가 되어~"
-        },{
-            nickname: "스머핑"
-            ,description: "난 누구이지?"
-        },{
-            nickname: "가스레인지"
-            ,description: ""
-        },{
-            nickname: "이불"
-            ,description: "자고 싶어요~"
-        },{
-            nickname: "침대"
-            ,description: ""
-        },
-    ]
+    const [originalList, setOriginalList] = useState([]);
     const [copyList, setCopyList] = useState([]);
     const [chatMsgList, setChatMsgList] = useState([]);
 
+    async function getNeighborList() {
+        const list = await $common.getNeighbors(new FormData()); console.log(list);
+        if (!list) 
+            return ;
+        setOriginalList(list);
+        setCopyList(JSON.parse(JSON.stringify(list)));
+    }
+
+    const addNeighbor = async () => {
+        const ipt = document.getElementById("nibNickname");
+        if (!ipt || ipt.value.trim() == "") 
+            return ;
+        const f = new FormData();
+        f.append("nickname", ipt.value);
+        if (await $common.addNeighbor(f)) {
+            ipt.value = "";
+            getNeighborList();
+        }
+    }
+
+    const clickNeighbor = (event) => {
+        const li = event.currentTarget;
+        const footer = li.childNodes[1];
+        let klass = footer.className;
+        if (klass.includes("fade")) {
+            footer.className = klass.replace("fade","show-f");
+        } else {
+            footer.className = klass.replace("show-f","fade");
+        }
+    }
+
     const searchedList = (event) => {
         const word = event.target.value;
-        const buckut = oriList.filter((obj) => {
+        const buckut = originalList.filter((obj) => {
             return obj['nickname'].includes(word);
         });
         setCopyList(buckut);
+    }
+
+    const disconn = async () => {
+        const f = new FormData();
+        await $common.delete
+    }
+
+    const accept = async () => {
+        const f = new FormData();
     }
 
     const sendChatMsg = () => {
@@ -70,20 +75,19 @@ export default function Neighbor() {
     }
 
     useEffect(() => {
-        const f = new FormData();
-
-        setCopyList(oriList);
+        getNeighborList();
     }, []);
 
     return (<div className='neighbor-wrap'>
         <div className='neighbor-left'>
             <div className='search-nickname'>
-                <input type="text" 
+                <input type="text"
+                    id='nibNickname'
                     name='nickname' 
                     className='search-nick-ipt' 
                     placeholder='별칭으로 이웃 맺기'/>
                 <button type='button' 
-                    className='search-nick-btn'>요청</button>
+                    className='search-nick-btn' onClick={addNeighbor}>요청</button>
             </div>
             <div className='neighbor-list'>
                 <section>
@@ -96,15 +100,35 @@ export default function Neighbor() {
                 <article>
                     <ul>
                         {copyList.map((element, i) => (
-                            <li key={`nei-${i}`}>
-                                <div> 
-                                    <img /> 
+                        <li className={``+
+                            `${element.requester=='Y' && element.synchronize=='N'? 'noting':''}`+
+                            `${element.requester=='N' && element.synchronize=='N'? 'waiting':''}`+
+                            `${element.synchronize=='Y'? 'approval':''}`}
+                            onClick={clickNeighbor}
+                            key={`nei-${i}`}>
+                            <div className=''>
+                                <div>
+                                    <img className={`${!element.imagePath || element.imagePath == "" ? "empty-profile":""}`}
+                                        src={
+                                            element.imagePath && element.imagePath != "" 
+                                            && $common.getProfileImageUrl(element.imagePath)
+                                    }/>
                                 </div>
                                 <div>
                                     <span><h4>{element.nickname}</h4></span>
                                     <span>{element.description}</span>
                                 </div>
-                            </li>  
+                            </div>
+                            <footer className='neighbor-list-footer fade'>
+                                <button className={`${element.synchronize=='N'? 'opacity01':''}`}
+                                    onClick={disconn}>지우기</button>
+                                <button className={`${element.requester=='Y' || element.synchronize=='Y'? 'opacity01':''}`}
+                                    onClick={accept}>친구 맺기</button>
+                                <button>달력 공개</button>
+                                <button>채팅 허용</button>
+                                <button>채팅 요청</button>
+                            </footer>
+                        </li>
                         ))}
                     </ul>
                 </article>

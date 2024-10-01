@@ -35,7 +35,7 @@ export default function ({open, setOpen, data, reRender}) {
         }
         const files = document.querySelectorAll(".modal-pic input");
         $common.setInputFilesInFormData(files, f);
-        await $common.postDailyInfo(f);
+        await $common.addDailyInfo(f);
         setOpen(false);
         reRender();
     }
@@ -50,7 +50,7 @@ export default function ({open, setOpen, data, reRender}) {
         }
         const files = document.querySelectorAll(".modal-pic input");
         $common.setInputFilesInFormData(files, f);
-        await $common.patchDailyInfo(f);
+        await $common.editDailyInfo(f);
         setOpen(false);
         reRender();
     }

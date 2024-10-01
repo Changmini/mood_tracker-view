@@ -235,6 +235,7 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 .fade { display: none; }
 .show-f { display: flex; }
 .opacity05 { opacity: 0.5; background-color: rgba(0, 0, 0, 0.09); }
+.opacity01 { opacity: 0.1; }
 .opacity0 { opacity: 0; }
 
 .fadein {
@@ -312,4 +313,9 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 }
 
 /*//////////////////////////////////////////////////////////////////
-[ footer ]*/
+[ neighbor ]*/
+.empty-profile {
+    background-image:url("../images/user-circle-solid-84.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
