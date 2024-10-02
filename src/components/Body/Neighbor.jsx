@@ -69,6 +69,10 @@ export default function Neighbor() {
         }
     }
 
+    const goNeighborCalendar = async (obj) => {
+
+    }
+
     const sendChatMsg = () => {
         const INPUT = document.getElementById("myMsg");
         const _msg = INPUT.value;
@@ -90,7 +94,7 @@ export default function Neighbor() {
     }
 
     useEffect(() => {
-        getNeighborList();
+        getNeighborList(); 
     }, []);
 
     return (<div className='neighbor-wrap'>
@@ -140,9 +144,8 @@ export default function Neighbor() {
                                     onClick={()=>disconn(element)}>지우기</button>
                                 <button className={`${element.requester=='Y' || element.synchronize=='Y'? 'opacity01':''}`}
                                     onClick={()=>accept(element)}>친구 맺기</button>
-                                <button>달력 공개</button>
-                                <button>채팅 허용</button>
-                                <button>채팅 요청</button>
+                                <button onClick={goNeighborCalendar}>달력보기</button>
+                                <button>채팅 요청/수락</button>
                             </footer>
                         </li>
                         ))}
