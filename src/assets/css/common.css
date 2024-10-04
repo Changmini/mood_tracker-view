@@ -232,8 +232,8 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 .txt-white { color: white; }
 .timeline-sel { border: solid 2px red; }
 .pointer { cursor: pointer; }
-.fade { display: none; }
-.show-f { display: flex; }
+.fade { display: none !important; }
+.show-f { display: flex !important; }
 .opacity05 { opacity: 0.5; background-color: rgba(0, 0, 0, 0.09); }
 .opacity01 { opacity: 0.1; }
 .opacity0 { opacity: 0; }

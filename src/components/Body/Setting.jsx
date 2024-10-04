@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import $common from '../../common';
 export default function () {
     const [imagePath, setImagePath] = useState(null);
-    const [nickname, setNickname] = useState("뽀또");
+    const [nickname, setNickname] = useState("Error");
     const [description, setDescription] = useState("");
     const [sessionStatus, setSessionStatus] = useState("N");
     const [sharingCalendar, setSharingCalendar] = useState("N");

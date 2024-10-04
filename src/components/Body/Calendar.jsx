@@ -2,7 +2,14 @@ import { useState, useEffect } from 'react';
 import $common from '../../common';
 import Modal from '../Etc/Modal'
 
-export default function Calendar() {
+/**
+ * 
+ * @param {string} menu (calendar, neighbor)
+ * @param {object} vo 
+ * @param {function} close
+ * @returns 
+ */
+export default function Calendar({menu, vo, close}) {
 
     // [
     //     {
@@ -49,7 +56,13 @@ export default function Calendar() {
         /* request data */
         const f = new FormData();
         f.append("date", date);
-        const dailyInfoList = await $common.getCalendar(f);
+        let dailyInfoList;
+        if (menu == "calendar") {
+            dailyInfoList = await $common.getCalendar(f);
+        } else if (menu == "neighbor" && vo) {
+            f.append("neighborId", vo.neighborId);
+            dailyInfoList = await $common.getNeighborCalendar(f);
+        }
         /* check */
         if (!dailyInfoList)
             return ;
@@ -86,6 +99,10 @@ export default function Calendar() {
     }, [date]);
     
     return (<>
+        {menu=="neighbor" &&
+            <button type='button' className='close-calendar' onClick={close}>
+                <i className='bx bx-chevrons-left'></i>
+            </button>}
         <div className="calendar">
             {/* ===================================== 달력 ===================================== */}
             <div className="calendar-header">
@@ -114,9 +131,11 @@ export default function Calendar() {
             </div>
         </div>
         {/* =============================== 선택 날짜 상세보기 =============================== */}
-        <Modal open={modalIsOpen} 
+        <Modal menu={menu}
+            open={modalIsOpen} 
             setOpen={setModalIsOpen} 
             data={dailyInfo} 
-            reRender={calendarRendering} />
+            reRender={calendarRendering} 
+            />
     </>)
 }

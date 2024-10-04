@@ -110,7 +110,7 @@ export default function AppBody() {
                 </ul>
             </aside>
             <main className='home-section'>
-                {menuNumber==0 ? <Calendar/> : <></>}
+                {menuNumber==0 ? <Calendar menu={'calendar'} /> : <></>}
                 {menuNumber==1 ? <Timeline/> : <></>}
                 {menuNumber==2 ? <Analysis/> : <></>}
                 {menuNumber==3 ? <Neighbor/> : <></>}

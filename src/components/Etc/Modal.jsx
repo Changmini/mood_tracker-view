@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import $common from '../../common';
 
-export default function ({open, setOpen, data, reRender}) {
+export default function ({menu, open, setOpen, data, reRender}) {
     const [imgNumber, setImgNumber] = useState(0);
     const imgs = {
         cnt: 3
@@ -168,16 +168,18 @@ export default function ({open, setOpen, data, reRender}) {
                             ? <i className='bx bxs-circle'></i>
                             : <i className='bx bx-circle'></i>}</button>
                     </div>
-                    <div className='modal-footer-right'>
-                        <button onClick={()=>setOpen(false)}>
-                            <i className='bx bxs-message-square-x'></i></button>
-                        {data.dailyId == 0
-                            ? <button onClick={()=>saveData()}>
-                                <i className='bx bxs-message-square-check'></i></button>
-                            : <button onClick={()=>updateData()}>
-                                <i className='bx bxs-message-square-edit' ></i></button>
-                        }
-                    </div>
+                    {menu.includes("calendar") ? 
+                        <div className='modal-footer-right'>
+                            <button onClick={()=>setOpen(false)}>
+                                <i className='bx bxs-message-square-x'></i></button>
+                            {data.dailyId == 0
+                                ? <button onClick={()=>saveData()}>
+                                    <i className='bx bxs-message-square-check'></i></button>
+                                : <button onClick={()=>updateData()}>
+                                    <i className='bx bxs-message-square-edit' ></i></button>
+                            }
+                        </div>
+                    : <></>}
                 </div>
             </div>
         </div>} </>

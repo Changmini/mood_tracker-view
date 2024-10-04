@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import $common from '../../common';
+import Calendar from './Calendar';
 export default function Neighbor() {
 
     const [originalList, setOriginalList] = useState([]);
     const [copyList, setCopyList] = useState([]);
+    const [neighborInfo, setNeighborInfo] = useState({});
+    const [openCalendar, setOpenCalendar] = useState(false);
     const [chatMsgList, setChatMsgList] = useState([]);
 
     async function getNeighborList() {
@@ -69,8 +72,30 @@ export default function Neighbor() {
         }
     }
 
-    const goNeighborCalendar = async (obj) => {
+    const goNeighborCalendar = (obj) => {
+        setNeighborInfo(obj);
+        setOpenCalendar(true);
+        const sidebar = document.querySelector(".sidebar");
+        if (!sidebar.className.includes(" fade")) {
+            sidebar.className += " fade";
+        }
+    }
+    const closeNeighborCalendar = () => {
+        setOpenCalendar(false);
+        const sidebar = document.querySelector(".sidebar");
+        if (sidebar.className.includes(" fade")) {
+            sidebar.className = sidebar.className.replace(" fade", "");
+        }
+    }
 
+    const hasExternalAccessToCalendar = async (obj) => {
+        const f= new FormData();
+        f.append("externalAccess", obj.externalAccess=='Y'?'N':'Y');
+        f.append("neighborId", obj.neighborId);
+        const success = await $common.hasExternalAccessToCalendar(f);
+        if (success) {
+            getNeighborList();
+        }
     }
 
     const sendChatMsg = () => {
@@ -97,7 +122,8 @@ export default function Neighbor() {
         getNeighborList(); 
     }, []);
 
-    return (<div className='neighbor-wrap'>
+    return (<>
+    <div className={`neighbor-wrap ${openCalendar?"fade":"show-f"}`}>
         <div className='neighbor-left'>
             <div className='search-nickname'>
                 <input type="text"
@@ -144,7 +170,9 @@ export default function Neighbor() {
                                     onClick={()=>disconn(element)}>지우기</button>
                                 <button className={`${element.requester=='Y' || element.synchronize=='Y'? 'opacity01':''}`}
                                     onClick={()=>accept(element)}>친구 맺기</button>
-                                <button onClick={goNeighborCalendar}>달력보기</button>
+                                <button onClick={()=>goNeighborCalendar(element)}>달력보기</button>
+                                <button onClick={()=>hasExternalAccessToCalendar(element)}>
+                                    {`달력 ${element.externalAccess=='Y'?"공개":"미공개"}`}</button>
                                 <button>채팅 요청/수락</button>
                             </footer>
                         </li>
@@ -158,7 +186,7 @@ export default function Neighbor() {
                 <div className='chat-msg-box'>
                     <ul id='chatMsgGroup'>
                         <li className='chat-left'>
-                            <span className='chat-msg'>무슨무슨 글을 작성했어요~aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+                            <span className='chat-msg'>무슨무슨 글을 작성했어요~aaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
                         </li>
                         <li className='chat-right'>
                             <span className='chat-msg'>무슨무슨 글을 작성했어요2222~</span>
@@ -173,5 +201,12 @@ export default function Neighbor() {
                 </div>
             </div>
         </div>
-    </div>)
+    </div>
+    {openCalendar
+        ? <div className='modal-calendar'><Calendar menu={'neighbor'}
+            vo={neighborInfo}
+            close={closeNeighborCalendar}
+            /> </div>
+        : <></>}
+    </>)
 }

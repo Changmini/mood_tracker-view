@@ -72,8 +72,8 @@ const methods = {
     }
 
     ,getCalendar: async function(formData) {
-        const daily = formData.get("date");
-        const data = await this.httpRequest(`/calendar/${daily}`, "GET");
+        const date = formData.get("date");
+        const data = await this.httpRequest(`/calendar/${date}`, "GET");
         return data.dailyInfoList;
     }
     ,getDailyInfo: async function(formData) {
@@ -131,6 +131,16 @@ const methods = {
     }
     ,deleteNeighbor: async function(formData) {
         const data = await this.httpRequest(`/neighbor`,"DELETE", formData);
+        return data.success;
+    }
+    ,getNeighborCalendar: async function(formData) {
+        const neighborId = formData.get("neighborId");
+        const date = formData.get("date");
+        const data = await this.httpRequest(`/neighbor/${neighborId}/calendar/${date}`,"GET");
+        return data.dailyInfoList;
+    }
+    ,hasExternalAccessToCalendar: async function(formData) {
+        const data = await this.httpRequest(`/neighbor`,"PATCH", formData);
         return data.success;
     }
 
