@@ -110,19 +110,20 @@ export default function Neighbor() {
         setNeighborId(_neighborId);
         if ($common.WebChat.isEmpty()) {
             const onmessage = function(event) {
-                console.log(event.data);
-                // const UL = document.getElementById("chatMsgGroup");
-                // const LI = document.createElement("li");
-                // const SPAN = document.createElement("SPAN");
-                // SPAN.className = "chat-msg";
-                // SPAN.innerText = event.data;
-                // LI.append(SPAN);
-                // LI.className = "chat-left";
-                // UL.append(LI);
-                // /* 스크롤 내리기 */
-                // SPAN.scrollIntoView({ // span 태크로 화면 이동시키기
-                //     behavior: 'smooth' // 부드럽게 스크롤
-                // });
+                const json = JSON.parse(event.data);
+                let _msg = `${json.sender} (${json.time})\n${json.content}`
+                const UL = document.getElementById("chatMsgGroup");
+                const LI = document.createElement("li");
+                const SPAN = document.createElement("SPAN");
+                SPAN.className = "chat-msg";
+                SPAN.innerText = _msg;
+                LI.append(SPAN);
+                LI.className = "chat-left";
+                UL.append(LI);
+                /* 스크롤 내리기 */
+                SPAN.scrollIntoView({ // span 태크로 화면 이동시키기
+                    behavior: 'smooth' // 부드럽게 스크롤
+                });
             }
             $common.WebChat.connect(
                 onmessage
@@ -146,7 +147,7 @@ export default function Neighbor() {
         LI.append(SPAN);
         LI.className = "chat-right";
         UL.append(LI);
-        $common.sendMessage(
+        $common.WebChat.sendMessage(
             neighborId
             ,localStorage.getItem("NICKNAME")
             ,_msg
@@ -224,12 +225,9 @@ export default function Neighbor() {
             <div>
                 <div className='chat-msg-box'>
                     <ul id='chatMsgGroup'>
-                        <li className='chat-left'>
-                            <span className='chat-msg'>무슨무슨 글을 작성했어요~aaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
-                        </li>
-                        <li className='chat-right'>
-                            <span className='chat-msg'>무슨무슨 글을 작성했어요2222~</span>
-                        </li>
+                        {/* <li className='chat-left'>
+                            <span className='chat-msg'>sentence</span>
+                        </li> */}
                     </ul>
                 </div>
                 <div className='chat-input'>
