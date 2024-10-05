@@ -5,12 +5,13 @@ export default function Neighbor() {
 
     const [originalList, setOriginalList] = useState([]);
     const [copyList, setCopyList] = useState([]);
-    const [neighborInfo, setNeighborInfo] = useState({});
     const [openCalendar, setOpenCalendar] = useState(false);
-    const [chatMsgList, setChatMsgList] = useState([]);
+    const [neighborInfo, setNeighborInfo] = useState({});
+    const [neighborId, setNeighborId] = useState(0);
+    const [neighborNickname, setNeighborNickname] = useState("");
 
     async function getNeighborList() {
-        const list = await $common.getNeighbors(new FormData()); console.log(list);
+        const list = await $common.getNeighbors(new FormData());
         if (!list) 
             return ;
         setOriginalList(list);
@@ -98,6 +99,39 @@ export default function Neighbor() {
         }
     }
 
+    const goChatting = (obj) => {
+        const _neighborId = obj.neighborId;
+        const _sender = localStorage.getItem("NICKNAME");
+        if (neighborId == _neighborId) {
+            alert("이미 개설된 채팅방입니다.");
+            return ;
+        }
+        alert("새 채팅방을 개설합니다.");
+        setNeighborId(_neighborId);
+        if ($common.WebChat.isEmpty()) {
+            const onmessage = function(event) {
+                console.log(event.data);
+                // const UL = document.getElementById("chatMsgGroup");
+                // const LI = document.createElement("li");
+                // const SPAN = document.createElement("SPAN");
+                // SPAN.className = "chat-msg";
+                // SPAN.innerText = event.data;
+                // LI.append(SPAN);
+                // LI.className = "chat-left";
+                // UL.append(LI);
+                // /* 스크롤 내리기 */
+                // SPAN.scrollIntoView({ // span 태크로 화면 이동시키기
+                //     behavior: 'smooth' // 부드럽게 스크롤
+                // });
+            }
+            $common.WebChat.connect(
+                onmessage
+                , _neighborId
+                , _sender
+            );
+        }
+    }
+
     const sendChatMsg = () => {
         const INPUT = document.getElementById("myMsg");
         const _msg = INPUT.value;
@@ -112,6 +146,11 @@ export default function Neighbor() {
         LI.append(SPAN);
         LI.className = "chat-right";
         UL.append(LI);
+        $common.sendMessage(
+            neighborId
+            ,localStorage.getItem("NICKNAME")
+            ,_msg
+        );
         /* 스크롤 내리기 */
         SPAN.scrollIntoView({ // span 태크로 화면 이동시키기
             behavior: 'smooth' // 부드럽게 스크롤
@@ -173,7 +212,7 @@ export default function Neighbor() {
                                 <button onClick={()=>goNeighborCalendar(element)}>달력보기</button>
                                 <button onClick={()=>hasExternalAccessToCalendar(element)}>
                                     {`달력 ${element.externalAccess=='Y'?"공개":"미공개"}`}</button>
-                                <button>채팅 요청/수락</button>
+                                <button onClick={()=>goChatting(element)}>채팅 요청/수락</button>
                             </footer>
                         </li>
                         ))}

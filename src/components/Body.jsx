@@ -62,15 +62,19 @@ export default function AppBody() {
         localStorage.removeItem("LOGIN");// 로그인 때, 설정되는 값
     }
     async function checkUsername() {
-        const name = await $common.getUsername();
-        if (!name || name == "") {
-            // logout을 시키고...
+        const info = await $common.getUsername();
+        if (!info || info == "") {
+            $common.logout();
             navigate("/login");
         }
-        setUsername(name);
+        localStorage.setItem("USRENAME",info.username);
+        localStorage.setItem("EMAIL",info.email);
+        localStorage.setItem("NICKNAME",info.nickname);
+        setUsername(info.username);
     }
     async function logout() {
         $common.logout();
+        localStorage.clear();
         window.location.href = `${window.location.origin}/login`;
     }
     useEffect(() => {

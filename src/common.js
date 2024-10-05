@@ -1,8 +1,12 @@
 import axios from 'axios';
 
-const API_ROOT = "http://localhost/mood";
+const API_PROTOCOL = "http://";
+const API_HOST = "localhost" ;
+const API_PATHNAME = "/mood"
+const API_ROOT = `${API_PROTOCOL}${API_HOST}${API_PATHNAME}`;
 const methods = {
     href: function() { return API_ROOT },
+
     _params: ["GET"],
     _data: ["POST","PATCH","PUT","DELETE"],
     httpRequest: async function(url, method, formData) {
@@ -68,7 +72,7 @@ const methods = {
      */
     ,getUsername : async function() {
         const data = await this.httpRequest(`/user`, "GET");
-        return data.success ? data.username : null;
+        return data.success ? data : null;
     }
 
     ,getCalendar: async function(formData) {
@@ -253,6 +257,40 @@ const methods = {
         }
     }
 
-    
+    ,WebChat: {
+        socket: null
+        ,connect: function(onmessage, neighborId, sender) {
+            this.socket = new WebSocket(`ws://${API_HOST}${API_PATHNAME}/chat`);
+            this.socket.onmessage = onmessage;
+            const that = this;
+            this.socket.onopen = function() {
+                const json = {
+                    "neighborId": neighborId
+                    ,"time": (new Date).toISOString().substring(0,19).replace("T"," ")
+                    ,"sender": sender
+                    ,"content": `${sender}님이 입장하셨습니다.`
+                }
+                that.socket.send(JSON.stringify(json));
+            };
+        }
+        /**
+         * @param {number} neighborId
+         * @param {string} sender
+         * @param {string} content
+         */
+        ,sendMessage: function(neighborId, sender, content) {
+            const json = {
+                "neighborId": neighborId
+                ,"time": (new Date).toISOString().substring(0,19).replace("T"," ")
+                ,"sender": sender
+                ,"content": content
+            }
+            this.socket.send(JSON.stringify(json));
+        }
+        ,isEmpty: function() {
+            return (this.socket==undefined || this.socket==null);
+        }
+    }
+    ,
 }
 export default methods;
