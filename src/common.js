@@ -143,7 +143,7 @@ const methods = {
         const data = await this.httpRequest(`/neighbor/${neighborId}/calendar/${date}`,"GET");
         return data.dailyInfoList;
     }
-    ,hasExternalAccessToCalendar: async function(formData) {
+    ,hasCalExtAccess: async function(formData) {
         const data = await this.httpRequest(`/neighbor`,"PATCH", formData);
         return data.success;
     }
@@ -260,7 +260,9 @@ const methods = {
     ,WebChat: {
         socket: null
         ,connect: function(onmessage, neighborId, sender) {
-            this.socket = new WebSocket(`ws://${API_HOST}${API_PATHNAME}/chat`);
+            this.socket = new WebSocket(
+                `ws://${API_HOST}${API_PATHNAME}/chat?neighborId=${neighborId}&sender=${sender}`
+            );
             this.socket.onmessage = onmessage;
             const that = this;
             this.socket.onopen = function() {
@@ -268,7 +270,7 @@ const methods = {
                     "neighborId": neighborId
                     ,"time": (new Date).toISOString().substring(0,19).replace("T"," ")
                     ,"sender": sender
-                    ,"content": `${sender}님이 입장하셨습니다.`
+                    ,"content": `입장하셨습니다.`
                 }
                 that.socket.send(JSON.stringify(json));
             };

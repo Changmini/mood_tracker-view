@@ -89,41 +89,51 @@ export default function Neighbor() {
         }
     }
 
-    const hasExternalAccessToCalendar = async (obj) => {
+    const hasCalExtAccess = async (obj) => {
         const f= new FormData();
-        f.append("externalAccess", obj.externalAccess=='Y'?'N':'Y');
+        f.append("calExtAccess", obj.calExtAccess=='Y'?'N':'Y');
         f.append("neighborId", obj.neighborId);
-        const success = await $common.hasExternalAccessToCalendar(f);
+        const success = await $common.hasCalExtAccess(f);
         if (success) {
             getNeighborList();
         }
+    }
+
+    function makeSpeechBubble(message, type) {
+        const UL = document.getElementById("chatMsgGroup");
+        const LI = document.createElement("li");
+        const SPAN = document.createElement("SPAN");
+        SPAN.className = "chat-msg";
+        SPAN.innerText = message;
+        LI.append(SPAN);
+        LI.className = type=="R" ? "chat-right" : "chat-left";
+        UL.append(LI);
+        /* 스크롤 내리기 */
+        SPAN.scrollIntoView({ // span 태크로 화면 이동시키기
+            behavior: 'smooth' // 부드럽게 스크롤
+        });
     }
 
     const goChatting = (obj) => {
         const _neighborId = obj.neighborId;
         const _sender = localStorage.getItem("NICKNAME");
         if (neighborId == _neighborId) {
-            alert("이미 개설된 채팅방입니다.");
+            alert("이미 활성화된 채팅방입니다.");
             return ;
         }
-        alert("새 채팅방을 개설합니다.");
+        alert("채팅방을 활성화합니다.");
         setNeighborId(_neighborId);
         if ($common.WebChat.isEmpty()) {
             const onmessage = function(event) {
                 const json = JSON.parse(event.data);
-                let _msg = `${json.sender} (${json.time})\n${json.content}`
-                const UL = document.getElementById("chatMsgGroup");
-                const LI = document.createElement("li");
-                const SPAN = document.createElement("SPAN");
-                SPAN.className = "chat-msg";
-                SPAN.innerText = _msg;
-                LI.append(SPAN);
-                LI.className = "chat-left";
-                UL.append(LI);
-                /* 스크롤 내리기 */
-                SPAN.scrollIntoView({ // span 태크로 화면 이동시키기
-                    behavior: 'smooth' // 부드럽게 스크롤
-                });
+                let _msg
+                if (!json.sender) {
+                    _msg = `${json.content}`;
+                    makeSpeechBubble(_msg, "R");
+                } else {
+                    _msg = `${json.sender} (${json.time})\n${json.content}`;
+                    makeSpeechBubble(_msg, "L");
+                }
             }
             $common.WebChat.connect(
                 onmessage
@@ -139,23 +149,12 @@ export default function Neighbor() {
         if (!_msg || _msg.trim() == "") 
             return ;
         INPUT.value = "";
-        const UL = document.getElementById("chatMsgGroup");
-        const LI = document.createElement("li");
-        const SPAN = document.createElement("SPAN");
-        SPAN.className = "chat-msg";
-        SPAN.innerText = _msg;
-        LI.append(SPAN);
-        LI.className = "chat-right";
-        UL.append(LI);
+        makeSpeechBubble(_msg, "R");
         $common.WebChat.sendMessage(
             neighborId
             ,localStorage.getItem("NICKNAME")
             ,_msg
         );
-        /* 스크롤 내리기 */
-        SPAN.scrollIntoView({ // span 태크로 화면 이동시키기
-            behavior: 'smooth' // 부드럽게 스크롤
-        });
     }
 
     useEffect(() => {
@@ -187,9 +186,10 @@ export default function Neighbor() {
                     <ul>
                         {copyList.map((element, i) => (
                         <li className={``+
-                            `${element.requester=='Y' && element.synchronize=='N'? 'noting':''}`+
-                            `${element.requester=='N' && element.synchronize=='N'? 'waiting':''}`+
-                            `${element.synchronize=='Y'? 'approval':''}`}
+                            `${element.requester=='Y' && element.synchronize=='N'? 'noting':''} `+
+                            `${element.requester=='N' && element.synchronize=='N'? 'waiting':''} `+
+                            `${element.synchronize=='Y'? 'approval':''} `+
+                            `${element.chatroomActive=='Y' ? "blinking":""} `}
                             onClick={clickNeighbor}
                             key={`nei-${i}`}>
                             <div className=''>
@@ -211,8 +211,8 @@ export default function Neighbor() {
                                 <button className={`${element.requester=='Y' || element.synchronize=='Y'? 'opacity01':''}`}
                                     onClick={()=>accept(element)}>친구 맺기</button>
                                 <button onClick={()=>goNeighborCalendar(element)}>달력보기</button>
-                                <button onClick={()=>hasExternalAccessToCalendar(element)}>
-                                    {`달력 ${element.externalAccess=='Y'?"공개":"미공개"}`}</button>
+                                <button onClick={()=>hasCalExtAccess(element)}>
+                                    {`달력 ${element.calExtAccess=='Y'?"공개":"미공개"}`}</button>
                                 <button onClick={()=>goChatting(element)}>채팅 요청/수락</button>
                             </footer>
                         </li>
@@ -234,7 +234,7 @@ export default function Neighbor() {
                     <textarea type="text" id='myMsg' />
                     <button type='button' onClick={sendChatMsg}>
                         <i className='bx bx-send'></i>
-                    </button>
+                    </button> 
                 </div>
             </div>
         </div>

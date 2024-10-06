@@ -64,7 +64,7 @@
   display: flex;
   flex-direction: column;
   width: 80%;
-  flex: 1 1;
+  height: auto;
   background-color: #fff;
   border: 2px solid #bcd6d7;
   border-radius: 10px;
@@ -148,7 +148,7 @@ input.search-follower-list:focus {
 [채팅]*/
 .neighbor-right > div {
   width: 80%;
-  height: 100%;
+  height: auto;
   border-radius: 10px 10px;
   border: 1px solid #afafaf;
   background-color: #ffffff;
@@ -206,6 +206,21 @@ div.chat-input button {
 }
 .chat-left > span { background-color: #f3f3f4; }
 .chat-right > span { background-color: #cce597; }
+
+@keyframes blink {
+  0% {
+    border: none;
+  }
+  50% {
+    border: solid 1px rgb(0, 255, 38);
+  }
+  100% {
+    border: none;
+  }
+}
+.blinking {
+  animation: blink 1s 0s 3;
+}
 
 
 @media(min-width: 766px) {
