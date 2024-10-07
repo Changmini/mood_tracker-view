@@ -259,13 +259,15 @@ const methods = {
 
     ,WebChat: {
         socket: null
-        ,connect: function(onmessage, neighborId, sender) {
-            this.socket = new WebSocket(
+        ,connect: function(showMessage, neighborId, sender) {
+            if (this.socket && this.socket.readyState == this.socket.OPEN) {// 이미 통신하는 소켓이 존재하면 닫아주기
+                this.socket.close();
+            }
+            this.socket = new WebSocket(// 소켓 연결 시도
                 `ws://${API_HOST}${API_PATHNAME}/chat?neighborId=${neighborId}&sender=${sender}`
             );
-            this.socket.onmessage = onmessage;
             const that = this;
-            this.socket.onopen = function() {
+            this.socket.onopen = function() {// 소켓 연결 후
                 const json = {
                     "neighborId": neighborId
                     ,"time": (new Date).toISOString().substring(0,19).replace("T"," ")
@@ -274,6 +276,16 @@ const methods = {
                 }
                 that.socket.send(JSON.stringify(json));
             };
+            this.socket.onmessage = function(event) {// 메시지 받기
+                const json = JSON.parse(event.data);
+                if (!json.sender) {
+                    const _msg = `${json.content}`;
+                    showMessage(_msg, "R");
+                } else {
+                    const _msg = `${json.sender} (${json.time})\n${json.content}`;
+                    showMessage(_msg, "L");
+                }
+            }
         }
         /**
          * @param {number} neighborId
@@ -290,7 +302,10 @@ const methods = {
             this.socket.send(JSON.stringify(json));
         }
         ,isEmpty: function() {
-            return (this.socket==undefined || this.socket==null);
+            return (this.socket == undefined || this.socket == null);
+        }
+        ,close: function() {
+            this.socket.close();
         }
     }
     ,

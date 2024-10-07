@@ -117,30 +117,23 @@ export default function Neighbor() {
     const goChatting = (obj) => {
         const _neighborId = obj.neighborId;
         const _sender = localStorage.getItem("NICKNAME");
-        if (neighborId == _neighborId) {
+        if (neighborId == _neighborId) {// 동일한 이웃인지 체크
             alert("이미 활성화된 채팅방입니다.");
             return ;
         }
-        alert("채팅방을 활성화합니다.");
-        setNeighborId(_neighborId);
-        if ($common.WebChat.isEmpty()) {
-            const onmessage = function(event) {
-                const json = JSON.parse(event.data);
-                let _msg
-                if (!json.sender) {
-                    _msg = `${json.content}`;
-                    makeSpeechBubble(_msg, "R");
-                } else {
-                    _msg = `${json.sender} (${json.time})\n${json.content}`;
-                    makeSpeechBubble(_msg, "L");
-                }
-            }
-            $common.WebChat.connect(
-                onmessage
-                , _neighborId
-                , _sender
-            );
-        }
+        document.getElementById("chatMsgGroup").innerHTML = "";// 기존 글 지우기
+        setNeighborId(_neighborId);// 새 이웃 선택
+        if ($common.WebChat.isEmpty()) 
+            alert("채팅방을 활성화합니다.");
+        else 
+            alert("채팅방을 전환합니다.");
+        
+        $common.WebChat.connect(// 채팅 시작
+            makeSpeechBubble
+            , _neighborId
+            , _sender
+        );
+        
     }
 
     const sendChatMsg = () => {
@@ -156,6 +149,10 @@ export default function Neighbor() {
             ,_msg
         );
     }
+
+    window.onbeforeunload = function() {
+        $common.WebChat.close();
+    };
 
     useEffect(() => {
         getNeighborList(); 
@@ -186,10 +183,10 @@ export default function Neighbor() {
                     <ul>
                         {copyList.map((element, i) => (
                         <li className={``+
-                            `${element.requester=='Y' && element.synchronize=='N'? 'noting':''} `+
-                            `${element.requester=='N' && element.synchronize=='N'? 'waiting':''} `+
-                            `${element.synchronize=='Y'? 'approval':''} `+
-                            `${element.chatroomActive=='Y' ? "blinking":""} `}
+                            `${element.requester=='Y' && element.synchronize=='N'? 'noting':''}`+
+                            `${element.requester=='N' && element.synchronize=='N'? 'waiting':''}`+
+                            `${element.synchronize=='Y'? 'approval':''}`+
+                            `${element.chatroomActive=='Y' ? " blinking":""}`}
                             onClick={clickNeighbor}
                             key={`nei-${i}`}>
                             <div className=''>

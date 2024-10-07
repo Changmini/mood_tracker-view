@@ -141,7 +141,9 @@ export default function () {
                         </div>
                         
                         <div className="container-login100-form-btn">
-                            <button className="login100-form-btn" onClick={loginSubmit}>
+                            <button className="login100-form-btn" 
+                                type='button'
+                                onClick={loginSubmit}>
                                 Login
                             </button>
                         </div>
