@@ -8,7 +8,7 @@ export default function Neighbor() {
     const [openCalendar, setOpenCalendar] = useState(false);
     const [neighborInfo, setNeighborInfo] = useState({});
     const [neighborId, setNeighborId] = useState(0);
-    const [neighborNickname, setNeighborNickname] = useState("");
+    const [renewal, setRenewal] = useState(0);
 
     async function getNeighborList() {
         const list = await $common.getNeighbors(new FormData());
@@ -16,6 +16,7 @@ export default function Neighbor() {
             return ;
         setOriginalList(list);
         setCopyList(JSON.parse(JSON.stringify(list)));
+        setRenewal(renewal>=100 ? 0 : renewal+1);
     }
 
     const addNeighbor = async () => {
@@ -51,7 +52,8 @@ export default function Neighbor() {
     }
 
     const disconn = async (obj) => {
-        if (!window.confirm("해당 사용자를 이웃 목록에서 제거하시겠습니까?"))
+        if (obj.synchronize=='N' 
+            || !window.confirm("해당 사용자를 이웃 목록에서 제거하시겠습니까?"))
             return ;
         const f = new FormData();
         f.append("neighborId", obj.neighborId);
@@ -115,6 +117,10 @@ export default function Neighbor() {
     }
 
     const goChatting = (obj) => {
+        if (obj.synchronize=='N') {
+            alert("맺어진 이웃이 아닙니다.");
+            return ;
+        }
         const _neighborId = obj.neighborId;
         const _sender = localStorage.getItem("NICKNAME");
         if (neighborId == _neighborId) {// 동일한 이웃인지 체크
@@ -188,7 +194,7 @@ export default function Neighbor() {
                             `${element.synchronize=='Y'? 'approval':''}`+
                             `${element.chatroomActive=='Y' ? " blinking":""}`}
                             onClick={clickNeighbor}
-                            key={`nei-${i}`}>
+                            key={`nei-${i}-${renewal}`}>
                             <div className=''>
                                 <div>
                                     <img className={`${!element.imagePath || element.imagePath == "" ? "empty-profile":""}`}
