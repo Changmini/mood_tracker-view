@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import $common from '../../common';
 
 export default function ({menu, open, setOpen, data, reRender}) {
+    const isCalendarComponent = menu.includes("calendar");
     const [imgNumber, setImgNumber] = useState(0);
     const imgs = {
         cnt: 3
@@ -56,6 +57,9 @@ export default function ({menu, open, setOpen, data, reRender}) {
     }
 
     const deleteImage = async (index, imageId) => {
+        if (!isCalendarComponent) {
+            return ;
+        }
         const imgTag = document.querySelector(`.img-idx-${index} > img`);
         if (!imgTag || !imgTag.src || imgTag.src=="") 
             return ;
@@ -76,6 +80,9 @@ export default function ({menu, open, setOpen, data, reRender}) {
     }
 
     const changeImg = (input) => {
+        if (!isCalendarComponent) {
+            return ;
+        }
         let file = null;
         const label = input.parentElement;
         const localImg = label.nextSibling;
@@ -168,7 +175,7 @@ export default function ({menu, open, setOpen, data, reRender}) {
                             ? <i className='bx bxs-circle'></i>
                             : <i className='bx bx-circle'></i>}</button>
                     </div>
-                    {menu.includes("calendar") ? 
+                    {isCalendarComponent ? 
                         <div className='modal-footer-right'>
                             <button onClick={()=>setOpen(false)}>
                                 <i className='bx bxs-message-square-x'></i></button>
