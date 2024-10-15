@@ -9,7 +9,7 @@ import Setting from './Body/Setting';
 
 export default function AppBody() {
     const navigate = useNavigate();
-    const [menuNumber, setMenuNumber] = useState(3);
+    const [menuNumber, setMenuNumber] = useState(0);
     const [username, setUsername] = useState("Nothing");
     const sideMenu = [
         {
