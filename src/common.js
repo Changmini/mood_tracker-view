@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_PROTOCOL = "http://";
 const API_HOST = "localhost";
-// const API_HOST = "ec2-43-203-220-226.ap-northeast-2.compute.amazonaws.com";
+// const API_HOST = "43.203.220.226/";
 const API_PATHNAME = "/mood"
 const API_ROOT = `${API_PROTOCOL}${API_HOST}${API_PATHNAME}`;
 const methods = {
