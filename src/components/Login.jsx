@@ -34,9 +34,11 @@ export default function () {
             return ;
         }
         const res = await $common.postUser(f);
-        alert(res.msg);
         if (res.success) {
+            alert(`계정이 생성되었습니다`);
             setLoginView(true);
+        } else {
+            alert(res.msg);
         }
     }
 
