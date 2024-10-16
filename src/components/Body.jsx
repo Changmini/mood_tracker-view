@@ -103,7 +103,7 @@ export default function AppBody() {
                     ))}
                     <li className="profile">
                         <div className="profile-details">
-                            <img src="profile.png" alt="profileImg" />
+                            <img alt="profileImg" />
                             <div className="name_job">
                             <div className="name pointer">{username}</div>
                             <div className="job">환영합니다.</div>
