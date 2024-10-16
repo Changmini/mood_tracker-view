@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_PROTOCOL = "http://";
 const API_HOST = "localhost";
-// const API_HOST = "43.203.220.226/";
 const API_PATHNAME = "/mood"
 const API_ROOT = `${API_PROTOCOL}${API_HOST}${API_PATHNAME}`;
 const methods = {
@@ -21,9 +20,8 @@ const methods = {
             input.data = formData;
 
         const res = await axios({
-            url: url,
+            url: `${API_ROOT}${url}`,
             method: method,
-            baseURL: API_ROOT,
             ... input
         });
 
