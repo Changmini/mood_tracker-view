@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import $common from '../../common';
 import Modal from '../Etc/Modal'
 
-export default function Timeline() {
+export default function Timeline({menu}) {
     const LIMIT = 10;
     const [offset, setOffset] = useState(0);
     const [dailyInfo, setDailyInfo] = useState([]);
@@ -86,7 +86,8 @@ export default function Timeline() {
             }><i className='bx bxs-down-arrow'></i></button>
         </div>
         {/* =============================== 선택 날짜 상세보기 =============================== */}
-        <Modal open={modalIsOpen} 
+        <Modal menu={menu}
+            open={modalIsOpen} 
             setOpen={setModalIsOpen} 
             data={dailyInfo} 
             reRender={reRendering} />

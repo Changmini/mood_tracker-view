@@ -60,11 +60,6 @@ export default function () {
         getProfile(new FormData());
     }
 
-    const notError = (event) => {
-        const ipt = event.target
-        ipt.checked = true;
-    }
-
     useEffect(() => {
         getProfile(new FormData());
     }, []);

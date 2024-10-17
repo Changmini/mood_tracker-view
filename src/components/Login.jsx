@@ -9,8 +9,12 @@ export default function () {
 
     const loginSubmit = async () => {
         const f = new FormData(document.LoginForm);
-        if (!await $common.login(f))
+        const res = await $common.login(f)
+        if (!res.success) {
+            alert("아이디 및 패스워드를 확인해주세요");
             return ;
+        }
+        localStorage.setItem("NICKNAME", res.nickname);
         localStorage.setItem("LOGIN", "ON");
         navigate("/");
     }

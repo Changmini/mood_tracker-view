@@ -10,7 +10,7 @@ import Setting from './Body/Setting';
 export default function AppBody() {
     const navigate = useNavigate();
     const [menuNumber, setMenuNumber] = useState(0);
-    const [username, setUsername] = useState("Nothing");
+    const [nickname, setNickname] = useState("Nothing");
     const sideMenu = [
         {
             name: "달력",
@@ -61,17 +61,6 @@ export default function AppBody() {
             navigate("/login"); 
         localStorage.removeItem("LOGIN");// 로그인 때, 설정되는 값
     }
-    async function checkUsername() {
-        const info = await $common.getUsername();
-        if (!info || info == "") {
-            $common.logout();
-            navigate("/login");
-        }
-        localStorage.setItem("USRENAME",info.username);
-        localStorage.setItem("EMAIL",info.email);
-        localStorage.setItem("NICKNAME",info.nickname);
-        setUsername(info.username);
-    }
     async function logout() {
         $common.logout();
         localStorage.clear();
@@ -80,7 +69,8 @@ export default function AppBody() {
     useEffect(() => {
         /* 초기 화면지정 */
         state();
-        checkUsername();
+        const nick = localStorage.getItem("NICKNAME");
+        setNickname(nick);
     }, []);
     
     return (
@@ -105,7 +95,7 @@ export default function AppBody() {
                         <div className="profile-details">
                             <img alt="profileImg" />
                             <div className="name_job">
-                            <div className="name pointer">{username}</div>
+                            <div className="name pointer">{nickname}</div>
                             <div className="job">환영합니다.</div>
                             </div>
                         </div>
@@ -115,7 +105,7 @@ export default function AppBody() {
             </aside>
             <main className='home-section'>
                 {menuNumber==0 ? <Calendar menu={'calendar'} /> : <></>}
-                {menuNumber==1 ? <Timeline/> : <></>}
+                {menuNumber==1 ? <Timeline menu={'timeline'}/> : <></>}
                 {menuNumber==2 ? <Analysis/> : <></>}
                 {menuNumber==3 ? <Neighbor/> : <></>}
                 {menuNumber==4 ? <Setting /> : <></>}
