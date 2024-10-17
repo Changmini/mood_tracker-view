@@ -57,7 +57,7 @@ export default function ({menu, open, setOpen, data, reRender}) {
     }
 
     const deleteImage = async (index, imageId) => {
-        if (!isNeighborComponent) {
+        if (isNeighborComponent) {
             return ;
         }
         const imgTag = document.querySelector(`.img-idx-${index} > img`);
@@ -80,7 +80,7 @@ export default function ({menu, open, setOpen, data, reRender}) {
     }
 
     const changeImg = (input) => {
-        if (!isNeighborComponent) {
+        if (isNeighborComponent) {
             return ;
         }
         let file = null;
