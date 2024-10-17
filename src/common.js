@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_PROTOCOL = "http://";
 const API_HOST = "localhost";
-// const API_HOST = "43.203.220.226";
+//const API_HOST = "43.203.220.226";
 const API_PATHNAME = "/mood"
 const API_ROOT = `${API_PROTOCOL}${API_HOST}${API_PATHNAME}`;
 const methods = {
@@ -41,7 +41,7 @@ const methods = {
      */
     ,login : async function(formData) {
         const data = await this.httpRequest(`/login`, "POST", formData);
-        return data.success;
+        return data;
     }
     /**
      * @description 로그아웃
@@ -70,7 +70,7 @@ const methods = {
      * @param 
      * @returns {string} username
      */
-    ,getUsername : async function() {
+    ,getUserInfo : async function() {
         const data = await this.httpRequest(`/user`, "GET");
         return data.success ? data : null;
     }
