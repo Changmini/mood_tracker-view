@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import $common from '../../common';
 import Modal from '../Etc/Modal'
-import Search from '../Etc/DailyLogSearch'
 
 export default function Timeline({menu}) {
     const LIMIT = 10;
@@ -11,14 +10,18 @@ export default function Timeline({menu}) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [restriction, setRestriction] = useState(false);// offset 증가 방지
 
-    async function timelineRendering(formData) {
+    async function updateTimeline(formData) {
         const list = await $common.getDailyInfo(formData);
         if (list.length != LIMIT) {
             // 더 이상 뽑아올 데이터가 없다.
             setRestriction(true);
+            return {
+                success : false
+                , msg : `반환될 데이터가 없습니다.`
+            }
         }
         setDailyInfoList([...dailyInfoList, ...list]);
-        console.log(dailyInfoList);
+        return true;
     }
 
     async function reRendering() {
@@ -29,6 +32,29 @@ export default function Timeline({menu}) {
         setDailyInfoList(list);
         setOffset(0);
         setRestriction(false);
+    }
+
+    let EventStatus = null;
+    function DebouncedSearch(callback, formData) {
+        if (EventStatus) {
+            clearTimeout(EventStatus);
+        }
+
+        EventStatus = setTimeout(async () => {
+            callback(formData);
+            console.log(`검색 완료`);
+        }, 1000);
+    }
+
+    const searching = (inputTagEvent) => {
+        const e = inputTagEvent.target;
+        const keyword = e.value;
+
+        const f = new FormData();
+        f.append("limit", LIMIT);
+        f.append("offset", 0);
+        f.append("text", keyword);
+        DebouncedSearch(updateTimeline, f);
     }
 
     const addNewLog = () => {
@@ -42,7 +68,7 @@ export default function Timeline({menu}) {
         f.append("limit", LIMIT);
         f.append("offset", next);
         setOffset(next);
-        timelineRendering(f);
+        updateTimeline(f);
     }
 
     const openModal = (dailyInfo, event) => {
@@ -62,11 +88,13 @@ export default function Timeline({menu}) {
         const f = new FormData();
         f.append("limit", LIMIT);
         f.append("offset", offset);
-        timelineRendering(f);
+        updateTimeline(f);
     }, []);
 
     return (<>
-        <Search />
+        <div id='DailyLogSearch'>
+            <input name='searchKeyword' type="text" onChange={(e)=>{searching(e)}}/>
+        </div>
         <div className="timeline">
             {dailyInfoList.map((e, idx) => (
                 <div className={`container right`} key={"tl"+e.date}>
