@@ -17,8 +17,8 @@ export default function Timeline({menu}) {
                 success : false
                 , msg : `반환될 데이터가 없습니다.`
             }
-            
-        } else if (list.length <= LIMIT) {
+
+        } else if (list.length <= LIMIT) { 
             setRestriction(true); // 더 이상 뽑아올 데이터가 없다.
         }
 
