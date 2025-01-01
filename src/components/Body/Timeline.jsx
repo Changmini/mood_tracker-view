@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import $common from '../../common';
 import Modal from '../Etc/Modal'
+import Search from '../Etc/DailyLogSearch'
 
 export default function Timeline({menu}) {
     const LIMIT = 10;
@@ -65,6 +66,7 @@ export default function Timeline({menu}) {
     }, []);
 
     return (<>
+        <Search />
         <div className="timeline">
             {dailyInfoList.map((e, idx) => (
                 <div className={`container right`} key={"tl"+e.date}>
