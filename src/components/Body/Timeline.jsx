@@ -12,16 +12,21 @@ export default function Timeline({menu}) {
 
     async function updateTimeline(formData) {
         const list = await $common.getDailyInfo(formData);
-        if (list.length != LIMIT) {
-            // 더 이상 뽑아올 데이터가 없다.
-            setRestriction(true);
+        if (list.length == 0) {
             return {
                 success : false
                 , msg : `반환될 데이터가 없습니다.`
             }
+            
+        } else if (list.length <= LIMIT) {
+            setRestriction(true); // 더 이상 뽑아올 데이터가 없다.
         }
+
         setDailyInfoList([...dailyInfoList, ...list]);
-        return true;
+
+        return {
+            success : true
+        };
     }
 
     async function reRendering() {
@@ -41,8 +46,8 @@ export default function Timeline({menu}) {
         }
 
         EventStatus = setTimeout(async () => {
-            callback(formData);
-            console.log(`검색 완료`);
+            let res = callback(formData);
+            console.log(`검색 완료`, res.success);
         }, 1000);
     }
 
