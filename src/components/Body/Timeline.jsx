@@ -9,34 +9,42 @@ export default function Timeline({menu}) {
     const [dailyInfoList, setDailyInfoList] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [restriction, setRestriction] = useState(false);// offset 증가 방지
-
-    async function updateTimeline(formData) {
-        const list = await $common.getDailyInfo(formData);
-        if (list.length == 0) {
-            return {
-                success : false
-                , msg : `반환될 데이터가 없습니다.`
+    const SearchInfo = {
+        k : null,
+        t : "T",
+        set setType(value) {
+            this.t = value;
+        },
+        get getKey() {
+            let fk;
+            switch(this.t) {
+                case "T": fk = "title"; break;
+                case "C": fk = "content"; break;
+                default: break;
             }
-
-        } else if (list.length <= LIMIT) { 
-            setRestriction(true); // 더 이상 뽑아올 데이터가 없다.
+            return fk;
         }
-
-        setDailyInfoList([...dailyInfoList, ...list]);
-
-        return {
-            success : true
-        };
     }
 
-    async function reRendering() {
-        const f = new FormData();
-        f.append("limit", LIMIT);
-        f.append("offset", 0);// 처음부터 많은 데이터를 가져오는 것보다 0으로 리셋이 나은 것 같다.
-        const list = await $common.getDailyInfo(f);
-        setDailyInfoList(list);
-        setOffset(0);
-        setRestriction(false);
+    /**
+     * 타임라인에 배치할 일지 목록을 반환하는 함수
+     * @param {*} formData limit, offset, title, content 등등
+     * @param {*} clear 값이 true일 경우: 기존 목록 제거, 새로운 목록 반환
+     * @returns 
+     */
+    async function updateTimeline(formData, clear=false) {
+        const list = await $common.getDailyInfo(formData);
+
+         if (list.length <= LIMIT) {
+            // 현재 출력된 목록의 다음 페이지(데이터)가 없다.
+            // addNewLog 비활성 목적
+            setRestriction(true);
+        }
+
+        if (clear)
+            setDailyInfoList(list);
+        else 
+            setDailyInfoList([...dailyInfoList, ...list]);
     }
 
     let EventStatus = null;
@@ -46,7 +54,7 @@ export default function Timeline({menu}) {
         }
 
         EventStatus = setTimeout(async () => {
-            let res = callback(formData);
+            let res = callback(formData, true);// updateTimeline()
             console.log(`검색 완료`, res.success);
         }, 1000);
     }
@@ -54,11 +62,12 @@ export default function Timeline({menu}) {
     const searching = (inputTagEvent) => {
         const e = inputTagEvent.target;
         const keyword = e.value;
+        SearchInfo.k = keyword;
 
         const f = new FormData();
         f.append("limit", LIMIT);
         f.append("offset", 0);
-        f.append("text", keyword);
+        f.append(SearchInfo.getKey, SearchInfo.k);
         DebouncedSearch(updateTimeline, f);
     }
 
@@ -72,6 +81,7 @@ export default function Timeline({menu}) {
         const f = new FormData();
         f.append("limit", LIMIT);
         f.append("offset", next);
+        f.append(SearchInfo.getKey, SearchInfo.k);
         setOffset(next);
         updateTimeline(f);
     }
@@ -87,6 +97,15 @@ export default function Timeline({menu}) {
         let copy = JSON.parse(JSON.stringify(dailyInfo));
         setDailyInfo(copy);
         setModalIsOpen(true);
+    }
+
+    async function reRendering() {
+        const f = new FormData();
+        f.append("limit", LIMIT);
+        f.append("offset", 0);// 처음부터 많은 데이터를 가져오는 것보다 0으로 리셋이 나은 것 같다.
+        updateTimeline(f, true);
+        setOffset(0);
+        setRestriction(false);
     }
 
     useEffect(() => {
