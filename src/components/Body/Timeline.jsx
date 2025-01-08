@@ -131,7 +131,7 @@ export default function Timeline({menu}) {
         </div>
         <div className="timeline">
             {dailyInfoList.map((e, idx) => (
-                <div className={`container right`} key={"tl"+e.date}>
+                <div className={`container`} key={"tl"+e.date}>
                     <div className="photo-album">
                         {e.imageList.map((img) => (
                             <img src={img.imagePath && img.imagePath!="" 

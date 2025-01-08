@@ -147,7 +147,7 @@ input[type="file"] {
 }
 
 input[type="date"] {
-    width: 108px;
+    width: 115px;
     background-image:url("../images/calendar-icon.png");
     background-repeat: no-repeat;
     background-size: 18px 18px;
