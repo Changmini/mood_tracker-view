@@ -10,7 +10,7 @@ export default function Timeline({menu}) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [restriction, setRestriction] = useState(false);// offset 증가 방지
 
-    const [skeyword,setSkeyword] = useState(null);
+    const [skeyword,setSkeyword] = useState("");
     const [stype,setStype] = useState("title");
     const SearchOpt = [
         {value: "title", name: "제목"}
@@ -26,16 +26,19 @@ export default function Timeline({menu}) {
     async function updateTimeline(formData, clear=false) {
         const list = await $common.getDailyInfo(formData);
 
-         if (list.length <= LIMIT) {
+         if (list.length < LIMIT) {
             // 현재 출력된 목록의 다음 페이지(데이터)가 없다.
             // addNewLog 비활성 목적
             setRestriction(true);
         }
-
-        if (clear)
+        
+        if (clear) {
             setDailyInfoList(list);
-        else 
+            setRestriction(false);
+            setOffset(0);
+        } else  {
             setDailyInfoList([...dailyInfoList, ...list]);
+        }
     }
 
     let EventStatus = null;
@@ -90,6 +93,20 @@ export default function Timeline({menu}) {
         updateTimeline(f);
     }
 
+    async function reRendering() {
+        const f = new FormData();
+        f.append("limit", LIMIT);
+        f.append("offset", 0);// 처음부터 많은 데이터를 가져오는 것보다 0으로 리셋이 나은 것 같다.
+        updateTimeline(f, true);
+    }
+
+    useEffect(() => {
+        const f = new FormData();
+        f.append("limit", LIMIT);
+        f.append("offset", 0);
+        updateTimeline(f, true);
+    }, []);
+
     const openModal = (dailyInfo, event) => {
         const prevElement = document.querySelector(".timeline .timeline-sel");
         if (prevElement) {
@@ -102,22 +119,6 @@ export default function Timeline({menu}) {
         setDailyInfo(copy);
         setModalIsOpen(true);
     }
-
-    async function reRendering() {
-        const f = new FormData();
-        f.append("limit", LIMIT);
-        f.append("offset", 0);// 처음부터 많은 데이터를 가져오는 것보다 0으로 리셋이 나은 것 같다.
-        updateTimeline(f, true);
-        setOffset(0);
-        setRestriction(false);
-    }
-
-    useEffect(() => {
-        const f = new FormData();
-        f.append("limit", LIMIT);
-        f.append("offset", offset);
-        updateTimeline(f);
-    }, []);
 
     return (<>
         <div id='DailyLogSearch'>
