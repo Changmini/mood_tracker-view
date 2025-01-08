@@ -10,20 +10,12 @@ export default function Timeline({menu}) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [restriction, setRestriction] = useState(false);// offset 증가 방지
     const SearchInfo = {
-        k : null,
-        t : "T",
-        set setType(value) {
-            this.t = value;
-        },
-        get getKey() {
-            let fk;
-            switch(this.t) {
-                case "T": fk = "title"; break;
-                case "C": fk = "content"; break;
-                default: break;
-            }
-            return fk;
-        }
+        keyword : null,
+        type : "title",
+        option : [
+            {value: "title", name: "제목"}
+            ,{value: "content", name: "내용"}
+        ]
     }
 
     /**
@@ -62,13 +54,25 @@ export default function Timeline({menu}) {
     const searching = (inputTagEvent) => {
         const e = inputTagEvent.target;
         const keyword = e.value;
-        SearchInfo.k = keyword;
+        SearchInfo.keyword = keyword;
 
         const f = new FormData();
         f.append("limit", LIMIT);
         f.append("offset", 0);
-        f.append(SearchInfo.getKey, SearchInfo.k);
+        f.append(SearchInfo.type, SearchInfo.keyword);
         DebouncedSearch(updateTimeline, f);
+    }
+
+    function setSearchType(e) {
+        const options = e.target.options;
+        const op = options[options.selectedIndex];
+        SearchInfo.type = op.value;
+
+        const f = new FormData();
+        f.append("limit", LIMIT);
+        f.append("offset", 0);
+        f.append(SearchInfo.type, SearchInfo.keyword);
+        updateTimeline(f, true);
     }
 
     const addNewLog = () => {
@@ -81,7 +85,7 @@ export default function Timeline({menu}) {
         const f = new FormData();
         f.append("limit", LIMIT);
         f.append("offset", next);
-        f.append(SearchInfo.getKey, SearchInfo.k);
+        f.append(SearchInfo.type, SearchInfo.keyword);
         setOffset(next);
         updateTimeline(f);
     }
@@ -117,6 +121,11 @@ export default function Timeline({menu}) {
 
     return (<>
         <div id='DailyLogSearch'>
+            <select name="" id="" onChange={setSearchType}>
+                {SearchInfo.option.map(e => {
+                    return <option value={e.value} key={`dailyLog${e.value}`}>{e.name}</option>
+                })}
+            </select>
             <i className='bx bx-search'></i>
             <input name='searchKeyword' type="text" onChange={(e)=>{searching(e)}} placeholder="Search"/>
         </div>
