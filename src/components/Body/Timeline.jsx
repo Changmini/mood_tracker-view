@@ -117,7 +117,8 @@ export default function Timeline({menu}) {
 
     return (<>
         <div id='DailyLogSearch'>
-            <input name='searchKeyword' type="text" onChange={(e)=>{searching(e)}}/>
+            <i className='bx bx-search'></i>
+            <input name='searchKeyword' type="text" onChange={(e)=>{searching(e)}} placeholder="Search"/>
         </div>
         <div className="timeline">
             {dailyInfoList.map((e, idx) => (
