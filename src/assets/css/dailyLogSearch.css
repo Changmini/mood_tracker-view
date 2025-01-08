@@ -27,3 +27,11 @@
     font-weight: 900;
     margin-left: -20px;
 }
+
+#DailyLogSearch select {
+    height: 40px;
+    margin: 0 10px 0 0;
+    background-color: inherit;
+    font-size: 13px;
+    font-weight: 900;
+}

@@ -9,14 +9,13 @@ export default function Timeline({menu}) {
     const [dailyInfoList, setDailyInfoList] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [restriction, setRestriction] = useState(false);// offset 증가 방지
-    const SearchInfo = {
-        keyword : null,
-        type : "title",
-        option : [
-            {value: "title", name: "제목"}
-            ,{value: "content", name: "내용"}
-        ]
-    }
+
+    const [skeyword,setSkeyword] = useState(null);
+    const [stype,setStype] = useState("title");
+    const SearchOpt = [
+        {value: "title", name: "제목"}
+        ,{value: "content", name: "내용"}
+    ]
 
     /**
      * 타임라인에 배치할 일지 목록을 반환하는 함수
@@ -47,31 +46,32 @@ export default function Timeline({menu}) {
 
         EventStatus = setTimeout(async () => {
             let res = callback(formData, true);// updateTimeline()
-            console.log(`검색 완료`, res.success);
         }, 1000);
     }
 
-    const searching = (inputTagEvent) => {
+    const searching = (inputTagEvent) => { 
         const e = inputTagEvent.target;
         const keyword = e.value;
-        SearchInfo.keyword = keyword;
+        setSkeyword(keyword); console.log(keyword);
 
         const f = new FormData();
         f.append("limit", LIMIT);
         f.append("offset", 0);
-        f.append(SearchInfo.type, SearchInfo.keyword);
+        f.append(stype, keyword);
         DebouncedSearch(updateTimeline, f);
     }
 
-    function setSearchType(e) {
-        const options = e.target.options;
-        const op = options[options.selectedIndex];
-        SearchInfo.type = op.value;
+    function setSearchType(selectTagEvent) { 
+        const options = selectTagEvent.target.options;
+        const type = options[options.selectedIndex].value;
+        setStype(type); console.log(type);
 
+        if (!skeyword)
+            return ;
         const f = new FormData();
         f.append("limit", LIMIT);
         f.append("offset", 0);
-        f.append(SearchInfo.type, SearchInfo.keyword);
+        f.append(type, skeyword);
         updateTimeline(f, true);
     }
 
@@ -85,7 +85,7 @@ export default function Timeline({menu}) {
         const f = new FormData();
         f.append("limit", LIMIT);
         f.append("offset", next);
-        f.append(SearchInfo.type, SearchInfo.keyword);
+        f.append(stype, skeyword);
         setOffset(next);
         updateTimeline(f);
     }
@@ -122,7 +122,7 @@ export default function Timeline({menu}) {
     return (<>
         <div id='DailyLogSearch'>
             <select name="" id="" onChange={setSearchType}>
-                {SearchInfo.option.map(e => {
+                {SearchOpt.map(e => {
                     return <option value={e.value} key={`dailyLog${e.value}`}>{e.name}</option>
                 })}
             </select>
