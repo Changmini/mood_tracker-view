@@ -89,7 +89,7 @@ const methods = {
         return data.success;
     }
     ,editDailyInfo: async function(formData) {
-        const data = await this.httpRequest("/daily","PATCH", formData);
+        const data = await this.httpRequest("/daily","PUT", formData);
         return data.success;
     }
     ,deleteDailyInfo: async function(formData) {
