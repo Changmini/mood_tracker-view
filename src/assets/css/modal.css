@@ -21,8 +21,14 @@
 }
 .modal-part {padding: 0 10px;}
 .modal-part {margin-bottom: 20px;}
-.modal input {width: 100%; height: 30px;}
-.modal textarea {width: 100%; height: calc(100% - 20px);}
+.modal-part h5 {background-color: white; border-radius: 5px 5px 0 0; padding-left: 5px;}
+.modal-part div.expr {display: flex; flex-direction: row; width: 100%; height: 30px; background-color: white; border-radius: 0 0 5px 5px;}
+.modal-part div.expr div {flex: 1 1; display: flex;}
+.modal-part div.expr label {flex: 1 1; display: flex; justify-content: center; align-items: center;}
+.modal-part div.expr label i {font-size: 25px;}
+.modal-part div.expr input:checked + label {background-color: #c4ffd5; border-radius: 10px;}
+.modal input[type="text"] {width: 100%; height: 30px; border-radius: 0 0 5px 5px;}
+.modal textarea {width: 100%; height: calc(100% - 20px); border-radius: 0 0 5px 5px; resize: none;}
 .modal-header, .modal-footer {
     width: 100%;
     display: flex;
@@ -96,7 +102,7 @@
     height: 100%;
 }
 .sel-date {
-    padding: 5px;
+    padding: 5px 5px 5px 12px;
 }
 .modal-pic img {
     width: 100%;

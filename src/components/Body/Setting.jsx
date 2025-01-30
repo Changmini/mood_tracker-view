@@ -50,6 +50,7 @@ export default function () {
         const res = await $common.putProfileImage(f);
         if (res.success) {
             const PATH = $common.getImageUrl(res.imagePath);
+            $common.profileImage.option = res.imagePath;
             setImagePath(PATH);
         } else {
             alert(`프로필 이미지 변경에 실패했습니다. ${res.msg}`);
@@ -60,6 +61,13 @@ export default function () {
         getProfile(new FormData());
     }
 
+    /**
+     * 로그인 시, 프로필 정보를 받아오나 다른(외부) 서비스로 인해
+     * LocalStorage의 정보가 깨지는 것을 고려하여 Setting 페이지 로딩 과정에서
+     * 프로필 정보를 재갱신 한다.
+     * @param
+     * @returns
+     */
     useEffect(() => {
         getProfile(new FormData());
     }, []);

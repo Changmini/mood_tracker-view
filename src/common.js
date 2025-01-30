@@ -223,6 +223,11 @@ const methods = {
         });
     }
 
+    /**
+     * 분석표에서 차트의 색깔을 랜덤으로 지정해주는 함수
+     * @param 
+     * @return string rgb(x,x,x)
+     */
     ,getRandomColor: function() {
         let red = Math.floor(Math.random() * 256);
         let green = Math.floor(Math.random() * 256);
@@ -230,6 +235,9 @@ const methods = {
         return [`rgb(${red}, ${green}, ${blue})`, `rgba(${red}, ${green}, ${blue}, 0.5)`];
     }
 
+    /**
+     * 분석표에서 차트 제작에 사용되는 데이터
+     */
     ,chartDefaultOption: {
         maintainAspectRatio: false,
         responsive: true,
@@ -242,6 +250,11 @@ const methods = {
         },
     }
 
+    /**
+     * 계정 생성 페이지에서 입력된 이메일 형식을 체크하는 함수
+     * @param string email
+     * @return object { msg, success }
+     */
     ,checkEmail: function(email) {
         const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
         if (EMAIL_REGEX.test(email)) {
@@ -257,6 +270,26 @@ const methods = {
         }
     }
 
+    /**
+     * Setting 프로필 이미지 정보를 Sidebar 프로필 이미지에 적용하기 위한 알림 객체
+     */
+    ,profileImage: {
+        receiver: null
+        ,itemKey: ''
+        ,init: function(callback, name) {
+            this.receiver = callback;
+            this.itemKey = name;
+        }
+        ,set option(data) {
+            localStorage.setItem(this.itemKey, data);
+            this.receiver(data);
+        }
+    }
+
+    /**
+     * WebSocket을 통한 통신을 관장하는 서비스 객체
+     * 이웃찾기 메뉴에서 사용
+     */
     ,WebChat: {
         socket: null
         ,connect: function(showMessage, neighborId, sender) {

@@ -10,42 +10,6 @@ import Modal from '../Etc/Modal'
  * @returns 
  */
 export default function Calendar({menu, vo, close}) {
-
-    // [
-    //     {
-    //         date: "20240201" //(string)
-    //         , year: 2024 //(int)
-    //         , month: 2 //(int)
-    //         , day: 1 //(int)
-    //         , title: "스터디" // (string)
-    //         , notes: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
-    //         , picture: [
-    //             {
-    //                 url: "https://domain/picture/{id}/{number}"
-    //                 , detail: "스터디 1일차 사진" // (string)
-    //             }
-                
-    //         ]
-    //         , mood: 30 //(int) % 
-    //     }
-    //     ,{
-    //         date: "20240202" //(string)
-    //         , year: 2024 //(int)
-    //         , month: 2 //(int)
-    //         , day: 2 //(int)
-    //         , title: "스터디" // (string)
-    //         , notes: "친구와 함께 투썸플레이스에서 공부를 했다." // (string)
-    //         , picture: [
-    //             {
-    //                 url: "https://domain/picture/{id}/{number}"
-    //                 , detail: "스터디 1일차 사진" // (string)
-    //             }
-                
-    //         ]
-    //         , mood: 30 //(int) % 
-    //     }
-    // ]
-
     const today = (new Date()).toISOString().substring(0,10);
     const [date, setDate] = useState(today.substring(0,7));
     const [dailyInfo, setDailyInfo] = useState([]);

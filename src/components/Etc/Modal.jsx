@@ -4,6 +4,20 @@ import $common from '../../common';
 export default function ({menu, open, setOpen, data, reRender}) {
     const isNeighborComponent = menu.includes("neighbor");
     const [imgNumber, setImgNumber] = useState(0);
+    /**
+     * moodList는 API를 통해서 정보를 받는 것이 맞는 것 같다
+     * 히자만 다른 기능 개발보다 우선순위가 낮으니 뒤로 미루자
+     * (나중에 Mood table 관련 정보를 저장해서 사용!!!)
+     */
+    const moodList = [
+        {level: 100, icon: 'bx bx-cool'}
+        ,{level: 85, icon: 'bx bx-laugh'}
+        ,{level: 70, icon: 'bx bx-happy-alt'}
+        ,{level: 50, icon: 'bx bx-smile'}
+        ,{level: 30, icon: 'bx bx-confused'}
+        ,{level: 15, icon: 'bx bx-tired'}
+        ,{level: 0, icon: 'bx bx-dizzy'}
+    ]
     const imgs = {
         cnt: 3
         ,src: []
@@ -119,7 +133,6 @@ export default function ({menu, open, setOpen, data, reRender}) {
                                 <input type="hidden" name='preImageId' defaultValue={img.id}/>
                             </div>
                         )})}
-                        
                     </div> {/* modal-pic [End] */}
 
                     <div className='modal-info'>
@@ -128,16 +141,22 @@ export default function ({menu, open, setOpen, data, reRender}) {
                             <div className='modal-part'>
                                 <label>
                                     <h5>기분:</h5>
-                                    <select name="moodLevel" defaultValue={data.moodLevel}>
-                                    <option value="">당신의 하루를 표현해주세요</option>
-                                    <option value="100">환희</option>
-                                    <option value="85">기쁨</option>
-                                    <option value="70">만족</option>
-                                    <option value="50">보통</option>
-                                    <option value="30">우울</option>
-                                    <option value="15">슬픔</option>
-                                    <option value="0">절망</option>
-                                    </select>
+                                    <div className="expr">
+                                    {moodList.map((m) => { return (
+                                        <div key={`expr-${m.level}`}>
+                                            <input id={`expr${m.level}`} 
+                                                type="radio" 
+                                                name='moodLevel' 
+                                                value={m.level} 
+                                                hidden
+                                                defaultChecked={data.moodLevel == m.level}
+                                            />
+                                            <label htmlFor={`expr${m.level}`} >
+                                                <i className={m.icon}></i>
+                                            </label>
+                                        </div>
+                                    )})}
+                                    </div>
                                 </label>
                             </div>
                             <div className='modal-part'>

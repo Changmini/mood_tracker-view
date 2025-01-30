@@ -11,6 +11,7 @@ export default function AppBody() {
     const navigate = useNavigate();
     const [menuNumber, setMenuNumber] = useState(0);
     const [nickname, setNickname] = useState("Nothing");
+    const [profileImg, setProfileImg] = useState("");
     const sideMenu = [
         {
             name: "달력",
@@ -70,7 +71,10 @@ export default function AppBody() {
         /* 초기 화면지정 */
         state();
         const nick = localStorage.getItem("NICKNAME");
+        const pImg = localStorage.getItem("PROFILE-IMG-PATH");
+        $common.profileImage.init(setProfileImg, "PROFILE-IMG-PATH");// Setting.jsx에서 이미지를 갱신하였을 때, 사용
         setNickname(nick);
+        setProfileImg(pImg);
     }, []);
     
     return (
@@ -93,7 +97,7 @@ export default function AppBody() {
                     ))}
                     <li className="profile">
                         <div className="profile-details">
-                            <img alt="profileImg" />
+                            <img alt="profileImg" src={$common.getProfileImageUrl(profileImg)} />
                             <div className="name_job">
                             <div className="name pointer">{nickname}</div>
                             <div className="job">환영합니다.</div>
