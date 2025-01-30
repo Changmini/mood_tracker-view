@@ -9,23 +9,25 @@
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 @font-face {
-    font-family: Poppins-Regular;
-    src: url('../fonts/poppins/Poppins-Regular.ttf');
-}
-  
-@font-face {
-    font-family: Poppins-Bold;
-    src: url('../fonts/poppins/Poppins-Bold.ttf'); 
-}
-
-@font-face {
-    font-family: Poppins-Medium;
-    src: url('../fonts/poppins/Poppins-Medium.ttf'); 
-}
-
-@font-face {
     font-family: Montserrat-Bold;
     src: url('../fonts/montserrat/Montserrat-Bold.ttf'); 
+}
+
+@font-face {
+    font-family: Noto-KR-Regular;
+    src: url('../fonts/Noto_Sans_KR/NotoSansKR-VariableFont_wght.ttf');
+}
+
+@font-face {
+    font-family: Noto-KR-Medium;
+    font-weight: 400;
+    src: url('../fonts/Noto_Sans_KR/NotoSansKR-VariableFont_wght.ttf');
+}
+
+@font-face {
+    font-family: Noto-KR-Bold;
+    font-weight: 700;
+    src: url('../fonts/Noto_Sans_KR/NotoSansKR-VariableFont_wght.ttf');
 }
   
 /*//////////////////////////////////////////////////////////////////
@@ -38,12 +40,12 @@
   
 body, html {
     height: 100%;
-    font-family: Poppins-Regular, sans-serif;
+    font-family: Noto-KR-Regular, sans-serif;
 }
   
 /*---------------------------------------------*/
 a {
-    font-family: Poppins-Regular;
+    font-family: Noto-KR-Regular;
     font-size: 14px;
     line-height: 1.7;
     color: #666666;
@@ -69,7 +71,7 @@ h1,h2,h3,h4,h5,h6 {
 }
   
 p {
-    font-family: Poppins-Regular;
+    font-family: Noto-KR-Regular;
     font-size: 14px;
     line-height: 1.7;
     color: #666666;
@@ -136,7 +138,7 @@ iframe {
 select {
     font-size: small;
     font-weight: 500;
-    font-family: Poppins-Bold;
+    font-family: Noto-KR-Bold;
     color: black;
     border: 0;
     border-bottom: 1px solid black;
@@ -178,7 +180,7 @@ input[type="month"] {
     /*-----------------------------------------------------*/
     font-size: 20px;
     font-weight: 700;
-    font-family: Poppins-Regular;
+    font-family: Noto-KR-Regular;
     color: white;
     margin: 0 20px;
 }
@@ -195,19 +197,19 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
 .txt1 {
-    font-family: Poppins-Regular;
+    font-family: Noto-KR-Regular;
     font-size: 13px;
     line-height: 1.5;
     color: #999999;
 }
 .txt2 {
-    font-family: Poppins-Regular;
+    font-family: Noto-KR-Regular;
     font-size: 13px;
     line-height: 1.5;
     color: #666666;
 }
 .txt3 {
-    font-family: Poppins-Bold;
+    font-family: Noto-KR-Bold;
     font-size: 13px;
     font-weight: 500;
     line-height: 1.5;
@@ -215,7 +217,7 @@ input[type="month"]::-webkit-calendar-picker-indicator {
     padding: 5px;
 }
 .txt3-b {
-    font-family: Poppins-Bold;
+    font-family: Noto-KR-Bold;
     font-size: 15px;
     font-weight: 600;
     line-height: 1.5;
@@ -223,7 +225,7 @@ input[type="month"]::-webkit-calendar-picker-indicator {
     padding: 5px;
 }
 .txt4 {
-    font-family: Poppins-Regular;
+    font-family: Noto-KR-Regular;
     font-size: 17px;
     font-weight: 600;
     line-height: 1.5;
