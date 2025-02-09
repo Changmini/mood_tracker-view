@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import $common from '../../common';
 import Calendar from './Calendar';
 export default function Neighbor() {
-
     const [originalList, setOriginalList] = useState([]);
     const [copyList, setCopyList] = useState([]);
     const [openCalendar, setOpenCalendar] = useState(false);
@@ -156,12 +155,22 @@ export default function Neighbor() {
         );
     }
 
-    window.onbeforeunload = function() {
-        $common.WebChat.close();
-    };
-
     useEffect(() => {
-        getNeighborList(); 
+        getNeighborList();
+
+        const handleKeyDown = (e) => {
+            /* isComposing으로 한글 입력문제를 해결 */
+            if (e.code == 'Enter' && !e.isComposing) {
+                e.preventDefault();
+                sendChatMsg();
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+            window.onbeforeunload = function() { $common.WebChat.close(); };
+        }
     }, []);
 
     return (<>
@@ -174,7 +183,9 @@ export default function Neighbor() {
                     className='search-nick-ipt' 
                     placeholder='별칭으로 이웃 맺기'/>
                 <button type='button' 
-                    className='search-nick-btn' onClick={addNeighbor}>요청</button>
+                    className='search-nick-btn' onClick={addNeighbor} title='친구 요청'>
+                    <i className='bx bx-list-plus'></i>
+                </button>
             </div>
             <div className='neighbor-list'>
                 <section>
@@ -182,7 +193,9 @@ export default function Neighbor() {
                         className='search-follower-list' 
                         placeholder='목록 검색'
                         onChange={searchedList}/>
-                    <button onClick={getNeighborList}><i className='bx bx-refresh'></i></button>
+                    <button onClick={getNeighborList} title='목록 초기화'>
+                        <i className='bx bx-refresh'></i>
+                    </button>
                 </section>
                 
                 <article>
@@ -210,13 +223,32 @@ export default function Neighbor() {
                             </div>
                             <footer className='neighbor-list-footer fade'>
                                 <button className={`${element.synchronize=='N'? 'opacity01':''}`}
-                                    onClick={()=>disconn(element)}>지우기</button>
+                                    onClick={()=>disconn(element)}
+                                    title='삭제'>
+                                    <i className='bx bxs-user-x'></i>
+                                </button>
                                 <button className={`${element.requester=='Y' || element.synchronize=='Y'? 'opacity01':''}`}
-                                    onClick={()=>accept(element)}>친구 맺기</button>
-                                <button onClick={()=>goNeighborCalendar(element)}>달력보기</button>
-                                <button onClick={()=>hasCalExtAccess(element)}>
-                                    {`달력 ${element.calExtAccess=='Y'?"공개":"미공개"}`}</button>
-                                <button onClick={()=>goChatting(element)}>채팅 요청/수락</button>
+                                    disabled={element.requester=='Y' || element.synchronize=='Y'}
+                                    onClick={()=>accept(element)}
+                                    title='친구 맺기'>
+                                        <i className='bx bxs-user-check'></i>
+                                </button>
+                                <button onClick={()=>goNeighborCalendar(element)}
+                                    title='달력보기'>
+                                    <i className='bx bxs-calendar'></i>
+                                </button>
+                                <button onClick={()=>hasCalExtAccess(element)}
+                                    title={`달력 ${element.calExtAccess=='Y'?"공개":"미공개"}`}>
+                                    {element.calExtAccess=='Y'? 
+                                        <i className='bx bx-show'></i>:
+                                        <i className='bx bx-low-vision'></i>}
+                                </button>
+                                <button onClick={()=>goChatting(element)}
+                                    title={`${element.chatroomActive=='Y' ? "채팅 수락":"채팅 요청하기"}`}>
+                                    {element.chatroomActive=='Y'? 
+                                        <i className='bx bx-message-dots bx-tada'></i>:
+                                        <i className='bx bx-message-dots'></i>}
+                                </button>
                             </footer>
                         </li>
                         ))}

@@ -338,7 +338,7 @@ const methods = {
             return (this.socket == undefined || this.socket == null);
         }
         ,close: function() {
-            this.socket.close();
+            if (this.socket) this.socket.close();
         }
     }
     ,

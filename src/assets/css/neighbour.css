@@ -48,10 +48,12 @@
   padding: 0 10px;
 }
 .search-nick-btn {
+  display: flex;
+  align-items: center;
   height: 100%;
-  font-size: 16px;
-  border-radius: 0 10px 10px 0;
   padding: 0 10px;
+  border-radius: 0 10px 10px 0;
+  font-size: 25px;
   /*------------------------*/
   background: #b621fe;
   color: #fff;
@@ -81,10 +83,11 @@
 }
 input.search-follower-list {
   width: 100%;
-  font-size: 20px;
   padding: 5px 5px;
+  margin: 0 5px 0 0;
   border: 1px solid black;
   border-radius: 5px;
+  font-size: 20px;
 }
 input.search-follower-list:focus {
   outline: 1px solid black;
@@ -105,9 +108,7 @@ input.search-follower-list:focus {
   padding: 3px 0;
   margin: 5px 0;
   gap: 5px;
-}
-.neighbor-list ul li:not(:last-child) {
-  border-bottom: 1px solid gray;
+  border: 2px solid rgb(157, 157, 157);
 }
 .neighbor-list ul li > div {
   display: flex;
@@ -134,13 +135,16 @@ input.search-follower-list:focus {
   justify-content: center;
 }
 .neighbor-list-footer button {
+  display: flex;
+  align-items: center;
   margin: 0 10px;
-  padding: 2px;
+  padding: 0 5px;
   border: 1px solid black;
   border-radius: 5px;
   box-shadow: 1px 1px 1px black;
   background-color: honeydew;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 20px;
 }
 
 
@@ -209,17 +213,17 @@ div.chat-input button {
 
 @keyframes blink {
   0% {
-    border: none;
+    border: 2px solid rgb(157, 157, 157);
   }
   50% {
-    border: solid 1px rgb(0, 255, 38);
+    border: solid 2px rgb(255, 85, 0);
   }
   100% {
-    border: none;
+    border: 2px solid rgb(157, 157, 157);
   }
 }
 .blinking {
-  animation: blink 1s 0s 3;
+  animation: blink 1s 0s 10;
 }
 
 
