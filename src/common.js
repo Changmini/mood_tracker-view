@@ -147,7 +147,10 @@ const methods = {
         const data = await this.httpRequest(`/neighbor`,"PATCH", formData);
         return data.success;
     }
-
+    ,shortPollingData: async function(formData) {
+        const data = await this.httpRequest(`/neighbor/polling`, "GET", formData);
+        return data;
+    }
 
     /* ====================================================================== */
     /* =============================== [Util] =============================== */

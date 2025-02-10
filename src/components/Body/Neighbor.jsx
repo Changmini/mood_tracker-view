@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import $common from '../../common';
 import Calendar from './Calendar';
+import { clear } from '@testing-library/user-event/dist/clear';
 export default function Neighbor() {
     const [originalList, setOriginalList] = useState([]);
     const [copyList, setCopyList] = useState([]);
@@ -154,9 +155,24 @@ export default function Neighbor() {
             ,_msg
         );
     }
-
+    
     useEffect(() => {
         getNeighborList();
+        
+        let pollingInteval = null; 
+        const intervalObject = () => { 
+            if (pollingInteval) {
+                console.log("polling event end");
+                clearInterval(pollingInteval);
+            } else {
+                console.log("polling event start");
+                pollingInteval = setInterval(async () => {
+                    const data = await $common.shortPollingData(new FormData());
+                    console.log(data);
+                }, 5000);
+            }
+        }
+        // intervalObject();
 
         const handleKeyDown = (e) => {
             /* isComposing으로 한글 입력문제를 해결 */
@@ -168,8 +184,9 @@ export default function Neighbor() {
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
+            $common.WebChat.close();
             window.removeEventListener("keydown", handleKeyDown);
-            window.onbeforeunload = function() { $common.WebChat.close(); };
+            // intervalObject();
         }
     }, []);
 
