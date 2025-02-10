@@ -9,6 +9,7 @@ export default function Neighbor() {
     const [neighborInfo, setNeighborInfo] = useState({});
     const [neighborId, setNeighborId] = useState(0);
     const [renewal, setRenewal] = useState(0);
+    const pollingInterval = 60; // SECOND
 
     async function getNeighborList() {
         const list = await $common.getNeighbors(new FormData());
@@ -167,12 +168,15 @@ export default function Neighbor() {
             } else {
                 console.log("polling event start");
                 pollingInteval = setInterval(async () => {
-                    const data = await $common.shortPollingData(new FormData());
+                    const f = new FormData();
+                    f.append('interval', pollingInterval);
+                    f.append('updatedAt', $common.now())
+                    const data = await $common.shortPollingData();
                     console.log(data);
-                }, 5000);
+                }, (pollingInterval * 1000));
             }
         }
-        // intervalObject();
+        intervalObject();
 
         const handleKeyDown = (e) => {
             /* isComposing으로 한글 입력문제를 해결 */
@@ -186,7 +190,7 @@ export default function Neighbor() {
         return () => {
             $common.WebChat.close();
             window.removeEventListener("keydown", handleKeyDown);
-            // intervalObject();
+            intervalObject();
         }
     }, []);
 

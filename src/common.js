@@ -6,6 +6,7 @@ const API_HOST = "localhost";
 const API_PATHNAME = "/mood"
 const API_ROOT = `${API_PROTOCOL}${API_HOST}${API_PATHNAME}`;
 const methods = {
+    now: function() { return (new Date).toISOString().substring(0,19).replace("T"," ") },
     href: function() { return API_ROOT },
 
     _params: ["GET"],
