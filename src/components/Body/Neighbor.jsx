@@ -1,22 +1,21 @@
 import { useState, useEffect } from 'react'
 import $common from '../../common';
 import Calendar from './Calendar';
-import { clear } from '@testing-library/user-event/dist/clear';
 export default function Neighbor() {
-    const [originalList, setOriginalList] = useState([]);
-    const [copyList, setCopyList] = useState([]);
+    let originalList = [];
+    const [filteredList, setFilteredList] = useState([]);
     const [openCalendar, setOpenCalendar] = useState(false);
     const [neighborInfo, setNeighborInfo] = useState({});
     const [neighborId, setNeighborId] = useState(0);
     const [renewal, setRenewal] = useState(0);
-    const pollingInterval = 60; // SECOND
+    const [neighborName, setNeighborName] = useState("");
 
     async function getNeighborList() {
         const list = await $common.getNeighbors(new FormData());
         if (!list) 
             return ;
-        setOriginalList(list);
-        setCopyList(JSON.parse(JSON.stringify(list)));
+        originalList = list;
+        setFilteredList(list);
         setRenewal(renewal>=100 ? 0 : renewal+1);
     }
 
@@ -44,12 +43,12 @@ export default function Neighbor() {
         }
     }
 
-    const searchedList = (event) => {
+    const listSearch = (event) => {
         const word = event.target.value;
         const buckut = originalList.filter((obj) => {
             return obj['nickname'].includes(word);
         });
-        setCopyList(buckut);
+        setFilteredList(buckut);
     }
 
     const disconn = async (obj) => {
@@ -130,6 +129,7 @@ export default function Neighbor() {
         }
         document.getElementById("chatMsgGroup").innerHTML = "";// 기존 글 지우기
         setNeighborId(_neighborId);// 새 이웃 선택
+        setNeighborName(obj.nickname);
         if ($common.WebChat.isEmpty()) 
             alert("채팅방을 활성화합니다.");
         else 
@@ -157,27 +157,48 @@ export default function Neighbor() {
         );
     }
     
+    const pollingSystem = {
+        intervalObj: null
+        ,SECOND: 60
+        ,on: function() {
+            console.log("polling event start");
+            this.intervalObj = setInterval(async () => {
+                const f = new FormData();
+                f.append('interval', this.SECOND);
+                f.append('updatedAt', $common.now());
+                try {
+                    this.process(await $common.shortPollingData(f));
+                } catch (e) {
+                    console.error(`Polling System down: `, e);
+                }
+            }, (this.SECOND * 1000));
+        }
+        ,off: function() {
+            console.log("polling event end");
+            clearInterval(this.intervalObj);
+        }
+        ,process: function(data) {
+            if (data.length < 1) {
+                return ;
+            }
+            const updatedList = originalList.map(e1 => {
+                const e2 = data[e1.neighborId];
+                e2 && (e1 = {
+                    ...e1
+                    ,requester : e2.requester
+                    ,synchronize: e2.synchronize
+                    ,chatroomActive: e2.chatroomActive
+                })
+                return e1;
+            });
+            originalList = updatedList;
+            setFilteredList(updatedList);
+        }
+    }
+    
     useEffect(() => {
         getNeighborList();
         
-        let pollingInteval = null; 
-        const intervalObject = () => { 
-            if (pollingInteval) {
-                console.log("polling event end");
-                clearInterval(pollingInteval);
-            } else {
-                console.log("polling event start");
-                pollingInteval = setInterval(async () => {
-                    const f = new FormData();
-                    f.append('interval', pollingInterval);
-                    f.append('updatedAt', $common.now())
-                    const data = await $common.shortPollingData();
-                    console.log(data);
-                }, (pollingInterval * 1000));
-            }
-        }
-        intervalObject();
-
         const handleKeyDown = (e) => {
             /* isComposing으로 한글 입력문제를 해결 */
             if (e.code == 'Enter' && !e.isComposing) {
@@ -186,11 +207,11 @@ export default function Neighbor() {
             }
         }
         window.addEventListener('keydown', handleKeyDown);
-
+        pollingSystem.on();
         return () => {
             $common.WebChat.close();
             window.removeEventListener("keydown", handleKeyDown);
-            intervalObject();
+            pollingSystem.off();
         }
     }, []);
 
@@ -213,7 +234,7 @@ export default function Neighbor() {
                     <input type="text" 
                         className='search-follower-list' 
                         placeholder='목록 검색'
-                        onChange={searchedList}/>
+                        onChange={listSearch}/>
                     <button onClick={getNeighborList} title='목록 초기화'>
                         <i className='bx bx-refresh'></i>
                     </button>
@@ -221,7 +242,7 @@ export default function Neighbor() {
                 
                 <article>
                     <ul>
-                        {copyList.map((element, i) => (
+                        {filteredList.map((element, i) => (
                         <li className={``+
                             `${element.requester=='Y' && element.synchronize=='N'? 'noting':''}`+
                             `${element.requester=='N' && element.synchronize=='N'? 'waiting':''}`+
@@ -244,29 +265,36 @@ export default function Neighbor() {
                             </div>
                             <footer className='neighbor-list-footer fade'>
                                 <button className={`${element.synchronize=='N'? 'opacity01':''}`}
+                                    disabled={element.synchronize=='N'}
                                     onClick={()=>disconn(element)}
-                                    title='삭제'>
+                                title='삭제'>
                                     <i className='bx bxs-user-x'></i>
                                 </button>
                                 <button className={`${element.requester=='Y' || element.synchronize=='Y'? 'opacity01':''}`}
                                     disabled={element.requester=='Y' || element.synchronize=='Y'}
                                     onClick={()=>accept(element)}
-                                    title='친구 맺기'>
+                                title='친구 맺기'>
                                         <i className='bx bxs-user-check'></i>
                                 </button>
-                                <button onClick={()=>goNeighborCalendar(element)}
-                                    title='달력보기'>
+                                <button className={`${element.synchronize=='N'? 'opacity01':''}`}
+                                    disabled={element.synchronize=='N'}
+                                    onClick={()=>goNeighborCalendar(element)}
+                                title='달력보기'>
                                     <i className='bx bxs-calendar'></i>
                                 </button>
-                                <button onClick={()=>hasCalExtAccess(element)}
-                                    title={`달력 ${element.calExtAccess=='Y'?"공개":"미공개"}`}>
+                                <button className={`${element.synchronize=='N'? 'opacity01':''}`}
+                                    disabled={element.synchronize=='N'}
+                                    onClick={()=>hasCalExtAccess(element)}
+                                title={`달력 ${element.calExtAccess=='Y'?"공개":"미공개"}`}>
                                     {element.calExtAccess=='Y'? 
                                         <i className='bx bx-show'></i>:
                                         <i className='bx bx-low-vision'></i>}
                                 </button>
-                                <button onClick={()=>goChatting(element)}
-                                    title={`${element.chatroomActive=='Y' ? "채팅 수락":"채팅 요청하기"}`}>
-                                    {element.chatroomActive=='Y'? 
+                                <button className={`${element.synchronize=='N'? 'opacity01':''}`}
+                                    disabled={element.synchronize=='N'}
+                                    onClick={()=>goChatting(element)}
+                                title={`${element.chatroomActive=='Y' ? "채팅 수락":"채팅 요청하기"}`}>
+                                    {element.chatroomActive=='Y' ? 
                                         <i className='bx bx-message-dots bx-tada'></i>:
                                         <i className='bx bx-message-dots'></i>}
                                 </button>
@@ -280,6 +308,7 @@ export default function Neighbor() {
         <div className="neighbor-right">
             <div>
                 <div className='chat-msg-box'>
+                    <p className='chattingName'>{neighborName}</p>
                     <ul id='chatMsgGroup'>
                         {/* <li className='chat-left'>
                             <span className='chat-msg'>sentence</span>

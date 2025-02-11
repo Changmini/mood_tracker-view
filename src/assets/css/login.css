@@ -1,5 +1,13 @@
 /*//////////////////////////////////////////////////////////////////
 [ login ]*/
+.chrome { /* 임시 스타일 */
+  display: flex;
+  justify-content: center;
+  color: #999999;
+  font-size: 11px;
+  font-weight: 800;
+}
+
 .lgn-img {
   content: url("../images/img-01.png");
 }
@@ -26,11 +34,6 @@
   background: -o-linear-gradient(-135deg, #50c8be, #414cd0);
   background: -moz-linear-gradient(-135deg, #50c8be, #414cd0);
   background: linear-gradient(-135deg, #50c8be, #414cd0);
-  /* 
-  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: linear-gradient(-135deg, #c850c0, #4158d0); */
 }
 
 .wrap-login100 {

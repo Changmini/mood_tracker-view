@@ -4,7 +4,6 @@ import $common from '../common';
 
 export default function () {
     const navigate = useNavigate();
-
     const [loginView, setLoginView] = useState(true);
 
     const loginSubmit = async () => {
@@ -54,7 +53,7 @@ export default function () {
         const login = await $common.loginStatus();
         if (login) navigate("/");
     }
-
+    
     useEffect(() => {
         state();
     }, []);
@@ -65,6 +64,7 @@ export default function () {
                 <div className="wrap-login100">
                     {/* Create Account View */}
                     {!loginView ? <form name='CreateAccountForm' className='acct100-form'>
+                        <p className='chrome'>[Chrome]이 아닐 경우 디자인이 깨질 수 있습니다.</p>
                         <span className="acc100-form-title">
                             SIGN UP
                         </span>
@@ -130,6 +130,7 @@ export default function () {
                     
                     {/* Login View */}
                     {loginView ? <form name='LoginForm' className="login100-form validate-form" >
+                        <p className='chrome'>[Chrome]이 아닐 경우 디자인이 깨질 수 있습니다.</p>
                         <span className="login100-form-title">
                             SIGN IN
                         </span>

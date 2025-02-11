@@ -159,8 +159,15 @@ input.search-follower-list:focus {
 }
 .chat-msg-box {
   width: 100%;
-  padding: 30px;
+  padding: 0 30px 30px 30px;
   overflow-y: auto;
+}
+.chat-msg-box .chattingName {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #bebebe;
 }
 div.chat-input {
   display: flex;

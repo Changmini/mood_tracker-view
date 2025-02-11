@@ -6,7 +6,12 @@ const API_HOST = "localhost";
 const API_PATHNAME = "/mood"
 const API_ROOT = `${API_PROTOCOL}${API_HOST}${API_PATHNAME}`;
 const methods = {
-    now: function() { return (new Date).toISOString().substring(0,19).replace("T"," ") },
+    now: function() { 
+        const ko = 
+            Date.now() // 그리니치 천문대 기준
+            - ((new Date).getTimezoneOffset() * 60000) // 한국 편차차
+        return (new Date(ko)).toISOString().substring(0,19).replace("T"," ");
+    },
     href: function() { return API_ROOT },
 
     _params: ["GET"],
@@ -150,7 +155,10 @@ const methods = {
     }
     ,shortPollingData: async function(formData) {
         const data = await this.httpRequest(`/neighbor/polling`, "GET", formData);
-        return data;
+        if (!data.success) {
+            throw new Error("neighbors 관련 정보를 가져오는 데 실패했습니다.");
+        }
+        return data.neighbors;
     }
 
     /* ====================================================================== */
@@ -307,7 +315,7 @@ const methods = {
             this.socket.onopen = function() {// 소켓 연결 후
                 const json = {
                     "neighborId": neighborId
-                    ,"time": (new Date).toISOString().substring(0,19).replace("T"," ")
+                    ,"time": that.time()
                     ,"sender": sender
                     ,"content": `입장하셨습니다.`
                 }
@@ -323,6 +331,12 @@ const methods = {
                     showMessage(_msg, "L");
                 }
             }
+        }
+        ,time : function() {
+            const ko = 
+                Date.now() // 그리니치 천문대 기준
+                - ((new Date).getTimezoneOffset() * 60000) // 한국 편차차
+            return (new Date(ko)).toISOString().substring(0,19).replace("T"," ");
         }
         /**
          * @param {number} neighborId
