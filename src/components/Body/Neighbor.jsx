@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import $common from '../../common';
 import Calendar from './Calendar';
 export default function Neighbor() {
-    let originalList = [];
+    const originalList = useRef([]);
     const [filteredList, setFilteredList] = useState([]);
     const [openCalendar, setOpenCalendar] = useState(false);
     const [neighborInfo, setNeighborInfo] = useState({});
@@ -14,7 +14,7 @@ export default function Neighbor() {
         const list = await $common.getNeighbors(new FormData());
         if (!list) 
             return ;
-        originalList = list;
+        originalList.current = list;
         setFilteredList(list);
         setRenewal(renewal>=100 ? 0 : renewal+1);
     }
@@ -43,9 +43,9 @@ export default function Neighbor() {
         }
     }
 
-    const listSearch = (event) => {
+    const listSearch = (event) => { debugger;
         const word = event.target.value;
-        const buckut = originalList.filter((obj) => {
+        const buckut = originalList.current.filter((obj) => {
             return obj['nickname'].includes(word);
         });
         setFilteredList(buckut);
@@ -181,7 +181,7 @@ export default function Neighbor() {
             if (data.length < 1) {
                 return ;
             }
-            const updatedList = originalList.map(e1 => {
+            const updatedList = originalList.current.map(e1 => {
                 const e2 = data[e1.neighborId];
                 e2 && (e1 = {
                     ...e1
@@ -191,7 +191,7 @@ export default function Neighbor() {
                 })
                 return e1;
             });
-            originalList = updatedList;
+            originalList.current = updatedList;
             setFilteredList(updatedList);
         }
     }
