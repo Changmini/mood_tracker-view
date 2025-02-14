@@ -49,7 +49,7 @@ export default function Timeline({menu}) {
 
         EventStatus = setTimeout(async () => {
             let res = callback(formData, true);// updateTimeline()
-        }, 1000);
+        }, 1200);
     }
 
     const searching = (inputTagEvent) => { 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import $common from '../../common';
+import { Form } from 'react-router-dom';
 export default function () {
     const [imagePath, setImagePath] = useState(null);
     const [nickname, setNickname] = useState("Error");
@@ -7,6 +8,7 @@ export default function () {
     const [sessionStatus, setSessionStatus] = useState("N");
     const [sharingCalendar, setSharingCalendar] = useState("N");
     const [htmlUpdated, setHtmlUpdated] = useState(0);
+    const [apiToken, setApiToken] = useState("");
 
     async function getProfile(formData) {
         const res = await $common.getProfile(formData);
@@ -21,6 +23,18 @@ export default function () {
             setHtmlUpdated(0);
         }
         setHtmlUpdated(htmlUpdated+1);
+    }
+    async function getApiToken() {
+        const token = await $common.getApiKey();
+        if (!token) 
+            return ;
+        setApiToken(token);
+    }
+    async function updateApiToken() {
+        const token = await $common.updateApiKey();
+        if (!token) 
+            return ;
+        setApiToken(token);
     }
 
     const applySettingValue = () => {
@@ -70,6 +84,7 @@ export default function () {
      */
     useEffect(() => {
         getProfile(new FormData());
+        getApiToken();
     }, []);
 
     return (<section className='setting-wrap'>
@@ -94,7 +109,7 @@ export default function () {
                     </li>
                     <li>
                         <div className='switch'>
-                            <span>나의 접속 상태 : </span>
+                            <span>나의 접속 상태</span>
                             <label>
                                 <input type="radio" value="Y" 
                                     name='sessionStatus' 
@@ -111,7 +126,7 @@ export default function () {
                     </li>
                     <li>
                         <div className='switch'>
-                            <span>나의 달력 정보 : </span>
+                            <span>나의 달력 정보</span>
                             <label>
                                 <input type="radio" value="Y" 
                                     name='sharingCalendar' 
@@ -126,10 +141,18 @@ export default function () {
                             비공개</label>
                         </div>
                     </li>
+                    <li>
+                        <div className='switch'>
+                            <span>API 토큰&nbsp;&nbsp;&nbsp;
+                                <button type='button' onClick={updateApiToken}><i className='bx bx-repost'></i></button>
+                            </span>
+                            <input defaultValue={apiToken} />
+                        </div>
+                    </li>
                 </ul>
             </form> </section>
         </div>
-        <div className='btn-group'>
+        <div className='btn-group'> 
             <button type='button' onClick={refresh}>
                 <i className='bx bx-refresh'></i></button>
             <button type='button' onClick={applySettingValue}>

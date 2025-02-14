@@ -114,6 +114,14 @@ const methods = {
         const data = await this.httpRequest("/user/profile","GET");
         return data.profile;
     }
+    ,getApiKey: async function name() {
+        const data = await this.httpRequest("/user/api-token","GET");
+        return data.token;
+    }
+    ,updateApiKey: async function name() {
+        const data = await this.httpRequest("/user/api-token","PUT");
+        return data.token;
+    }
     ,editProfile: async function(formData) {
         const data = await this.httpRequest("/user/profile","PATCH", formData);
         return data.success;

@@ -87,11 +87,20 @@
   align-items: center;
 }
 .switch span {
+  display: flex;
+  width: 105px;
   margin-right: 10px;
   font-size: 1rem;
   font-weight: 700;
 }
-.switch input {
+.switch span button {
+  display: flex;
+  width: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  align-items: center;
+}
+.switch input[type='radio'] {
   display: none;
 }
 .switch label {
@@ -99,6 +108,11 @@
   padding: 1px 3px;
   display: flex;
   justify-content: center;
+}
+.switch p {
+  max-width: 185px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 /* .setting-sel { 
