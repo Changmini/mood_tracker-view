@@ -10,7 +10,7 @@ import Modal from '../Etc/Modal'
  * @returns 
  */
 export default function Calendar({menu, vo, close}) {
-    const today = (new Date()).toISOString().substring(0,10);
+    const today = $common.now().substring(0,10);
     const [date, setDate] = useState(today.substring(0,7));
     const [dailyInfo, setDailyInfo] = useState([]);
     const [dailyInfoList, setDailyInfoList] = useState([]);
