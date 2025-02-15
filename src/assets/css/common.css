@@ -14,6 +14,11 @@
 }
 
 @font-face {
+    font-family: Noto-KR-Light;
+    src: url('../fonts/Noto_Sans_KR/static/NotoSansKR-Light.ttf');
+}
+
+@font-face {
     font-family: Noto-KR-Regular;
     src: url('../fonts/Noto_Sans_KR/NotoSansKR-VariableFont_wght.ttf');
 }
@@ -196,6 +201,12 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
+.txt {
+    font-family: Noto-KR-Light;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #3d3d3d;
+}
 .txt1 {
     font-family: Noto-KR-Regular;
     font-size: 13px;

@@ -31,9 +31,10 @@ export default function () {
         setApiToken(token);
     }
     async function updateApiToken() {
-        const token = await $common.updateApiKey();
-        if (!token) 
+        if (!window.confirm("기존 API 토큰은 사라지게 됩니다. 재갱신하시겠습니까?"))
             return ;
+        const token = await $common.updateApiKey();
+        if (!token) return ;
         setApiToken(token);
     }
 
@@ -102,7 +103,7 @@ export default function () {
                 <ul>
                     <li>
                         <label className='textarea' htmlFor="description">소개글</label>
-                        <textarea name="description" 
+                        <textarea className='txt' name="description" 
                             maxLength={30}
                             defaultValue={description} 
                             key={htmlUpdated}></textarea>

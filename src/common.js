@@ -95,11 +95,7 @@ const methods = {
         return data.success;
     }
     ,editDailyInfo: async function(formData) {
-        const data = await this.httpRequest("/daily","PUT", formData);
-        return data.success;
-    }
-    ,deleteDailyInfo: async function(formData) {
-        const data = await this.httpRequest("/daily","DELETE", formData);
+        const data = await this.httpRequest("/daily","PATCH", formData);
         return data.success;
     }
     ,deleteImage: async function(formData) {

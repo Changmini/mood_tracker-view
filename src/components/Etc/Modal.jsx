@@ -173,9 +173,6 @@ export default function ({menu, open, setOpen, data, reRender}) {
                                 </label>
                             </div>
                             <input type="hidden" name="date" value={data.date} />
-                            <input type="hidden" name="noteId" value={data.noteId} />
-                            <input type="hidden" name="moodId" value={data.moodId} />
-                            <input type="hidden" name="dailyId" value={data.dailyId} />
                         </form>
                     </div> {/* modal-info [End] */}
                 </div> {/* modal-body [End] */}
